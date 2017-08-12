@@ -4,5 +4,5 @@ services:
   differences.api:
     image: differences.api
     build:
-      context: ./Differences.Api
+      context: ./src/Differences.Api
       dockerfile: Dockerfile

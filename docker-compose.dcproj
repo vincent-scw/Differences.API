@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
   <PropertyGroup Label="Globals">
-    <ProjectGuid>91394cbe-00f7-4e18-beb0-770e997e3212</ProjectGuid>
+    <ProjectGuid>5fa93cbf-c682-43fd-bd6d-9352d49fb282</ProjectGuid>
     <DockerLaunchBrowser>True</DockerLaunchBrowser>
     <DockerServiceUrl>http://localhost:{ServicePort}/api/values</DockerServiceUrl>
     <DockerServiceName>differences.api</DockerServiceName>
