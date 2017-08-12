@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  differences.api:
+    image: differences.api
+    build:
+      context: ./Differences.Api
+      dockerfile: Dockerfile
