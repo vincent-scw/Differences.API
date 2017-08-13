@@ -2,10 +2,12 @@
 using Differences.Interaction.Repositories;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace Differences.DataAccess.Repositories
 {
@@ -18,42 +20,55 @@ namespace Differences.DataAccess.Repositories
             _dbContext = new DifferencesDbContext(settings);
         }
 
-        public async Task Add(TEntity entity)
+        public Task Add(TEntity entity)
         {
-            await _dbContext.GetCollection<TEntity>().InsertOneAsync(entity);
+            return _dbContext.GetCollection<TEntity>().InsertOneAsync(entity);
         }
 
-        public async Task<IEnumerable<TEntity>> Find(ISpecification spec)
+        public Task<List<TEntity>> Find(ISpecification<TEntity> spec)
         {
-            //var filter = Builders<TEntity>.Filter.eq
-            //return await _dbContext.GetCollection<TEntity>().FindAsync();
-            throw new NotImplementedException();
+            return Find(spec.Expression);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public Task<List<TEntity>> Find(Expression<Func<TEntity, bool>> expression)
         {
-            return await _dbContext.GetCollection<TEntity>().Find(_ => true).ToListAsync();
+            return _dbContext.GetCollection<TEntity>().AsQueryable().Where(expression).ToListAsync();
         }
 
-        public async Task Remove(TEntity entity)
+        public Task<List<TEntity>> GetAll()
         {
-            await this.Remove(entity.Id);
+            return _dbContext.GetCollection<TEntity>().Find(_ => true).ToListAsync();
         }
 
-        public async Task Remove(string id)
+        public Task Remove(TEntity entity)
         {
-            await _dbContext.GetCollection<TEntity>().DeleteOneAsync(
+            return Remove(entity.Id);
+        }
+
+        public Task Remove(string id)
+        {
+            return _dbContext.GetCollection<TEntity>().DeleteOneAsync(
               Builders<TEntity>.Filter.Eq("Id", id));
         }
 
-        public Task<TEntity> Single(ISpecification spec)
+        public Task<TEntity> Single(ISpecification<TEntity> spec)
         {
-            throw new NotImplementedException();
+            return Single(spec.Expression);
         }
 
-        public Task<TEntity> SingleOrDefault(ISpecification spec)
+        public Task<TEntity> Single(Expression<Func<TEntity, bool>> expression)
         {
-            throw new NotImplementedException();
+            return _dbContext.GetCollection<TEntity>().AsQueryable().Where(expression).SingleAsync();
+        }
+
+        public Task<TEntity> SingleOrDefault(ISpecification<TEntity> spec)
+        {
+            return SingleOrDefault(spec.Expression);
+        }
+
+        public Task<TEntity> SingleOrDefault(Expression<Func<TEntity, bool>> expression)
+        {
+            return _dbContext.GetCollection<TEntity>().AsQueryable().Where(expression).SingleOrDefaultAsync();
         }
 
         public Task Update(TEntity entity)
