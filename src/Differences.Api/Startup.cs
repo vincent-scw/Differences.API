@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using Swashbuckle.Swagger.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Differences.Api.Model;
+using Differences.Interaction.Repositories;
+using Differences.DataAccess.Repositories;
 
 namespace Differences.Api
 {
@@ -44,6 +47,15 @@ namespace Differences.Api
                 options.DescribeAllEnumsAsStrings();
             });
 
+            // Add service and create Policy with options 
+            services.AddCors(options => {
+                options.AddPolicy("CorsPolicy",
+                  builder => builder.AllowAnyOrigin()
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader()
+                                    .AllowCredentials());
+            });
+
             // Add framework services.
             services.AddMvc().AddJsonOptions(options =>
             {
@@ -52,6 +64,12 @@ namespace Differences.Api
                     new CamelCasePropertyNamesContractResolver();
 
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
+            });
+
+            services.Configure<DbConnectionSetting>(options =>
+            {
+                options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+                options.Database = Configuration.GetSection("MongoConnection:Database").Value;
             });
         }
 
@@ -64,9 +82,18 @@ namespace Differences.Api
                 loggerFactory.AddDebug();
             }
 
+            // global policy, if assigned here (it could be defined indvidually for each controller) 
+            app.UseCors("CorsPolicy");
+
             app.UseSwagger();
             app.UseSwaggerUi();
             app.UseMvc();
+        }
+
+        private void InjectRepositories(IServiceCollection services)
+        {
+            services.AddTransient<IArticalRepository, ArticalRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
         }
     }
 }

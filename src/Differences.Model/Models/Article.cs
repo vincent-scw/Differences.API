@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Differences.Interaction.Models
 {
-    public class Artical : AggregateRoot
+    public class Article : AggregateRoot
     {
         public string Title { get; set; }
         public object Content { get; set; }

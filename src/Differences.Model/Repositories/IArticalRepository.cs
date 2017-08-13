@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Differences.Interaction.Repositories
 {
-    public interface IArticalRepository : IRepository<Artical>
+    public interface IArticalRepository : IRepository<Article>
     {
     }
 }

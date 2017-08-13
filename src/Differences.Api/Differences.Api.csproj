@@ -19,5 +19,9 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Differences.DataAccess\Differences.DataAccess.csproj" />
+    <ProjectReference Include="..\Differences.Model\Differences.Interaction.csproj" />
+  </ItemGroup>
 
 </Project>
