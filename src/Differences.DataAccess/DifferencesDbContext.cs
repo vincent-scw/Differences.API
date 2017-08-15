@@ -25,7 +25,7 @@ namespace Differences.DataAccess
         public IMongoCollection<TEntity> GetCollection<TEntity>()
             where TEntity : Entity
         {
-            return _database.GetCollection<TEntity>(nameof(TEntity));
+            return _database.GetCollection<TEntity>(typeof(TEntity).Name);
         }
     }
 }

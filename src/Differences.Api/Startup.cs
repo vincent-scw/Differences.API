@@ -10,9 +10,9 @@ using Microsoft.Extensions.Logging;
 using Swashbuckle.Swagger.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Differences.Api.Model;
 using Differences.Interaction.Repositories;
 using Differences.DataAccess.Repositories;
+using Differences.DataAccess;
 
 namespace Differences.Api
 {
@@ -33,6 +33,8 @@ namespace Differences.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            InjectRepositories(services);
+
             services.AddSwaggerGen();
             services.ConfigureSwaggerGen(options =>
             {
@@ -56,6 +58,12 @@ namespace Differences.Api
                                     .AllowCredentials());
             });
 
+            services.Configure<DbConnectionSetting>(options =>
+            {
+                options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+                options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+            });
+
             // Add framework services.
             services.AddMvc().AddJsonOptions(options =>
             {
@@ -66,11 +74,7 @@ namespace Differences.Api
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
             });
 
-            services.Configure<DbConnectionSetting>(options =>
-            {
-                options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
-                options.Database = Configuration.GetSection("MongoConnection:Database").Value;
-            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
