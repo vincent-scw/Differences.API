@@ -23,7 +23,7 @@ namespace Differences.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetUser(string id)
         {
-            var user = _userRepository.SingleOrDefault(x => x.Id == id);
+            var user = _userRepository.Find(x => x.Id == id);
             if (user == null)
                 return NotFound();
 
