@@ -1,14 +1,14 @@
 ﻿using Differences.Interaction.Models;
 using Differences.Interaction.Repositories;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Differences.DataAccess.Repositories
 {
@@ -22,9 +22,10 @@ namespace Differences.DataAccess.Repositories
             _dbContext = new DifferencesDbContext(settings);
         }
 
-        public void Add(TEntity entity)
+        public TEntity Get(string id)
         {
-            _dbContext.GetCollection<TEntity>().InsertOne(entity);
+            var filter = Builders<TEntity>.Filter.Eq("Id", id);
+            return _dbContext.GetCollection<TEntity>().Find(filter).FirstOrDefault();
         }
 
         public IQueryable<TEntity> Find(ISpecification<TEntity> spec)
@@ -42,9 +43,29 @@ namespace Differences.DataAccess.Repositories
             return _dbContext.GetCollection<TEntity>().AsQueryable();
         }
 
-        public void Remove(TEntity entity)
+        #region Async
+        public Task<TEntity> GetAsync(string id)
         {
-            Remove(entity.Id);
+            var filter = Builders<TEntity>.Filter.Eq("Id", id);
+            return _dbContext.GetCollection<TEntity>().Find(filter).FirstOrDefaultAsync();
+        }
+
+        public Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return _dbContext.GetCollection<TEntity>().AsQueryable().Where(expression).ToListAsync();
+        }
+
+        public Task<List<TEntity>> FindAsync(ISpecification<TEntity> spec)
+        {
+            return FindAsync(spec.Expression);
+        }
+        #endregion  
+
+        #region Modify
+        public void Add(TEntity entity)
+        {
+            entity.Id = StringObjectIdGenerator.Instance.GenerateId(_dbContext.GetCollection<TEntity>(), entity) as string;
+            _dbContext.GetCollection<TEntity>().InsertOne(entity);
         }
 
         public void Remove(string id)
@@ -53,29 +74,11 @@ namespace Differences.DataAccess.Repositories
                 Builders<TEntity>.Filter.Eq("Id", id));
         }
 
-        public TEntity Single(ISpecification<TEntity> spec)
-        {
-            return Single(spec.Expression);
-        }
-
-        public TEntity Single(Expression<Func<TEntity, bool>> expression)
-        {
-            return _dbContext.GetCollection<TEntity>().AsQueryable().Where(expression).Single();
-        }
-
-        public TEntity SingleOrDefault(ISpecification<TEntity> spec)
-        {
-            return SingleOrDefault(spec.Expression);
-        }
-
-        public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression)
-        {
-            return _dbContext.GetCollection<TEntity>().AsQueryable().Where(expression).SingleOrDefault();
-        }
-
         public void Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            _dbContext.GetCollection<TEntity>().ReplaceOne(n => n.Id.Equals(entity.Id), entity,
+                new UpdateOptions {IsUpsert = true});
         }
+        #endregion
     }
 }

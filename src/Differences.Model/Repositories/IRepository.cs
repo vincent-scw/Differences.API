@@ -10,17 +10,17 @@ namespace Differences.Interaction.Repositories
 {
     public interface IRepository<TEntity> where TEntity : AggregateRoot
     {
-        TEntity Single(Expression<Func<TEntity, bool>> expression);
-        TEntity Single(ISpecification<TEntity> spec);
-        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression);
-        TEntity SingleOrDefault(ISpecification<TEntity> spec);
+        TEntity Get(string id);
         IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression);
         IQueryable<TEntity> Find(ISpecification<TEntity> spec);
         IQueryable<TEntity> GetAll();
-            
+
+        Task<TEntity> GetAsync(string id);
+        Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression);
+        Task<List<TEntity>> FindAsync(ISpecification<TEntity> spec);
+
         void Add(TEntity entity);
         void Remove(string id);
-        void Remove(TEntity entity);
         void Update(TEntity entity);
         //void CommitChanges();
     }
