@@ -3,30 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Differences.Interaction.Models;
+using Differences.Interaction.Repositories;
 
 namespace Differences.Api.Controllers
 {
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IUserRepository _userRepository;
+
+        public UserController(
+            IUserRepository userRepository)
         {
-            return new string[] { "value1", "value2" };
+            _userRepository = userRepository;
         }
 
-        // GET api/values/5
+        // GET api/values
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetUser(string id)
         {
-            return "value";
+            var user = _userRepository.SingleOrDefault(x => x.Id == id);
+            if (user == null)
+                return NotFound();
+
+            return Json(user);
         }
 
         // POST api/values
         [HttpPost]
         public void Post([FromBody]string value)
         {
+            _userRepository.Add(new User() { Name = "123" });
         }
 
         // PUT api/values/5
