@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>5fa93cbf-c682-43fd-bd6d-9352d49fb282</ProjectGuid>
     <DockerLaunchBrowser>True</DockerLaunchBrowser>
-    <DockerServiceUrl>http://localhost:{ServicePort}/api/values</DockerServiceUrl>
+    <DockerServiceUrl>http://localhost:{ServicePort}/swagger/ui</DockerServiceUrl>
     <DockerServiceName>differences.api</DockerServiceName>
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectVersion>2.0</ProjectVersion>

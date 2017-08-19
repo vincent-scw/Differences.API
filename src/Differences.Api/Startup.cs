@@ -60,7 +60,9 @@ namespace Differences.Api
 
             services.Configure<DbConnectionSetting>(options =>
             {
-                options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+                var dockerMongo  = Environment.GetEnvironmentVariable("MONGO_URL");
+                options.ConnectionString = dockerMongo;
+                //options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
                 options.Database = Configuration.GetSection("MongoConnection:Database").Value;
             });
 

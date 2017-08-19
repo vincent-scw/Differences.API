@@ -3,6 +3,37 @@ version: '3'
 services:
   differences.api:
     image: differences.api
+    container_name: differences_api
     build:
       context: ./src/Differences.Api
       dockerfile: Dockerfile
+    networks:
+      - backend
+      - frontend
+    links:
+      - database
+    depends_on:
+      - database
+    environment:
+      - MONGO_URL=mongodb://admin:abc123!@differences_mongo:27017
+
+  database:
+    image: mongo
+    container_name: differences_mongo
+    environment:
+          - MONGO_DATA_DIR=/data/db
+          - MONGO_LOG_DIR=/dev/null
+#    build:
+#      context: ./data
+#      dockerfile: Dockerfile-db
+    ports:
+      - 27017:27017
+    volumes:
+      - /data/db:/data/db
+    networks:
+      - backend
+    command: mongod --smallfiles --logpath=/dev/null
+
+networks:
+  frontend:
+  backend:

@@ -1,0 +1,5 @@
+# escape=`
+FROM mongo:latest
+ADD create_user.js /dbcfg/
+RUN mongod --fork --logpath /data/db/mongodb.log `
+	&& sleep 5 && mongo admin /dbcfg/create_user.js
