@@ -1,6 +1,8 @@
 {
   "name": "differences-web-client",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "discription": "Differences web client",
+  "author": "Vincent Shen",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
