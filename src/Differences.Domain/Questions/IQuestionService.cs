@@ -8,6 +8,6 @@ namespace Differences.Domain.Questions
 {
     public interface IQuestionService
     {
-        void AskQuestionAsync(string title, IEnumerable<string> tags, string content);
+        Task AskQuestionAsync(string title, IEnumerable<string> tags, string content);
     }
 }

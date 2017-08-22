@@ -16,9 +16,9 @@ namespace Differences.Domain.Questions
             _questionRepository = questionRepository;
         }
 
-        public async void AskQuestionAsync(string title, IEnumerable<string> tags, string content)
+        public Task AskQuestionAsync(string title, IEnumerable<string> tags, string content)
         {
-            await _questionRepository.AddAsync(new Question
+            return _questionRepository.AddAsync(new Question
             {
                 Title = title,
                 Content = content
