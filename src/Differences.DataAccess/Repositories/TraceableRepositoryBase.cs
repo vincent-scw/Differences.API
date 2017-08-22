@@ -34,7 +34,13 @@ namespace Differences.DataAccess.Repositories
 
         public override Task<bool> RemoveAsync(string id)
         {
-            return base.RemoveAsync(id);
+            return base.RemoveAsync(id).ContinueWith((t) =>
+            {
+                if (t.Result)
+                    AddRemoveHistoryAsync(id);
+
+                return t.Result;
+            });
         }
 
         public override bool Update(string id, TEntity entity)
