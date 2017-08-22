@@ -9,7 +9,7 @@ namespace Differences.DataAccess.Repositories
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        public UserRepository(IOptions<DbConnectionSetting> settings) : base(settings)
+        public UserRepository(DifferencesDbContext dbContext) : base(dbContext)
         {
         }
     }

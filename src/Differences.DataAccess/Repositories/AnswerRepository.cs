@@ -9,7 +9,7 @@ namespace Differences.DataAccess.Repositories
 {
     public class AnswerRepository : RepositoryBase<Answer>, IAnswerRepository
     {
-        public AnswerRepository(IOptions<DbConnectionSetting> settings) : base(settings)
+        public AnswerRepository(DifferencesDbContext dbContext) : base(dbContext)
         {
         }
     }

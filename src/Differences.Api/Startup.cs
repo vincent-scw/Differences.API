@@ -100,15 +100,15 @@ namespace Differences.Api
 
         private static void InjectRepositories(IServiceCollection services)
         {
-            services.AddTransient<IArticalRepository, ArticalRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IAnswerRepository, AnswerRepository>();
-            services.AddTransient<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IArticalRepository, ArticalRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAnswerRepository, AnswerRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
         }
 
         private static void InjectServices(IServiceCollection services)
         {
-            services.AddTransient<IQuestionService, QuestionService>();
+            services.AddScoped<IQuestionService, QuestionService>();
         }
 
         private static void InjectOthers(IServiceCollection services)
@@ -117,6 +117,7 @@ namespace Differences.Api
                 cfg => { cfg.AddProfile<AutoMapperProfileConfiguration>(); });
 
             services.AddSingleton(typeof(IMapper), configuration.CreateMapper());
+            services.AddScoped<DifferencesDbContext>();
         }
     }
 }

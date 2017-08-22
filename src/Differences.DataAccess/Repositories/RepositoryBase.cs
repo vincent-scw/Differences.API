@@ -16,83 +16,85 @@ namespace Differences.DataAccess.Repositories
     {
         private readonly DifferencesDbContext _dbContext;
 
-        protected RepositoryBase(IOptions<DbConnectionSetting> settings)
+        protected DifferencesDbContext DbContext => _dbContext;
+
+        protected RepositoryBase(DifferencesDbContext dbContext)
         {
-            _dbContext = new DifferencesDbContext(settings);
+            _dbContext = dbContext;
         }
 
-        public TEntity Get(string id)
+        public virtual TEntity Get(string id)
         {
             var filter = Builders<TEntity>.Filter.Eq("Id", id);
             return _dbContext.GetCollection<TEntity>().Find(filter).FirstOrDefault();
         }
 
-        public IMongoQueryable<TEntity> Find(ISpecification<TEntity> spec)
+        public virtual IMongoQueryable<TEntity> Find(ISpecification<TEntity> spec)
         {
             return Find(spec.Expression);
         }
 
-        public IMongoQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression)
+        public virtual IMongoQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression)
         {
             return _dbContext.GetCollection<TEntity>().AsQueryable().Where(expression);
         }
 
-        public IMongoQueryable<TEntity> GetAll()
+        public virtual IMongoQueryable<TEntity> GetAll()
         {
             return _dbContext.GetCollection<TEntity>().AsQueryable();
         }
 
         #region Async retrive
-        public Task<TEntity> GetAsync(string id)
+        public virtual Task<TEntity> GetAsync(string id)
         {
             var filter = Builders<TEntity>.Filter.Eq("Id", id);
             return _dbContext.GetCollection<TEntity>().Find(filter).FirstOrDefaultAsync();
         }
 
-        public Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression)
+        public virtual Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression)
         {
             return _dbContext.GetCollection<TEntity>().AsQueryable().Where(expression).ToListAsync();
         }
 
-        public Task<List<TEntity>> FindAsync(ISpecification<TEntity> spec)
+        public virtual Task<List<TEntity>> FindAsync(ISpecification<TEntity> spec)
         {
             return FindAsync(spec.Expression);
         }
         #endregion  
 
         #region Modify
-        public void Add(TEntity entity)
+        public virtual void Add(TEntity entity)
         {
             _dbContext.GetCollection<TEntity>().InsertOne(entity);
         }
 
-        public bool Remove(string id)
+        public virtual bool Remove(string id)
         {
             var result = _dbContext.GetCollection<TEntity>().DeleteOne(
                 Builders<TEntity>.Filter.Eq("Id", id));
             return result.DeletedCount > 0 && result.IsAcknowledged;
         }
 
-        public bool Update(string id, TEntity entity)
+        public virtual bool Update(string id, TEntity entity)
         {
             var result = _dbContext.GetCollection<TEntity>().ReplaceOne(n => n.Id.Equals(id), entity,
                 new UpdateOptions {IsUpsert = true});
             return result.ModifiedCount > 0 && result.IsAcknowledged;
         }
 
-        public Task AddAsync(TEntity entity)
+        public virtual Task AddAsync(TEntity entity)
         {
             return _dbContext.GetCollection<TEntity>().InsertOneAsync(entity);
         }
 
-        public async Task<bool> RemoveAsync(string id)
+        public virtual async Task<bool> RemoveAsync(string id)
         {
             var result = await _dbContext.GetCollection<TEntity>().DeleteOneAsync(
                 Builders<TEntity>.Filter.Eq("Id", id));
             return result.DeletedCount > 0 && result.IsAcknowledged;
         }
 
-        public async Task<bool> UpdateAsync(string id, TEntity entity)
+        public virtual async Task<bool> UpdateAsync(string id, TEntity entity)
         {
             var result = await _dbContext.GetCollection<TEntity>().ReplaceOneAsync(n => n.Id.Equals(id), entity,
                 new UpdateOptions { IsUpsert = true });
