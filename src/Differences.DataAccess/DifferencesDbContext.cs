@@ -1,9 +1,7 @@
 ﻿using Differences.Interaction.Models;
+using Humanizer;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Differences.DataAccess
 {
@@ -17,14 +15,15 @@ namespace Differences.DataAccess
             _database = client.GetDatabase(settings.Value.Database);
         }
 
-        public IMongoCollection<User> Users => _database.GetCollection<User>("User");
-
-        public IMongoCollection<Article> Articles => _database.GetCollection<Article>("Article");
+        public IMongoCollection<User> Users => _database.GetCollection<User>(nameof(User).Pluralize());
+        public IMongoCollection<Article> Articles => _database.GetCollection<Article>(nameof(Article).Pluralize());
+        public IMongoCollection<Question> Questions => _database.GetCollection<Question>(nameof(Question).Pluralize());
+        public IMongoCollection<Answer> Answers => _database.GetCollection<Answer>(nameof(Answer).Pluralize());
 
         public IMongoCollection<TEntity> GetCollection<TEntity>()
             where TEntity : Entity
         {
-            return _database.GetCollection<TEntity>(typeof(TEntity).Name);
+            return _database.GetCollection<TEntity>(typeof(TEntity).Name.Pluralize());
         }
     }
 }

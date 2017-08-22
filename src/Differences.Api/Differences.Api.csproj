@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Differences.DataAccess\Differences.DataAccess.csproj" />
+    <ProjectReference Include="..\Differences.Domain\Differences.Domain.csproj" />
     <ProjectReference Include="..\Differences.Model\Differences.Interaction.csproj" />
   </ItemGroup>
 

@@ -10,7 +10,6 @@ namespace Differences.Interaction.Models
 {
     public abstract class AggregateRoot : Entity
     {
-        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
-        public string Id { get; set; }
+    
     }
 }

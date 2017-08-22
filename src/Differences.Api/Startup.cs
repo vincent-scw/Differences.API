@@ -14,6 +14,7 @@ using Newtonsoft.Json.Serialization;
 using Differences.Interaction.Repositories;
 using Differences.DataAccess.Repositories;
 using Differences.DataAccess;
+using Differences.Domain.Questions;
 
 namespace Differences.Api
 {
@@ -35,6 +36,7 @@ namespace Differences.Api
         public void ConfigureServices(IServiceCollection services)
         {
             InjectRepositories(services);
+            InjectServices(services);
             InjectOthers(services);
 
             services.AddSwaggerGen();
@@ -100,6 +102,13 @@ namespace Differences.Api
         {
             services.AddTransient<IArticalRepository, ArticalRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IAnswerRepository, AnswerRepository>();
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
+        }
+
+        private static void InjectServices(IServiceCollection services)
+        {
+            services.AddTransient<IQuestionService, QuestionService>();
         }
 
         private static void InjectOthers(IServiceCollection services)

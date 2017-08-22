@@ -8,7 +8,7 @@ namespace Differences.Interaction.Models
     {
         public string Title { get; set; }
         public object Content { get; set; }
-        public User Author { get; set; }
-        public IEnumerable<User> Contributors { get; set; }
+        public KeyValueHolder Author { get; set; }
+        public IEnumerable<KeyValueHolder> Contributors { get; set; }
     }
 }
