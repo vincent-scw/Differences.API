@@ -23,6 +23,12 @@ namespace Differences.Interaction.Repositories
         void Add(TEntity entity);
         bool Remove(string id);
         bool Update(string id, TEntity entity);
+
+        Task AddAsync(TEntity entity);
+
+        Task<bool> RemoveAsync(string id);
+
+        Task<bool> UpdateAsync(string id, TEntity entity);
         //void CommitChanges();
     }
 }

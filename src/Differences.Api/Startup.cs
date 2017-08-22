@@ -96,13 +96,13 @@ namespace Differences.Api
             app.UseMvc();
         }
 
-        private void InjectRepositories(IServiceCollection services)
+        private static void InjectRepositories(IServiceCollection services)
         {
             services.AddTransient<IArticalRepository, ArticalRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
         }
 
-        private void InjectOthers(IServiceCollection services)
+        private static void InjectOthers(IServiceCollection services)
         {
             var configuration = new MapperConfiguration(
                 cfg => { cfg.AddProfile<AutoMapperProfileConfiguration>(); });

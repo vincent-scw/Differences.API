@@ -42,7 +42,7 @@ namespace Differences.DataAccess.Repositories
             return _dbContext.GetCollection<TEntity>().AsQueryable();
         }
 
-        #region Async
+        #region Async retrive
         public Task<TEntity> GetAsync(string id)
         {
             var filter = Builders<TEntity>.Filter.Eq("Id", id);
@@ -79,6 +79,26 @@ namespace Differences.DataAccess.Repositories
                 new UpdateOptions {IsUpsert = true});
             return result.ModifiedCount > 0 && result.IsAcknowledged;
         }
+
+        public Task AddAsync(TEntity entity)
+        {
+            return _dbContext.GetCollection<TEntity>().InsertOneAsync(entity);
+        }
+
+        public async Task<bool> RemoveAsync(string id)
+        {
+            var result = await _dbContext.GetCollection<TEntity>().DeleteOneAsync(
+                Builders<TEntity>.Filter.Eq("Id", id));
+            return result.DeletedCount > 0 && result.IsAcknowledged;
+        }
+
+        public async Task<bool> UpdateAsync(string id, TEntity entity)
+        {
+            var result = await _dbContext.GetCollection<TEntity>().ReplaceOneAsync(n => n.Id.Equals(id), entity,
+                new UpdateOptions { IsUpsert = true });
+            return result.ModifiedCount > 0 && result.IsAcknowledged;
+        }
+
         #endregion
     }
 }
