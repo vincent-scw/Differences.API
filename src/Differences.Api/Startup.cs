@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +35,7 @@ namespace Differences.Api
         public void ConfigureServices(IServiceCollection services)
         {
             InjectRepositories(services);
+            InjectOthers(services);
 
             services.AddSwaggerGen();
             services.ConfigureSwaggerGen(options =>
@@ -75,8 +77,6 @@ namespace Differences.Api
 
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
             });
-
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,6 +100,14 @@ namespace Differences.Api
         {
             services.AddTransient<IArticalRepository, ArticalRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+        }
+
+        private void InjectOthers(IServiceCollection services)
+        {
+            var configuration = new MapperConfiguration(
+                cfg => { cfg.AddProfile<AutoMapperProfileConfiguration>(); });
+
+            services.AddSingleton(typeof(IMapper), configuration.CreateMapper());
         }
     }
 }

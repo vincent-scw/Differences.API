@@ -1,7 +1,6 @@
 ﻿using Differences.Interaction.Models;
 using Differences.Interaction.Repositories;
 using Microsoft.Extensions.Options;
-using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System;
@@ -28,17 +27,17 @@ namespace Differences.DataAccess.Repositories
             return _dbContext.GetCollection<TEntity>().Find(filter).FirstOrDefault();
         }
 
-        public IQueryable<TEntity> Find(ISpecification<TEntity> spec)
+        public IMongoQueryable<TEntity> Find(ISpecification<TEntity> spec)
         {
             return Find(spec.Expression);
         }
 
-        public IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression)
+        public IMongoQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression)
         {
             return _dbContext.GetCollection<TEntity>().AsQueryable().Where(expression);
         }
 
-        public IQueryable<TEntity> GetAll()
+        public IMongoQueryable<TEntity> GetAll()
         {
             return _dbContext.GetCollection<TEntity>().AsQueryable();
         }
@@ -64,20 +63,21 @@ namespace Differences.DataAccess.Repositories
         #region Modify
         public void Add(TEntity entity)
         {
-            entity.Id = StringObjectIdGenerator.Instance.GenerateId(_dbContext.GetCollection<TEntity>(), entity) as string;
             _dbContext.GetCollection<TEntity>().InsertOne(entity);
         }
 
-        public void Remove(string id)
+        public bool Remove(string id)
         {
-            _dbContext.GetCollection<TEntity>().DeleteOne(
+            var result = _dbContext.GetCollection<TEntity>().DeleteOne(
                 Builders<TEntity>.Filter.Eq("Id", id));
+            return result.DeletedCount > 0 && result.IsAcknowledged;
         }
 
-        public void Update(TEntity entity)
+        public bool Update(string id, TEntity entity)
         {
-            _dbContext.GetCollection<TEntity>().ReplaceOne(n => n.Id.Equals(entity.Id), entity,
+            var result = _dbContext.GetCollection<TEntity>().ReplaceOne(n => n.Id.Equals(id), entity,
                 new UpdateOptions {IsUpsert = true});
+            return result.ModifiedCount > 0 && result.IsAcknowledged;
         }
         #endregion
     }

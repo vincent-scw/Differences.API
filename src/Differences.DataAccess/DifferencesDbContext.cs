@@ -9,13 +9,12 @@ namespace Differences.DataAccess
 {
     public class DifferencesDbContext
     {
-        private readonly IMongoDatabase _database = null;
+        private readonly IMongoDatabase _database;
 
         public DifferencesDbContext(IOptions<DbConnectionSetting> settings)
         {
             var client = new MongoClient(settings.Value.ConnectionString);
-            if (client != null)
-                _database = client.GetDatabase(settings.Value.Database);
+            _database = client.GetDatabase(settings.Value.Database);
         }
 
         public IMongoCollection<User> Users => _database.GetCollection<User>("User");

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Differences.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class ArticalController : Controller
+    public class ArticleController : Controller
     {
         // GET: api/values
         [HttpGet]
