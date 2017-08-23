@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Differences.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,7 @@ using Differences.Interaction.Repositories;
 using Differences.DataAccess.Repositories;
 using Differences.DataAccess;
 using Differences.Domain.Questions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Differences.Api
 {
@@ -62,6 +64,24 @@ namespace Differences.Api
                                     .AllowCredentials());
             });
 
+            var domain = $"https://{Configuration["Auth0:Domain"]}/";
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.Authority = domain;
+                options.Audience = Configuration["Auth0:ApiIdentifier"];
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policies.AdminFullControll,
+                    policy => policy.Requirements.Add(new HasScopeRequirement(Policies.AdminFullControll, domain)));
+            });
+
             services.Configure<DbConnectionSetting>(options =>
             {
                 var dockerMongo  = Environment.GetEnvironmentVariable("MONGO_URL");
@@ -92,6 +112,8 @@ namespace Differences.Api
 
             // global policy, if assigned here (it could be defined indvidually for each controller) 
             app.UseCors("CorsPolicy");
+
+            app.UseAuthentication();
 
             app.UseSwagger();
             app.UseSwaggerUi();

@@ -11,17 +11,25 @@ using Differences.Interaction.Repositories;
 namespace Differences.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class AccountController : Controller
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public UserController(
+        public AccountController(
             IUserRepository userRepository,
             IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+        }
+
+        [HttpPost]
+        public IActionResult Signup([FromBody]UserModel value)
+        {
+            _userRepository.Add(_mapper.Map<User>(value));
+
+            return Ok();
         }
 
         // GET api/values
@@ -33,13 +41,6 @@ namespace Differences.Api.Controllers
                 return NotFound();
 
             return Json(user);
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]UserModel value)
-        {
-            _userRepository.Add(_mapper.Map<User>(value));
         }
 
         // PUT api/values/5

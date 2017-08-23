@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Differences.Api", "src\Differences.Api\Differences.Api.csproj", "{69C678D4-44BE-41FE-A09F-3F07ED4289FF}"
 EndProject
@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{4472EFED-D
 		data\create_user.js = data\create_user.js
 		data\Dockerfile-db = data\Dockerfile-db
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Differences.Authorization", "src\Differences.Authorization\Differences.Authorization.csproj", "{44D5C23E-EC3E-448D-9DA9-322EC4F0A926}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{99D62A96-1DA4-4C02-92C3-3BE56C725FC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99D62A96-1DA4-4C02-92C3-3BE56C725FC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99D62A96-1DA4-4C02-92C3-3BE56C725FC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44D5C23E-EC3E-448D-9DA9-322EC4F0A926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44D5C23E-EC3E-448D-9DA9-322EC4F0A926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44D5C23E-EC3E-448D-9DA9-322EC4F0A926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44D5C23E-EC3E-448D-9DA9-322EC4F0A926}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{9201118C-59DF-4EDF-9A00-3A165AB7133E} = {5D50935B-6CFD-4BED-9009-DBD53E72AC70}
 		{79DB1D22-8995-43EC-8932-9786093F73CE} = {5D50935B-6CFD-4BED-9009-DBD53E72AC70}
 		{99D62A96-1DA4-4C02-92C3-3BE56C725FC2} = {3F6461BF-7CE4-4957-861C-0AB2140D58AA}
+		{44D5C23E-EC3E-448D-9DA9-322EC4F0A926} = {5D50935B-6CFD-4BED-9009-DBD53E72AC70}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {920999F6-E830-43F0-9282-41F1EDA8D47E}
