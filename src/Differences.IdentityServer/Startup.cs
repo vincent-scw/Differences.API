@@ -78,7 +78,7 @@ namespace Differences.IdentityServer
             }
 
             app.UseIdentityServer();
-
+            app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
         }
     }
