@@ -18,6 +18,7 @@
     "Differences.IdentityServer": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "account/login",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
