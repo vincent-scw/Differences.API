@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Differences.Common\Differences.Common.csproj" />
     <ProjectReference Include="..\Differences.Model\Differences.Interaction.csproj" />
   </ItemGroup>
 

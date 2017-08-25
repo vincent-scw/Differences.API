@@ -1,4 +1,5 @@
-﻿using Differences.Interaction.Models;
+﻿using Differences.Common.Configuration;
+using Differences.Interaction.Models;
 using Humanizer;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;

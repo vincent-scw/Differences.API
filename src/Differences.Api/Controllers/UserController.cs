@@ -11,12 +11,12 @@ using Differences.Interaction.Repositories;
 namespace Differences.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class AccountController : Controller
+    public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public AccountController(
+        public UserController(
             IUserRepository userRepository,
             IMapper mapper)
         {
@@ -25,7 +25,7 @@ namespace Differences.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Signup([FromBody]UserModel value)
+        public IActionResult AddUser([FromBody]UserModel value)
         {
             _userRepository.Add(_mapper.Map<User>(value));
 

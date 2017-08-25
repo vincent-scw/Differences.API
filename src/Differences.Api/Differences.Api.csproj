@@ -10,9 +10,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="1.2.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Differences.Authorization\Differences.Authorization.csproj" />
+    <ProjectReference Include="..\Differences.Common\Differences.Common.csproj" />
     <ProjectReference Include="..\Differences.DataAccess\Differences.DataAccess.csproj" />
     <ProjectReference Include="..\Differences.Domain\Differences.Domain.csproj" />
     <ProjectReference Include="..\Differences.Model\Differences.Interaction.csproj" />

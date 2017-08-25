@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Differences.Api.Controllers
+namespace Differences.IdentityServer.Controllers
 {
     [Route("api/[controller]")]
-    public class HealthController : Controller
+    public class ConnectionController : Controller
     {
-        [Authorize]
         [HttpGet]
         [Route("ping_secure")]
         public string PingSecured()
-        {            
+        {
             return "All good. You only get this message if you are authenticated.";
         }
     }

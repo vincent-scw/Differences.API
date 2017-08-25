@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Differences.Authorization;
+using Differences.Common.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -56,31 +57,22 @@ namespace Differences.Api
             });
 
             // Add service and create Policy with options 
-            services.AddCors(options => {
+            services.AddCors(options =>
+            {
                 options.AddPolicy("CorsPolicy",
-                  builder => builder.AllowAnyOrigin()
-                                    .AllowAnyMethod()
-                                    .AllowAnyHeader()
-                                    .AllowCredentials());
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
             });
 
-            var domain = $"https://{Configuration["Auth0:Domain"]}/";
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.Authority = domain;
-                options.Audience = Configuration["Auth0:ApiIdentifier"];
-            });
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //});
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(Policies.AdminFullControll,
-                    policy => policy.Requirements.Add(new HasScopeRequirement(Policies.AdminFullControll, domain)));
-            });
+            services.AddAuthorization();            
 
             services.Configure<DbConnectionSetting>(options =>
             {
@@ -110,11 +102,16 @@ namespace Differences.Api
                 loggerFactory.AddDebug();
             }
 
+            app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+            {
+                Authority = "http://localhost:8000",
+                AllowedScopes = { "UserApi" },
+                RequireHttpsMetadata = false
+            });
+
             // global policy, if assigned here (it could be defined indvidually for each controller) 
             app.UseCors("CorsPolicy");
-
-            app.UseAuthentication();
-
+            
             app.UseSwagger();
             app.UseSwaggerUi();
             app.UseMvc();
