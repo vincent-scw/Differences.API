@@ -5,11 +5,17 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Differences.Common.Configuration;
+using Differences.IdentityServer.MongoDb;
+using Differences.IdentityServer.MongoDb.Models;
 using IdentityServer4.Models;
+using IdentityServer4.Services;
+using IdentityServer4.Stores;
 using IdentityServer4.Test;
+using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
@@ -38,13 +44,15 @@ namespace Differences.IdentityServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            InjectMongoClient(services);
+
             var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "idsrv4test.pfx"), "idsrv3test");
 
             services.AddIdentityServer()
-                .AddInMemoryClients(IdServerResources.GetClients())
+                //.AddInMemoryClients(IdServerResources.GetClients())
                 .AddInMemoryIdentityResources(IdServerResources.GetIdentityResources())
                 .AddInMemoryApiResources(IdServerResources.GetApiResources())
-                .AddTestUsers(IdServerResources.GetTestUsers())
+                //.AddTestUsers(IdServerResources.GetTestUsers())
                 .AddDeveloperSigningCredential()
                 .AddSigningCredential(cert);
 
@@ -80,6 +88,16 @@ namespace Differences.IdentityServer
             app.UseIdentityServer();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
+        }
+
+        private void InjectMongoClient(IServiceCollection services)
+        {
+            services.AddTransient<IRepository, MongoDbRepository>();
+            services.AddTransient<IClientStore, MongoDbClientStore>();
+            services.AddTransient<IProfileService, MongoDbProfileService>();
+            services.AddTransient<IResourceOwnerPasswordValidator, MongoDbResourceOwnerPasswordValidator>();
+            services.AddTransient<IPasswordHasher<MongoDbUser>, PasswordHasher<MongoDbUser>>();
+            services.Configure<MongoDbRepositoryConfiguration>(Configuration.GetSection("MongoDbRepository"));
         }
     }
 }

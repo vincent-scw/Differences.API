@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Differences.Common\Differences.Common.csproj" />
+    <ProjectReference Include="..\Differences.IdentityServer.MongoDb\Differences.IdentityServer.MongoDb.csproj" />
   </ItemGroup>
 
 </Project>
