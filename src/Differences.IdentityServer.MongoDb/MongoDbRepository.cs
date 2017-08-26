@@ -1,6 +1,7 @@
 ﻿using System;
 using Differences.IdentityServer.MongoDb.Models;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Differences.IdentityServer.MongoDb
