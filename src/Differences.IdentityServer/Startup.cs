@@ -55,7 +55,7 @@ namespace Differences.IdentityServer
                 //.AddTestUsers(IdServerResources.GetTestUsers())
                 .AddDeveloperSigningCredential()
                 .AddSigningCredential(cert);
-
+            
             services.Configure<DbConnectionSetting>(options =>
             {
                 var dockerMongo = Environment.GetEnvironmentVariable("MONGO_URL");
@@ -92,12 +92,12 @@ namespace Differences.IdentityServer
 
         private void InjectMongoClient(IServiceCollection services)
         {
-            services.AddTransient<IRepository, MongoDbRepository>();
-            services.AddTransient<IClientStore, MongoDbClientStore>();
-            services.AddTransient<IProfileService, MongoDbProfileService>();
-            services.AddTransient<IResourceOwnerPasswordValidator, MongoDbResourceOwnerPasswordValidator>();
-            services.AddTransient<IPasswordHasher<MongoDbUser>, PasswordHasher<MongoDbUser>>();
-            services.Configure<MongoDbRepositoryConfiguration>(Configuration.GetSection("MongoDbRepository"));
+            services.AddScoped<IRepository, MongoDbRepository>();
+            services.AddScoped<IClientStore, MongoDbClientStore>();
+            services.AddScoped<IProfileService, MongoDbProfileService>();
+            services.AddScoped<IResourceOwnerPasswordValidator, MongoDbResourceOwnerPasswordValidator>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddSingleton<IPasswordHasher<MongoDbUser>, PasswordHasher<MongoDbUser>>();
         }
     }
 }

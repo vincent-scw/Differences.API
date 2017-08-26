@@ -3,6 +3,7 @@ using Differences.IdentityServer.MongoDb.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using Differences.Common.Configuration;
 
 namespace Differences.IdentityServer.MongoDb
 {
@@ -13,12 +14,11 @@ namespace Differences.IdentityServer.MongoDb
         private const string UsersCollectionName = "Users";
         private const string ClientsCollectionName = "Clients";
         
-
-        public MongoDbRepository(IOptions<MongoDbRepositoryConfiguration> config, IPasswordHasher<MongoDbUser> passwordHasher)
+        public MongoDbRepository(IOptions<DbConnectionSetting> config, IPasswordHasher<MongoDbUser> passwordHasher)
         {
             _passwordHasher = passwordHasher;
             var client = new MongoClient(config.Value.ConnectionString);
-            _db = client.GetDatabase(config.Value.DatabaseName);
+            _db = client.GetDatabase(config.Value.Database);
         }
 
         public MongoDbUser GetUserByUsername(string username)
