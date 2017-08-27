@@ -63,5 +63,14 @@ namespace Differences.IdentityServer.MongoDb
             var filter = Builders<MongoDbClient>.Filter.Eq(x => x.ClientId, clientId);
             return collection.Find(filter).SingleOrDefaultAsync().Result;
         }
+
+        public bool Signup(string username, string plainTextPassword)
+        {
+            var user = new MongoDbUser() { Username = username };
+            user.HashedPassword = _passwordHasher.HashPassword(user, plainTextPassword);
+            _db.GetCollection<MongoDbUser>(UsersCollectionName).InsertOne(user);
+
+            return true;
+        }
     }
 }

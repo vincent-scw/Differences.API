@@ -49,10 +49,13 @@ namespace Differences.IdentityServer
             var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "idsrv4test.pfx"), "idsrv3test");
 
             services.AddIdentityServer()
-                //.AddInMemoryClients(IdServerResources.GetClients())
+                .AddInMemoryClients(IdServerResources.GetClients())
+                //.AddClientStore<MongoDbClientStore>()
                 .AddInMemoryIdentityResources(IdServerResources.GetIdentityResources())
                 .AddInMemoryApiResources(IdServerResources.GetApiResources())
-                //.AddTestUsers(IdServerResources.GetTestUsers())
+                //.AddResourceStoreCache<MongoDbResourceStore>()
+                .AddProfileService<MongoDbProfileService>()
+                .AddResourceOwnerValidator<MongoDbResourceOwnerPasswordValidator>()
                 .AddDeveloperSigningCredential()
                 .AddSigningCredential(cert);
             
@@ -93,9 +96,6 @@ namespace Differences.IdentityServer
         private void InjectMongoClient(IServiceCollection services)
         {
             services.AddScoped<IRepository, MongoDbRepository>();
-            services.AddScoped<IClientStore, MongoDbClientStore>();
-            services.AddScoped<IProfileService, MongoDbProfileService>();
-            services.AddScoped<IResourceOwnerPasswordValidator, MongoDbResourceOwnerPasswordValidator>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddSingleton<IPasswordHasher<MongoDbUser>, PasswordHasher<MongoDbUser>>();
         }

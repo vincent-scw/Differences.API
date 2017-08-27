@@ -1,7 +1,11 @@
-﻿namespace Differences.IdentityServer.MongoDb.Models
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
+
+namespace Differences.IdentityServer.MongoDb.Models
 {
     public class MongoDbUser
     {
+        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
         public string Id { get; set; }
         public string Username { get; set; }
         public string FirstName { get; set; }

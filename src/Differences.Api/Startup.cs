@@ -104,7 +104,7 @@ namespace Differences.Api
 
             app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
             {
-                Authority = "http://localhost:8000",
+                Authority = Configuration.GetSection("IdentityServer:UrlPath").Value,
                 AllowedScopes = { "UserApi" },
                 RequireHttpsMetadata = false
             });

@@ -47,6 +47,35 @@ namespace IdentityServer4.Quickstart.UI
             _account = new AccountService(interaction, httpContextAccessor, clientStore);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Signup(string returnUrl)
+        {
+            var vm = await _account.BuildLoginViewModelAsync(returnUrl);
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Signup(LoginInputModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _loginService.Signup(model.Username, model.Password);
+
+                // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint or a local page
+                if (_interaction.IsValidReturnUrl(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl))
+                {
+                    return Redirect(model.ReturnUrl);
+                }
+
+                return Redirect("~/");
+            }
+
+            // something went wrong, show form with error
+            var vm = await _account.BuildLoginViewModelAsync(model);
+            return View(vm);
+        }
+
         /// <summary>
         /// Show login page
         /// </summary>

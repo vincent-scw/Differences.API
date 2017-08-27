@@ -8,6 +8,6 @@ namespace Differences.IdentityServer.MongoDb
         MongoDbUser GetUserById(string id);
         bool ValidatePassword(string username, string plainTextPassword);
         MongoDbClient GetClient(string clientId);
-
+        bool Signup(string username, string plainTextPassword);
     }
 }
