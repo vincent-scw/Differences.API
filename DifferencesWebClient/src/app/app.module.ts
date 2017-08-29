@@ -4,14 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { SignInComponent } from './sign-in.component';
-import { ToolbarComponent } from './toolbar.component';
+import { SigninComponent } from './account/signin/signin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignInComponent,
-    ToolbarComponent
+    SigninComponent
   ],
   imports: [
     BrowserModule,
