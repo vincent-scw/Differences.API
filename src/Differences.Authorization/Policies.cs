@@ -6,6 +6,7 @@ namespace Differences.Authorization
 {
     public sealed class Policies
     {
-        public const string AdminFullControll = "admin:full";
+        public const string AdministratorControl = "Administrator";
+        public const string AccessResourcesControl = "AccessResources";
     }
 }

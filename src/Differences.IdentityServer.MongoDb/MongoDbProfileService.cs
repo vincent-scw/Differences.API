@@ -21,7 +21,7 @@ namespace Differences.IdentityServer.MongoDb
         {
             var subjectId = context.Subject.GetSubjectId();
 
-            var user = _repository.GetUserById(subjectId);
+            var user = _repository.GetUserByUsername(subjectId);
 
             var claims = new List<Claim>
             {
@@ -40,7 +40,7 @@ namespace Differences.IdentityServer.MongoDb
 
         public Task IsActiveAsync(IsActiveContext context)
         {
-            var user = _repository.GetUserById(context.Subject.GetSubjectId());
+            var user = _repository.GetUserByUsername(context.Subject.GetSubjectId());
 
             context.IsActive = (user != null) && user.IsActive;
             return Task.FromResult(0);

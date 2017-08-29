@@ -72,7 +72,14 @@ namespace Differences.Api
             //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             //});
 
-            services.AddAuthorization();            
+            services.AddAuthorization();
+            //    (options =>
+            //{
+            //    // Policy for dashboard: only administrator role.
+            //    options.AddPolicy(Policies.AdministratorControl, policy => policy.RequireRole("administrator"));
+            //    // Policy for resources: user or administrator roles. 
+            //    options.AddPolicy(Policies.AccessResourcesControl, policy => policy.RequireRole("administrator", "user"));
+            //});
 
             services.Configure<DbConnectionSetting>(options =>
             {
@@ -105,7 +112,7 @@ namespace Differences.Api
             app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
             {
                 Authority = Configuration.GetSection("IdentityServer:UrlPath").Value,
-                AllowedScopes = { "UserApi" },
+                AllowedScopes = { "WebApi" },
                 RequireHttpsMetadata = false
             });
 

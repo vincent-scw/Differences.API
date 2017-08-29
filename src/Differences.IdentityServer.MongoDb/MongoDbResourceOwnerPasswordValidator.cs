@@ -16,11 +16,11 @@ namespace Differences.IdentityServer.MongoDb
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
             if (_repository.ValidatePassword(context.UserName, context.Password))
-            {
-                return Task.FromResult(new GrantValidationResult(context.UserName, "password"));
-            }
+                context.Result = new GrantValidationResult(context.UserName, "password", System.DateTime.Now);
+            else
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "invalid_username_or_password");
 
-            return Task.FromResult(new GrantValidationResult(TokenRequestErrors.InvalidRequest));
+            return Task.FromResult(0);
         }
     }
 }

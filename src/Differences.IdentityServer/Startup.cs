@@ -56,7 +56,7 @@ namespace Differences.IdentityServer
                 //.AddResourceStoreCache<MongoDbResourceStore>()
                 .AddProfileService<MongoDbProfileService>()
                 .AddResourceOwnerValidator<MongoDbResourceOwnerPasswordValidator>()
-                .AddDeveloperSigningCredential()
+                //.AddDeveloperSigningCredential()
                 .AddSigningCredential(cert);
             
             services.Configure<DbConnectionSetting>(options =>
