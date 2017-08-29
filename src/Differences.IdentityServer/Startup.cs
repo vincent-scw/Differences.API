@@ -58,7 +58,17 @@ namespace Differences.IdentityServer
                 .AddResourceOwnerValidator<MongoDbResourceOwnerPasswordValidator>()
                 //.AddDeveloperSigningCredential()
                 .AddSigningCredential(cert);
-            
+
+            // Add service and create Policy with options 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
+
             services.Configure<DbConnectionSetting>(options =>
             {
                 var dockerMongo = Environment.GetEnvironmentVariable("MONGO_URL");
@@ -87,6 +97,8 @@ namespace Differences.IdentityServer
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("CorsPolicy");
 
             app.UseIdentityServer();
             app.UseStaticFiles();
