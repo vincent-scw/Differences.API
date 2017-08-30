@@ -26,9 +26,8 @@ namespace Differences.IdentityServer.MongoDb
             var claims = new List<Claim>
             {
                 new Claim(JwtClaimTypes.Subject, user.Id),
-                new Claim(JwtClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-                new Claim(JwtClaimTypes.GivenName, user.FirstName),
-                new Claim(JwtClaimTypes.FamilyName, user.LastName),
+                new Claim(JwtClaimTypes.Name, user.Username),
+                new Claim(JwtClaimTypes.NickName, user.NickName),
                 new Claim(JwtClaimTypes.Email, user.Email),
                 new Claim(JwtClaimTypes.EmailVerified, user.EmailVerified.ToString().ToLower(), ClaimValueTypes.Boolean)
             };

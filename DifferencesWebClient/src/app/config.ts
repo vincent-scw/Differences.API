@@ -1,4 +1,5 @@
-﻿/**
+﻿import { environment } from '../environments/environment';
+/**
  * Configuration data for the app, as in Config.cs.
  */
 export class Config {
@@ -6,14 +7,14 @@ export class Config {
     /**
      * @see https://identityserver4.readthedocs.io/en/dev/endpoints/token.html
      */
-    public static readonly TOKEN_ENDPOINT: string = '/connect/token';
+    public static readonly TOKEN_ENDPOINT: string = environment.identityServerUrl + '/connect/token';
 
-    public static readonly REVOCATION_ENDPOINT: string = '/connect/revocation';
+    public static readonly REVOCATION_ENDPOINT: string = environment.identityServerUrl + '/connect/revocation';
 
     /**
      * @see https://identityserver4.readthedocs.io/en/dev/endpoints/userinfo.html
      */
-    public static readonly USERINFO_ENDPOINT: string = '/connect/userinfo';
+    public static readonly USERINFO_ENDPOINT: string = environment.identityServerUrl + '/connect/userinfo';
 
     public static readonly CLIENT_ID: string = 'AngularSPA';
 
