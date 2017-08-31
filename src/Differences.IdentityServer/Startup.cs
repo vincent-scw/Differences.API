@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Differences.Common.Configuration;
@@ -48,6 +49,11 @@ namespace Differences.IdentityServer
 
             var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "idsrv4test.pfx"), "idsrv3test");
 
+            using (var rsa = RSA.Create())
+            {
+                rsa.KeySize = 1024;
+                
+            }
             services.AddIdentityServer()
                 .AddInMemoryClients(IdServerResources.GetClients())
                 //.AddClientStore<MongoDbClientStore>()

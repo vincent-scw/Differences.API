@@ -35,14 +35,16 @@ namespace Differences.IdentityServer.MongoDb
             return collection.Find(filter).SingleOrDefaultAsync().Result;
         }
 
-        public bool ValidatePassword(string username, string plainTextPassword)
+        public bool ValidatePassword(string username, string plainTextPassword, out string userId)
         {
+            userId = string.Empty;
             var user = GetUserByUsername(username);
             if (user == null)
             {
                 return false;
             }
 
+            userId = user.Id;
             var result = _passwordHasher.VerifyHashedPassword(user, user.HashedPassword, plainTextPassword);
             switch (result)
             {

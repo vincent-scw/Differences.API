@@ -15,10 +15,9 @@ namespace Differences.IdentityServer.MongoDb
 
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            if (_repository.ValidatePassword(context.UserName, context.Password))
-                context.Result = new GrantValidationResult(context.UserName, "password", System.DateTime.Now);
-            else
-                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "invalid_username_or_password");
+            context.Result = _repository.ValidatePassword(context.UserName, context.Password, out string userId) 
+                ? new GrantValidationResult(userId, "password", System.DateTime.Now) 
+                : new GrantValidationResult(TokenRequestErrors.InvalidGrant, "invalid_username_or_password");
 
             return Task.FromResult(0);
         }

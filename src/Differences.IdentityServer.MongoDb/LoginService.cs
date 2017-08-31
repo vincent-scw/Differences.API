@@ -25,7 +25,7 @@ namespace Differences.IdentityServer.MongoDb
 
         public bool ValidateCredentials(string username, string password)
         {
-            return _repository.ValidatePassword(username, password);
+            return _repository.ValidatePassword(username, password, out string _);
         }
 
         public MongoDbUser FindByUsername(string username)

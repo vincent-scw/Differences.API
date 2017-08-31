@@ -21,15 +21,16 @@ namespace Differences.IdentityServer.MongoDb
         {
             var subjectId = context.Subject.GetSubjectId();
 
-            var user = _repository.GetUserByUsername(subjectId);
+            var user = _repository.GetUserById(subjectId);
 
             var claims = new List<Claim>
             {
-                new Claim(JwtClaimTypes.Subject, user.Id),
+                new Claim(JwtClaimTypes.Subject, subjectId),
                 new Claim(JwtClaimTypes.Name, user.Username),
                 new Claim(JwtClaimTypes.NickName, user.NickName),
                 new Claim(JwtClaimTypes.Email, user.Email),
-                new Claim(JwtClaimTypes.EmailVerified, user.EmailVerified.ToString().ToLower(), ClaimValueTypes.Boolean)
+                new Claim(JwtClaimTypes.EmailVerified, user.EmailVerified.ToString().ToLower(), ClaimValueTypes.Boolean),
+                new Claim(JwtClaimTypes.Scope, "WebApi")
             };
 
             context.IssuedClaims = claims;
@@ -39,7 +40,7 @@ namespace Differences.IdentityServer.MongoDb
 
         public Task IsActiveAsync(IsActiveContext context)
         {
-            var user = _repository.GetUserByUsername(context.Subject.GetSubjectId());
+            var user = _repository.GetUserById(context.Subject.GetSubjectId());
 
             context.IsActive = (user != null) && user.IsActive;
             return Task.FromResult(0);
