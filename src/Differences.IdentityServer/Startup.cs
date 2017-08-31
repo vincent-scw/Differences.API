@@ -1,21 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using Differences.Common.Configuration;
 using Differences.IdentityServer.MongoDb;
 using Differences.IdentityServer.MongoDb.Models;
-using IdentityServer4.Models;
-using IdentityServer4.Services;
-using IdentityServer4.Stores;
-using IdentityServer4.Test;
-using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -49,11 +39,6 @@ namespace Differences.IdentityServer
 
             var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "idsrv4test.pfx"), "idsrv3test");
 
-            using (var rsa = RSA.Create())
-            {
-                rsa.KeySize = 1024;
-                
-            }
             services.AddIdentityServer()
                 .AddInMemoryClients(IdServerResources.GetClients())
                 //.AddClientStore<MongoDbClientStore>()
