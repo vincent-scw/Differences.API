@@ -1,3 +1,17 @@
-<md-toolbar color="primary">
-  <app-signin></app-signin>
+<md-toolbar color="primary" class="app-toolbar">
+    <button class="hamburger" [class.starting]="isStarting" md-button 
+      (click)="sidenav.toggle()" title="Menu">
+      <md-icon [ngClass]="{'sidenav-open': !isSideBySide}" svgicon="menu" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" focusable="false" viewBox="0 0 24 24">
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+        </svg>
+      </md-icon>
+    </button>
+    <a class="nav-link home" href="/">
+      <img alt="主页" title="主页" src="">
+    </a>
+    <!-- <aio-top-menu>
+    </aio-top-menu>
+    <aio-search-box>
+    </aio-search-box> -->
 </md-toolbar>
