@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
+import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 
 import { AuthGuard } from './services/auth.guard';
@@ -13,8 +14,6 @@ import { IdentityService } from './services/identity.service';
 import { BrowserStorage } from './services/browser-storage.service';
 
 import { AppComponent } from './app.component';
-import { SigninComponent } from './account/signin/signin.component';
-import { SignupComponent } from './account/signup/signup.component';
 
 // angular2-jwt config for JiT and AoT compilation.
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
@@ -29,9 +28,7 @@ export function getAuthHttp(http: Http) {
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SigninComponent,
-    SignupComponent
+    AppComponent
   ],
   imports: [
     AppRoutingModule,
@@ -40,7 +37,8 @@ export function getAuthHttp(http: Http) {
     HttpModule,
     BrowserModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    LayoutModule
   ],
   providers: [
     Title,

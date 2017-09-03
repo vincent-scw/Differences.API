@@ -22,10 +22,10 @@ import { AuthenticationService } from './authentication.service';
                     const url: string = state.url;
 
                     if (this.signedIn) {
-                        if (url !== "/dashboard") {
+                        if (url !== '/dashboard') {
                             return true;
                         } else {
-                            if (this.authenticationService.isInRole("administrator")) {
+                            if (this.authenticationService.isInRole('administrator')) {
                                 return true;
                             } else {
                                 this.router.navigate(['/home']);
