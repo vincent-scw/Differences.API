@@ -1,0 +1,7 @@
+<div *ngIf='isSignedIn'>
+  <button md-button>{{currentUser.nickName}}</button>
+</div>
+<div *ngIf='!isSignedIn'>
+  <button md-button (click)='onSignIn()'>登录</button>|
+  <button md-button (click)='onSignUp()'>注册</button>
+</div>

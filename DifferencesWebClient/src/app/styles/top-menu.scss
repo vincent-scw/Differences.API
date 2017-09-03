@@ -68,17 +68,41 @@ app-shell.page-home md-toolbar.app-toolbar.mat-toolbar {
 }
 
 md-toolbar.mat-toolbar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 10;
   padding: 0 16px 0 0;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.30);
 
   md-icon {
     color: $white;
   }
+}
+
+md-toolbar.main-toolbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.md-toolbar-tools {
+  font-size: 20px;
+  letter-spacing: 0.005em;
+  box-sizing: border-box;
+  font-weight: 400;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  width: 100%;
+  height: 64px;
+  max-height: 64px;
+  padding: 0 16px;
+  margin: 0; 
 }
 
 app-shell.page-home md-toolbar.mat-toolbar,
@@ -113,6 +137,7 @@ app-search-box.search-container {
   width: 100%;
   min-width: 150px;
   height: 100%;
+  margin-right: 80px;
 
   input {
     color: $darkgray;

@@ -14,10 +14,6 @@ export class SigninComponent extends Signin {
         protected router: Router,
         protected authenticationService: AuthenticationService) {
         super(router, authenticationService);
-
-        // Preloads data for live example.
-        this.model.username = 'vincent';
-        this.model.password = '12345';
     }
 
 }

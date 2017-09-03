@@ -1,4 +1,4 @@
-<md-toolbar color="primary" class="app-toolbar">
+<md-toolbar color="primary" class="app-toolbar main-toolbar">
     <button class="hamburger" [class.starting]="isStarting" md-button 
       (click)="sidenav.toggle()" title="Menu">
       <md-icon [ngClass]="{'sidenav-open': !isSideBySide}" svgicon="menu">
@@ -14,4 +14,5 @@
     </app-top-menu>
     <app-search-box class="search-container" #searchBox (onSearch)="doSearch($event)" (onFocus)="doSearch($event)">
     </app-search-box>
+    <app-account></app-account>
 </md-toolbar>

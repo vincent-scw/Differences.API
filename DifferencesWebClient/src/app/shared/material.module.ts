@@ -7,7 +7,8 @@ import {
     MdInputModule,
     MdButtonModule,
     MdIconModule,
-    MdTableModule
+    MdTableModule,
+    MdDialogModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk';
 
@@ -20,6 +21,7 @@ const materialModules: any[] = [
     MdButtonModule,
     MdIconModule,
     MdTableModule,
+    MdDialogModule,
     CdkTableModule
 ];
 
