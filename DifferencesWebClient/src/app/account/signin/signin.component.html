@@ -11,15 +11,20 @@
       
   <div>
     <br />
-    <md-input-container class="full-width">
-      <input type="text" mdInput [(ngModel)]="model.username" name="username" #username="ngModel" 
-        placeholder="用户名/邮箱" (keyup)="clearMessages()" md-autofocus required>
-    </md-input-container>
+    <md-form-field class="full-width">
+      <input type="text" mdInput name="username" 
+        placeholder="邮箱" (keyup)="clearMessages()" type="email"
+        
+        md-autofocus required>
+      <md-error *ngIf="emailFormControl.hasError('pattern')">
+          Please enter a valid email address
+      </md-error>      
+    </md-form-field>
     <br />
-    <md-input-container class="full-width">
-      <input type="password" mdInput [(ngModel)]="model.password" name="password" #password="ngModel" 
+    <md-form-field class="full-width">
+      <input type="password" mdInput name="password"
         placeholder="密码" (keyup)="clearMessages()" required>
-    </md-input-container>
+    </md-form-field>
     <br />
     <div *ngIf="errorMessages.length > 0" color="warn">
       <div *ngFor="let errorMessage of errorMessages">
