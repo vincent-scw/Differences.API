@@ -1,6 +1,7 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
+import { MdDialogRef } from '@angular/material';
 
 import { AuthenticationService } from '../../services/authentication.service';
 import { Signin } from '../signin';
@@ -17,9 +18,17 @@ export class SigninComponent extends Signin {
         Validators.pattern(EMAIL_REGEX)]);
 
     constructor(
+        public dialogRef: MdDialogRef<SigninComponent>,
         protected router: Router,
         protected authenticationService: AuthenticationService) {
         super(router, authenticationService);
     }
 
+    onSigninSucceed(): void {
+        this.dialogRef.close();
+    }
+
+    onCancel(): void {
+        this.dialogRef.close();
+    }
 }

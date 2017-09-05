@@ -242,9 +242,9 @@ import { BrowserStorage } from './browser-storage.service';
     public changeUser(userInfo: any): void {
         const user: User = new User();
 
-        user.id = userInfo.id;
-        user.nickName = userInfo.nickName;
-        user.userName = userInfo.userName;
+        user.id = userInfo.sub;
+        user.nickName = userInfo.nickname;
+        user.userName = userInfo.name;
         user.roles = userInfo.role;
 
         // Stores user info.

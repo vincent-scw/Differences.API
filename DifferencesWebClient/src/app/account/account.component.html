@@ -1,7 +1,8 @@
-<div *ngIf='isSignedIn'>
-  <button md-button>{{currentUser.nickName}}</button>
+<div *ngIf='(isSignedIn | async)'>
+  <a class="nav-link" *ngIf="!!currentUser.nickName">{{ currentUser.nickName }}</a>
+  <button md-button (click)='onSignoutCliecked()'>登出</button>
 </div>
-<div *ngIf='!isSignedIn'>
-  <button md-button (click)='onSignIn()'>登录</button>|
-  <button md-button (click)='onSignUp()'>注册</button>
+<div *ngIf='(isSignedIn | async) === false'>
+  <button md-button (click)='onSignInClicked()'>登录</button>|
+  <button md-button (click)='onSignUpClicked()'>注册</button>
 </div>

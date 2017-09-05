@@ -6,7 +6,6 @@ import { AuthenticationService } from '../services/authentication.service';
  * Provides signin method to signin & signup components.
  */
 export class Signin {
-
     model: any = {};
 
     errorMessages: any[] = [];
@@ -14,6 +13,10 @@ export class Signin {
     constructor(
         protected router: Router,
         protected authenticationService: AuthenticationService) { }
+
+    protected onSigninSucceed() {
+
+    }
 
     signin(): void {
         this.authenticationService.signin(this.model.username, this.model.password)
@@ -29,12 +32,14 @@ export class Signin {
 
                         // Gets the redirect URL from authentication service.
                         // If no redirect has been set, uses the default.
-                        const redirect: string = this.authenticationService.redirectUrl
-                            ? this.authenticationService.redirectUrl
-                            : '/home';
-                        // Redirects the user.
-                        this.router.navigate([redirect]);
+                        const redirect: string = this.authenticationService.redirectUrl;
+                        if (redirect != null) {
+                            // Redirects the user.
+                            this.router.navigate([redirect]);
+                        }
                     });
+
+                this.onSigninSucceed();
             },
             (error: any) => {
                 // Checks for error in response (error from the Token endpoint).

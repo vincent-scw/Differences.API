@@ -2,10 +2,6 @@
   <md-toolbar color="primary">
     <div class="md-toolbar-tools">
       <h2>用户登录</h2>
-      <span flex></span>
-      <button mdbutton ng-click="dialog.close()">
-        <md-icon md-svg-src="" aria-label="关闭"></md-icon>
-      </button>
     </div>
   </md-toolbar>
       
@@ -38,9 +34,10 @@
     </div>
     <br />
   </div>
-  <div class="full-width">
+  <div class="full-width" md-dialog-actions>
     <a href="" class="primary">忘记密码？</a>
     <span flex></span>
-    <button md-raised-button color="accent" type="submit">登录</button>
+    <button md-raised-button color="accent" type="submit" >登录</button>
+    <button md-button md-dialog-close>取消</button>
   </div>
 </form>

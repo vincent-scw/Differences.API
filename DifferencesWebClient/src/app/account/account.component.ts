@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
 
+import { AuthenticationService } from '../services/authentication.service';
 import { SigninComponent } from './signin/signin.component';
 import { User } from '../models/user';
 
@@ -10,28 +12,39 @@ import { User } from '../models/user';
 })
 
 export class AccountComponent implements OnInit {
-  isSignedIn: boolean;
+  isSignedIn: Observable<boolean>;
   currentUser: User;
+  isAdmin: boolean;
 
-  ngOnInit(): void {
-    this.isSignedIn = false;
-    this.currentUser = {
-      id: '123',
-      userName: 'edentidus',
-      nickName: 'vincent'
-    }
-  }
+  ngOnInit() {
+    this.isSignedIn = this.authenticationService.isSignedIn();
 
-  constructor(public dialog: MdDialog) {}
+    this.authenticationService.userChanged().subscribe(
+        (user: User) => {
+            this.currentUser = user;
+            this.isAdmin = this.authenticationService.isInRole('administrator');
+        });
 
-  onSignIn(): void {
+    // Optional strategy for refresh token through a scheduler.
+    this.authenticationService.startupTokenRefresh();
+}
+
+  constructor(public dialog: MdDialog,
+    protected authenticationService: AuthenticationService) {}
+
+  onSignInClicked(): void {
     const dialogRef = this.dialog.open(SigninComponent, {
       width: '400px'
     });
-    dialogRef.afterClosed();
+    dialogRef.afterClosed().subscribe(result => {
+    });
   }
 
-  onSignUp() {
+  onSignUpClicked() {
 
+  }
+
+  onSignoutCliecked() {
+    this.authenticationService.signout();
   }
 }
