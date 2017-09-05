@@ -48,9 +48,9 @@ export function getAuthHttp(http: Http) {
     IdentityService,
     BrowserStorage,
     {
-        provide: AuthHttp,
-        useFactory: getAuthHttp,
-        deps: [Http]
+      provide: AuthHttp,
+      useFactory: getAuthHttp,
+      deps: [Http]
     }
   ],
   bootstrap: [AppComponent]

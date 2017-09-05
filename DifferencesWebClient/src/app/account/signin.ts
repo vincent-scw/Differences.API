@@ -43,16 +43,16 @@ export class Signin {
 
                     switch (body.error) {
                         case 'invalid_grant':
-                            this.errorMessages.push({ description: 'Invalid email or password.' });
+                            this.errorMessages.push({ description: '账号或者密码不符合。' });
                             break;
                         default:
-                            this.errorMessages.push({ description: 'Unexpected error. Try again.' });
+                            this.errorMessages.push({ description: '未预料的错误，请重试。' });
                     }
                 } else {
                     const errMsg = (error.message) ? error.message :
-                        error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+                        error.status ? `${error.status} - ${error.statusText}` : '服务器错误';
                     console.log(errMsg);
-                    this.errorMessages.push({ description: 'Server error. Try later.' });
+                    this.errorMessages.push({ description: '服务器错误，请重试。' });
                 }
             });
     }
