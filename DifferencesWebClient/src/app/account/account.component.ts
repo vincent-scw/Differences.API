@@ -24,12 +24,14 @@ export class AccountComponent implements OnInit {
 
     this.authenticationService.userChanged().subscribe(
         (user: User) => {
+          if (user.id !== undefined) {
             this.currentUser = user;
             this.isAdmin = this.authenticationService.isInRole('administrator');
 
             this.snackBar.open('你好，' + user.nickName + '!', null, {
               duration: 2000,
             });
+          }
         });
 
     // Optional strategy for refresh token through a scheduler.

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NavigationNode } from '../models/navigation.model';
 
 @Component({
@@ -7,6 +7,8 @@ import { NavigationNode } from '../models/navigation.model';
 })
 
 export class TopBarComponent {
+  @Output() onSideNavToggled = new EventEmitter();
+
   isSideBySide = true;
   topMenuNodes: NavigationNode[] = [
     {
@@ -25,4 +27,8 @@ export class TopBarComponent {
       url: 'users'
     }
   ];
+
+  sideNavToggle() {
+    this.onSideNavToggled.emit();
+  }
 }

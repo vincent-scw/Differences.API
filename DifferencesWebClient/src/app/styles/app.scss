@@ -100,15 +100,6 @@ a {
   text-decoration: none;
 }
 
-.mat-toolbar-row a {
-  font-size: 16px;
-  font-weight: 400;
-  color: white;
-  font-family: $main-font;
-  text-transform: uppercase;
-  padding: 21px 0;
-}
-
 strong {
   font-weight: 500;
 }
@@ -157,13 +148,6 @@ p > code, li > code, table code {
 code {
   font-family: $code-font;
   font-size: 90%;
-}
-
-.sidenav-content a {
-  color: $blue;
-  &:hover {
-    color: $mediumgray;
-  }
 }
 
 form {
