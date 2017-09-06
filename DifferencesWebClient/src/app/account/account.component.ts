@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MdDialog,
+  MdDialogRef,
+  MD_DIALOG_DATA,
+  MdSnackBar } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthenticationService } from '../services/authentication.service';
@@ -23,6 +26,10 @@ export class AccountComponent implements OnInit {
         (user: User) => {
             this.currentUser = user;
             this.isAdmin = this.authenticationService.isInRole('administrator');
+
+            this.snackBar.open('你好，' + user.nickName + '!', null, {
+              duration: 2000,
+            });
         });
 
     // Optional strategy for refresh token through a scheduler.
@@ -30,13 +37,12 @@ export class AccountComponent implements OnInit {
 }
 
   constructor(public dialog: MdDialog,
+    public snackBar: MdSnackBar,
     protected authenticationService: AuthenticationService) {}
 
   onSignInClicked(): void {
     const dialogRef = this.dialog.open(SigninComponent, {
       width: '400px'
-    });
-    dialogRef.afterClosed().subscribe(result => {
     });
   }
 
@@ -46,5 +52,8 @@ export class AccountComponent implements OnInit {
 
   onSignoutCliecked() {
     this.authenticationService.signout();
+    this.snackBar.open('您已登出!', null, {
+      duration: 2000,
+    });
   }
 }
