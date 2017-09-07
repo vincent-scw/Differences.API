@@ -12,6 +12,7 @@ import { AuthGuard } from './services/auth.guard';
 import { AuthenticationService } from './services/authentication.service';
 import { IdentityService } from './services/identity.service';
 import { BrowserStorage } from './services/browser-storage.service';
+import { ApiClientService } from './services/api-client.service';
 
 import { AppComponent } from './app.component';
 
@@ -46,6 +47,7 @@ export function getAuthHttp(http: Http) {
     AuthGuard,
     AuthenticationService,
     IdentityService,
+    ApiClientService,
     BrowserStorage,
     {
       provide: AuthHttp,

@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  identityServerUrl: ''
+  identityServerUrl: '',
+  apiServerUrl: ''
 };

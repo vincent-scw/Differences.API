@@ -17,6 +17,7 @@ using Differences.Interaction.Repositories;
 using Differences.DataAccess.Repositories;
 using Differences.DataAccess;
 using Differences.Domain.Questions;
+using Differences.Domain.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Differences.Api
@@ -135,6 +136,7 @@ namespace Differences.Api
         private static void InjectServices(IServiceCollection services)
         {
             services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         private static void InjectOthers(IServiceCollection services)

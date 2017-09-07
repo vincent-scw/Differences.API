@@ -28,4 +28,6 @@ export class Config {
      */
     public static readonly SCOPE: string = 'WebApi offline_access openid profile roles';
 
+    public static readonly API_ENDPOINT: string = environment.apiServerUrl + '/api';
+
 }
