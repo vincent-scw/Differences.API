@@ -11,12 +11,12 @@ using Differences.Interaction.Repositories;
 namespace Differences.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public UserController(
+        public UsersController(
             IUserRepository userRepository,
             IMapper mapper)
         {

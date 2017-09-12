@@ -10,12 +10,12 @@ using Differences.Api.Model;
 namespace Differences.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class QuestionController : Controller
+    public class QuestionsController : Controller
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IQuestionService _questionService;
 
-        public QuestionController(
+        public QuestionsController(
             IQuestionRepository questionRepository,
             IQuestionService questionService)
         {

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Differences.DataAccess.Repositories
 {
-    public class ArticalRepository : TraceableRepositoryBase<Article>, IArticalRepository
+    public class ArticleRepository : TraceableRepositoryBase<Article>, IArticleRepository
     {
-        public ArticalRepository(DifferencesDbContext dbContext) : base(dbContext)
+        public ArticleRepository(DifferencesDbContext dbContext) : base(dbContext)
         {
         }
         

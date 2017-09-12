@@ -127,7 +127,7 @@ namespace Differences.Api
 
         private static void InjectRepositories(IServiceCollection services)
         {
-            services.AddScoped<IArticalRepository, ArticalRepository>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAnswerRepository, AnswerRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
