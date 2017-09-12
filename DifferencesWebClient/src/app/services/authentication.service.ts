@@ -241,7 +241,7 @@ import { BrowserStorage } from './browser-storage.service';
 
     public changeUser(userInfo: any): void {
         const user: User = new User();
-
+        // alert(JSON.stringify(userInfo));
         user.id = userInfo.sub;
         user.nickName = userInfo.nickname;
         user.userName = userInfo.name;
@@ -299,8 +299,9 @@ import { BrowserStorage } from './browser-storage.service';
      * Stores access token & refresh token.
      */
     private store(body: any): void {
-        this.browserStorage.set('id_token', body.access_token);
+        this.browserStorage.set('access_token', body.access_token);
         this.browserStorage.set('refresh_token', body.refresh_token);
+        this.browserStorage.set('token_type', body.token_type);
 
         // Calculates token expiration.
         this.expiresIn = body.expires_in as number * 1000; // To milliseconds.

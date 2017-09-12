@@ -22,6 +22,9 @@ import { SignupComponent } from './signup/signup.component';
   ],
   exports: [
     AccountComponent
+  ],
+  entryComponents: [
+    SigninComponent
   ]
 })
 export class AccountModule { }

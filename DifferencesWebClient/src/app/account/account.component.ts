@@ -6,6 +6,7 @@ import { MdDialog,
 import { Observable } from 'rxjs/Observable';
 
 import { AuthenticationService } from '../services/authentication.service';
+import { ApiClientService } from '../services/api-client.service';
 import { SigninComponent } from './signin/signin.component';
 import { User } from '../models/user';
 
@@ -40,7 +41,8 @@ export class AccountComponent implements OnInit {
 
   constructor(public dialog: MdDialog,
     public snackBar: MdSnackBar,
-    protected authenticationService: AuthenticationService) {}
+    protected authenticationService: AuthenticationService,
+    protected apiclientService: ApiClientService) {}
 
   onSignInClicked(): void {
     const dialogRef = this.dialog.open(SigninComponent, {
@@ -52,10 +54,21 @@ export class AccountComponent implements OnInit {
 
   }
 
-  onSignoutCliecked() {
+  onSignoutClicked() {
     this.authenticationService.signout();
     this.snackBar.open('您已登出!', null, {
       duration: 2000,
     });
+  }
+
+  onAccountClicked() {
+    this.apiclientService.callAuth('/health/ping_secure')
+      .subscribe(
+      (res: any) => {
+          alert(JSON.stringify(res));
+      },
+      (error: any) => {
+          console.log(error);
+      });
   }
 }

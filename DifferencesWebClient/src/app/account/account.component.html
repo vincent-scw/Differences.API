@@ -3,8 +3,8 @@
     {{ currentUser.nickName }}
   </button>
   <md-menu #menu="mdMenu">
-      <button md-menu-item>账户</button>
-      <button md-menu-item (click)='onSignoutCliecked()'>登出</button>
+      <button md-menu-item (click)='onAccountClicked()'>账户</button>
+      <button md-menu-item (click)='onSignoutClicked()'>登出</button>
   </md-menu>
 </div>
 <div *ngIf='(isSignedIn | async) === false'>
