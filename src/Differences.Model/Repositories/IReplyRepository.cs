@@ -5,7 +5,7 @@ using Differences.Interaction.Models;
 
 namespace Differences.Interaction.Repositories
 {
-    public interface IAnswerRepository : IRepository<Answer>
+    public interface IReplyRepository : IRepository<Reply>
     {
     }
 }

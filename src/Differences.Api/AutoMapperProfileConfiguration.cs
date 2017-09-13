@@ -8,8 +8,8 @@ namespace Differences.Api
     {
         public AutoMapperProfileConfiguration()
         {
-            CreateMap<User, UserModel>();
-            CreateMap<UserModel, User>();
+            CreateMap<User, UserType>();
+            CreateMap<UserType, User>();
         }
     }
 }

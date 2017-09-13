@@ -25,7 +25,7 @@ namespace Differences.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddUser([FromBody]UserModel value)
+        public IActionResult AddUser([FromBody]UserType value)
         {
             _userRepository.Add(_mapper.Map<User>(value));
 
@@ -45,7 +45,7 @@ namespace Differences.Api.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody]UserModel value)
+        public void Put(string id, [FromBody]UserType value)
         {
             _userRepository.Update(id, _mapper.Map<User>(value));
         }

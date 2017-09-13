@@ -7,9 +7,9 @@ using Microsoft.Extensions.Options;
 
 namespace Differences.DataAccess.Repositories
 {
-    public class AnswerRepository : RepositoryBase<Answer>, IAnswerRepository
+    public class ReplyRepository : RepositoryBase<Reply>, IReplyRepository
     {
-        public AnswerRepository(DifferencesDbContext dbContext) : base(dbContext)
+        public ReplyRepository(DifferencesDbContext dbContext) : base(dbContext)
         {
         }
     }

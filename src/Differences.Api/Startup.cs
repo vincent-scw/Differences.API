@@ -18,11 +18,12 @@ using Differences.DataAccess.Repositories;
 using Differences.DataAccess;
 using Differences.Domain.Questions;
 using Differences.Domain.Users;
+using GraphQL.Types;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Differences.Api
 {
-    public class Startup
+    public partial class Startup
     {
         public Startup(IHostingEnvironment env)
         {
@@ -41,6 +42,7 @@ namespace Differences.Api
         {
             InjectRepositories(services);
             InjectServices(services);
+            InjectGraphQL(services);
             InjectOthers(services);
 
             services.AddSwaggerGen();
@@ -119,9 +121,13 @@ namespace Differences.Api
 
             // global policy, if assigned here (it could be defined indvidually for each controller) 
             app.UseCors("CorsPolicy");
-            
-            app.UseSwagger();
-            app.UseSwaggerUi();
+
+            app.UseMiddleware<GraphQLMiddleware>(new GraphQLSettings
+            {
+                Schema = app.ApplicationServices.GetService<ISchema>()
+            });
+
+            app.UseStaticFiles();
             app.UseMvc();
         }
 
@@ -129,7 +135,7 @@ namespace Differences.Api
         {
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IAnswerRepository, AnswerRepository>();
+            services.AddScoped<IReplyRepository, ReplyRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
         }
 
