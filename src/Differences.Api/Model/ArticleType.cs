@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Differences.Api.Model
 {
-    public class ArticleModel
+    public class ArticleType
     {
     }
 }

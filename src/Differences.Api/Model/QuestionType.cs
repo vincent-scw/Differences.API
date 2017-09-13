@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Differences.Api.Model
 {
-    public class QuestionModel
+    public class QuestionType
     {
         public string Id { get; set; }
         public string Title { get; set; }

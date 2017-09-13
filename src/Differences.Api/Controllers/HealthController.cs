@@ -17,5 +17,12 @@ namespace Differences.Api.Controllers
         {            
             return "All good. You only get this message if you are authenticated.";
         }
+
+        [HttpGet]
+        [Route("ping")]
+        public string Ping()
+        {
+            return "All good.";
+        }
     }
 }

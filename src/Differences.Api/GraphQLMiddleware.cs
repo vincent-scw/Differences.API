@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using DataLoader;
 using Differences.Api.Model;
 using GraphQL;
 using GraphQL.Http;
@@ -58,13 +59,14 @@ namespace Differences.Api
 
             var request = JsonConvert.DeserializeObject<GraphQLRequest>(body);
 
-            var result = await _executer.ExecuteAsync(_ =>
+            var result = await DataLoaderContext.Run(ctx => _executer.ExecuteAsync(_ =>
             {
+                _.OperationName = request.OperationName;
                 _.Schema = _settings.Schema;
                 _.Query = request.Query;
-                _.OperationName = request.OperationName;
                 _.Inputs = request.Variables.ToInputs();
-            });
+                _.UserContext = new GraphQLUserContext(ctx);
+            }));
 
             await WriteResponseAsync(context, result);
         }
