@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using Differences.Authorization;
 using Differences.Common.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.Swagger.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Differences.Interaction.Repositories;
@@ -19,7 +16,6 @@ using Differences.DataAccess;
 using Differences.Domain.Questions;
 using Differences.Domain.Users;
 using GraphQL.Types;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Differences.Api
 {
@@ -44,20 +40,6 @@ namespace Differences.Api
             InjectServices(services);
             InjectGraphQL(services);
             InjectOthers(services);
-
-            services.AddSwaggerGen();
-            services.ConfigureSwaggerGen(options =>
-            {
-                var info = new Info
-                {
-                    Version = "v1",
-                    Title = "Differenciate Them API",
-                    TermsOfService = "None"
-                };
-                options.SingleApiVersion(info);
-
-                options.DescribeAllEnumsAsStrings();
-            });
 
             // Add service and create Policy with options 
             services.AddCors(options =>
@@ -147,10 +129,6 @@ namespace Differences.Api
 
         private static void InjectOthers(IServiceCollection services)
         {
-            var configuration = new MapperConfiguration(
-                cfg => { cfg.AddProfile<AutoMapperProfileConfiguration>(); });
-
-            services.AddSingleton(typeof(IMapper), configuration.CreateMapper());
             services.AddScoped<DifferencesDbContext>();
         }
     }
