@@ -5,13 +5,20 @@ using System.Threading.Tasks;
 using Differences.Api.Model;
 using Differences.Interaction.Models;
 using GraphQL.Types;
+using Differences.Interaction.Repositories;
 
 namespace Differences.Api.Queries
 {
-    public class DifferencesQuery : ObjectGraphType<object>
+    public partial class DifferencesQuery : GraphQLTypeBase<object>
     {
-        public DifferencesQuery()
+        public DifferencesQuery(
+            IArticleRepository articleRepository, 
+            IQuestionRepository questionRepository, 
+            IReplyRepository replyRepository)
+            : base(articleRepository, questionRepository, replyRepository)
         {
+            RegisterArticles();
+
             Field<UserType>(
                 "user",
                 resolve: context => Task.FromResult(

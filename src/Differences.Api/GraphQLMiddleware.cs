@@ -65,7 +65,7 @@ namespace Differences.Api
                 _.Schema = _settings.Schema;
                 _.Query = request.Query;
                 _.Inputs = request.Variables.ToInputs();
-                _.UserContext = new GraphQLUserContext(ctx);
+                _.UserContext = new GraphQLUserContext(ctx, context.User);
             }));
 
             await WriteResponseAsync(context, result);

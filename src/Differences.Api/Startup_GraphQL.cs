@@ -20,6 +20,9 @@ namespace Differences.Api
 
             services.AddTransient<UserType>();
             services.AddTransient<ReplyType>();
+            services.AddTransient<ArticleType>();
+            services.AddTransient<QuestionType>();
+
             services.AddSingleton<DifferencesQuery>();
             services.AddSingleton<ISchema>(s => new GraphQLSchema(type => (GraphType) s.GetService(type)));
         }
