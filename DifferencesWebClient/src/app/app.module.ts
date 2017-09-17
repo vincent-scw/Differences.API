@@ -3,10 +3,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
+import { QuillModule } from 'ngx-quill';
 
 import { AppRoutingModule } from './app-routing.module';
 import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
+import { QuestionsModule } from './questions/questions.module';
 
 import { AuthGuard } from './services/auth.guard';
 import { AuthenticationService } from './services/authentication.service';
@@ -40,7 +42,9 @@ export function getAuthHttp(http: Http) {
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
-    LayoutModule
+    LayoutModule,
+    QuestionsModule,
+    QuillModule
   ],
   providers: [
     Title,
