@@ -9,6 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { QuestionsModule } from './questions/questions.module';
+import { ArticlesModule } from './articles/articles.module';
+import { UsersModule } from './users/users.module';
 
 import { AuthGuard } from './services/auth.guard';
 import { AuthenticationService } from './services/authentication.service';
@@ -41,10 +43,12 @@ export function getAuthHttp(http: Http) {
     HttpModule,
     BrowserModule,
     BrowserAnimationsModule,
+    QuillModule,
     SharedModule,
     LayoutModule,
     QuestionsModule,
-    QuillModule
+    ArticlesModule,
+    UsersModule
   ],
   providers: [
     Title,

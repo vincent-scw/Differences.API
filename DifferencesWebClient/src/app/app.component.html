@@ -8,7 +8,7 @@
 
 <md-sidenav-container class="sidenav-container">
   <md-sidenav class="sidenav" #sidenav mode="side" opened="true">Drawer content</md-sidenav>
-  <div><quill-editor></quill-editor></div>
+  <router-outlet></router-outlet>
 </md-sidenav-container>
 
 <div class="toc-container" [style.max-height.px]="tocMaxHeight">
@@ -18,5 +18,3 @@
 <footer>
   
 </footer>
-
-<router-outlet></router-outlet>
