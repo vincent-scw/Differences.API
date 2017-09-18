@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 
+import { SharedModule } from '../shared/shared.module';
 import { QuestionsRoutingModule } from './questions-routing.module';
 
 import { QuestionListComponent } from './question-list.component';
@@ -13,7 +14,9 @@ import { QuestionDetailComponent } from './question-detail.component';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     QuillModule,
+    SharedModule,
     QuestionsRoutingModule
   ],
   declarations: [

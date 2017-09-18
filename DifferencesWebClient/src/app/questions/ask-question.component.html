@@ -1,2 +1,12 @@
-<div>ask question</div>
-<div><quill-editor></quill-editor></div>
+<form>
+  <div>
+    <md-form-field>
+      <input mdInput #title maxlength="200" placeholder="用英语单引号(' ')来标记比较项">
+      <md-hint align="start">例：'你'和'我'之间</md-hint>
+      <md-hint align="end">{{title.value.length}} / 100</md-hint>
+    </md-form-field>
+    有什么不同？
+  </div>
+  <br/>
+  <div><quill-editor></quill-editor></div>
+</form>
