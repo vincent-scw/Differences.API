@@ -19,10 +19,12 @@ namespace Differences.Api.Queries
         {
             RegisterArticles();
 
-            Field<UserType>(
-                "user",
-                resolve: context => Task.FromResult(
-                    new User {Id = "12345", Name = "test", DisplayName = "this is test"}));
+            Field<ListGraphType<UserType>>(
+                "mvp_users",
+                resolve: context => Task.FromResult(new List<User>
+                {
+                    new User {Id = "12345", Name = "test", NickName = "vincent shen"}
+                }));
         }
     }
 }

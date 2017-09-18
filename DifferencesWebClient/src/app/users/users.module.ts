@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
+import { ApolloModule } from 'apollo-angular';
 
 import { SharedModule } from '../shared/shared.module';
 import { UsersRoutingModule } from './users-routing.module';
@@ -15,6 +16,7 @@ import { UserDetailComponent } from './user-detail.component';
     FormsModule,
     QuillModule,
     SharedModule,
+    ApolloModule,
     UsersRoutingModule
   ],
   declarations: [

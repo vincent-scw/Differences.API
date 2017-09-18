@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let user of data | async | select: 'mvp_users'">
+    {{user.nickName}}
+  </li>
+</ul>
