@@ -5,7 +5,18 @@
 </div>
 
 <app-top-bar (onSideNavToggled)="sidenav.toggle()"></app-top-bar>
+
 <md-sidenav-container class="sidenav-container">
   <md-sidenav class="sidenav" #sidenav mode="side" opened="true">Drawer content</md-sidenav>
   <div><quill-editor></quill-editor></div>
 </md-sidenav-container>
+
+<div class="toc-container" [style.max-height.px]="tocMaxHeight">
+  <app-toc></app-toc>
+</div>
+
+<footer>
+  
+</footer>
+
+<router-outlet></router-outlet>

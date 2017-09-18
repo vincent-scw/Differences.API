@@ -32,7 +32,7 @@ md-sidenav.mat-sidenav.sidenav {
   bottom: 0;
   left: 0;
   padding: 0;
-  min-width: 260px;
+  min-width: 180px;
   background-color: $offwhite;
   box-shadow: 6px 0 6px rgba(0,0,0,0.10);
   height: calc(100vh - 64px); 
@@ -45,14 +45,10 @@ md-sidenav.mat-sidenav.sidenav {
 md-sidenav-container.sidenav-container {
     min-height: 100%;
     height: auto !important;
-    max-width: 100%;
     margin: 0;
     transform: none;
     top: 64px;  
-
-    &.has-floating-toc {
-      max-width: 82%;
-    }
+    max-width: 82%;
 }
 
 md-sidenav-container div.mat-sidenav-content {
