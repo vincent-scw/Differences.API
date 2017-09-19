@@ -1,10 +1,7 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
-import { QuillModule } from 'ngx-quill';
-import { ApolloModule } from 'apollo-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { LayoutModule } from './layout/layout.module';
@@ -18,7 +15,6 @@ import { AuthenticationService } from './services/authentication.service';
 import { IdentityService } from './services/identity.service';
 import { BrowserStorage } from './services/browser-storage.service';
 import { ApiClientService } from './services/api-client.service';
-import { provideClient } from './services/apollo-client.service';
 
 import { AppComponent } from './app.component';
 
@@ -40,13 +36,8 @@ export function getAuthHttp(http: Http) {
   imports: [
     AppRoutingModule,
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
     HttpModule,
-    BrowserModule,
     BrowserAnimationsModule,
-    QuillModule,
-    ApolloModule.forRoot(provideClient),
     SharedModule,
     LayoutModule,
     QuestionsModule,

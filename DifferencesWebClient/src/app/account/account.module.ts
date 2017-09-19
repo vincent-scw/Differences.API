@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AccountRoutingModule } from './account-routing.module';
 import { SharedModule } from '../shared/shared.module';
@@ -10,7 +10,6 @@ import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   imports: [
-    FormsModule,
     ReactiveFormsModule,
     AccountRoutingModule,
     SharedModule
