@@ -1,10 +1,20 @@
 import { ApolloClient, createNetworkInterface } from 'apollo-client';
 import { Config } from '../config';
 
+const ni = createNetworkInterface(Config.GRAPHQL_API_ENDPOINT);
+ni.use([{
+  applyMiddleware(req, next) {
+    if (!req.options.headers) {
+      req.options.headers = {};
+    }
+
+    req.options.headers.authorization =
+      'Bearer ' + localStorage.getItem('access_token') || null;
+    next();
+  }
+}]);
 const client = new ApolloClient({
-  networkInterface: createNetworkInterface({
-    uri: Config.GRAPHQL_API_ENDPOINT
-  })
+  networkInterface: ni
 });
 
 export function provideClient(): ApolloClient {

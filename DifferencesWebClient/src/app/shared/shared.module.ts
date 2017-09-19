@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { QuillModule } from 'ngx-quill';
 import { ApolloModule } from 'apollo-angular';
+import { AvatarModule } from 'ngx-avatar';
 
 import { provideClient } from '../services/apollo-client.service';
 
@@ -16,6 +17,7 @@ import { provideClient } from '../services/apollo-client.service';
         ReactiveFormsModule,
         MaterialModule,
         QuillModule,
+        AvatarModule,
         ApolloModule.forRoot(provideClient)
     ],
     exports: [
@@ -25,6 +27,7 @@ import { provideClient } from '../services/apollo-client.service';
         ReactiveFormsModule,
         MaterialModule,
         QuillModule,
+        AvatarModule,
         ApolloModule,
     ]
 })
