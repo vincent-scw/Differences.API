@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Differences.Api.Model;
+using Differences.Api.Mutations;
 using Differences.Api.Queries;
 using GraphQL;
 using GraphQL.Http;
@@ -23,8 +24,10 @@ namespace Differences.Api
             services.AddTransient<ReplyType>();
             services.AddTransient<ArticleType>();
             services.AddTransient<QuestionType>();
+            services.AddTransient<QuestionInputType>();
 
             services.AddSingleton<DifferencesQuery>();
+            services.AddSingleton<DifferencesMutation>();
             services.AddSingleton<ISchema>(
                 s => new GraphQLSchema(new FuncDependencyResolver(type => (GraphType) s.GetService(type))));
 

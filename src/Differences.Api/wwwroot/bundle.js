@@ -69,6 +69,7 @@
 	__webpack_require__(310);
 
 	function graphQLFetcher(graphQLParams) {
+	    alert(JSON.stringify(graphQLParams));
 	    return (0, _isomorphicFetch2['default'])(window.location.origin + '/api/graphql', {
 	        method: 'post',
 	        headers: { 'Content-Type': 'application/json' },

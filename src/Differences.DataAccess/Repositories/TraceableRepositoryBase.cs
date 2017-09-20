@@ -13,10 +13,11 @@ namespace Differences.DataAccess.Repositories
         {
         }
 
-        public override void Add(TEntity entity)
+        public override TEntity Add(TEntity entity)
         {
-            base.Add(entity);
+            var added = base.Add(entity);
             AddModifyHistory(entity, DataStatus.New);
+            return added;
         }
 
         public override Task AddAsync(TEntity entity)

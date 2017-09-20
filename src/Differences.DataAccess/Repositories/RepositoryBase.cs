@@ -63,9 +63,10 @@ namespace Differences.DataAccess.Repositories
         #endregion  
 
         #region Modify
-        public virtual void Add(TEntity entity)
+        public virtual TEntity Add(TEntity entity)
         {
             _dbContext.GetCollection<TEntity>().InsertOne(entity);
+            return entity;
         }
 
         public virtual bool Remove(string id)

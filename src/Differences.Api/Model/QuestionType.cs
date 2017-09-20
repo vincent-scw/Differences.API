@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Differences.Interaction.Models;
+using GraphQL.Types;
 
 namespace Differences.Api.Model
 {
-    public class QuestionType
+    public class QuestionType : ObjectGraphType<Question>
     {
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public IList<string> Tags { get; set; }
-        public string Content { get; set; }
+        public QuestionType()
+        {
+            Field(x => x.Id).Description("The id of the question");
+            Field(x => x.Title).Description("The title of the question");
+            Field(x => x.Content).Description("The content of the question");
+        }
     }
 }

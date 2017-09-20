@@ -20,7 +20,7 @@ namespace Differences.Interaction.Repositories
         Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression);
         Task<List<TEntity>> FindAsync(ISpecification<TEntity> spec);
 
-        void Add(TEntity entity);
+        TEntity Add(TEntity entity);
         bool Remove(string id);
         bool Update(string id, TEntity entity);
 
