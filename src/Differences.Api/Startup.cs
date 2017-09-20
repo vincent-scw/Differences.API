@@ -15,7 +15,6 @@ using Differences.DataAccess.Repositories;
 using Differences.DataAccess;
 using Differences.Domain.Questions;
 using Differences.Domain.Users;
-using GraphQL.Types;
 
 namespace Differences.Api
 {
@@ -104,10 +103,7 @@ namespace Differences.Api
             // global policy, if assigned here (it could be defined indvidually for each controller) 
             app.UseCors("CorsPolicy");
 
-            app.UseMiddleware<GraphQLMiddleware>(new GraphQLSettings
-            {
-                Schema = app.ApplicationServices.GetService<ISchema>()
-            });
+            app.UseMiddleware<GraphQLMiddleware>(new GraphQLSettings());
 
             app.UseStaticFiles();
             app.UseMvc();

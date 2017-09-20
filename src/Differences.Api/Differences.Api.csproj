@@ -10,7 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DataLoader" Version="0.2.0" />
-    <PackageReference Include="GraphQL" Version="0.17.3" />
+    <PackageReference Include="GraphQL" Version="2.0.0-alpha-783" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="1.2.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />

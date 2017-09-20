@@ -7,6 +7,7 @@ using Differences.Api.Queries;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Differences.Api
@@ -24,7 +25,10 @@ namespace Differences.Api
             services.AddTransient<QuestionType>();
 
             services.AddSingleton<DifferencesQuery>();
-            services.AddSingleton<ISchema>(s => new GraphQLSchema(type => (GraphType) s.GetService(type)));
+            services.AddSingleton<ISchema>(
+                s => new GraphQLSchema(new FuncDependencyResolver(type => (GraphType) s.GetService(type))));
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
     }
 }
