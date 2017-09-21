@@ -6,6 +6,7 @@ import 'graphiql/graphiql.css';
 import './app.css';
 
 function graphQLFetcher(graphQLParams) {
+    graphQLParams.variables = JSON.parse(graphQLParams.variables);
     return fetch(window.location.origin + '/api/graphql', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
