@@ -1,4 +1,5 @@
-﻿using Differences.Common.Configuration;
+﻿using System.Collections.Generic;
+using Differences.Common.Configuration;
 using Differences.Interaction.Models;
 using Humanizer;
 using Microsoft.Extensions.Options;
@@ -10,10 +11,11 @@ namespace Differences.DataAccess
     {
         private readonly IMongoDatabase _database;
 
-        public DifferencesDbContext(IOptions<DbConnectionSetting> settings)
+        public DifferencesDbContext(DbConnectionSettings settings)
         {
-            var client = new MongoClient(settings.Value.ConnectionString);
-            _database = client.GetDatabase(settings.Value.Database);
+
+            var client = new MongoClient(settings.ClientSettings);
+            _database = client.GetDatabase(settings.Database);
         }
 
         public IMongoCollection<User> Users => _database.GetCollection<User>(nameof(User).Pluralize());

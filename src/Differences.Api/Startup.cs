@@ -65,12 +65,16 @@ namespace Differences.Api
             //    options.AddPolicy(Policies.AccessResourcesControl, policy => policy.RequireRole("administrator", "user"));
             //});
 
-            services.Configure<DbConnectionSetting>(options =>
+            services.Configure<DbConnectionSettingsModel>(options =>
             {
-                var dockerMongo  = Environment.GetEnvironmentVariable("MONGO_URL");
-                // If not run in docker, try local connection
-                options.ConnectionString = dockerMongo ?? Configuration.GetSection("MongoConnection:ConnectionString").Value;
-                options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+                options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+
+                options.Host = Configuration.GetValue<string>("MongoConnection:Host");
+                options.Port = Configuration.GetValue<int>("MongoConnection:Port");
+                options.UserName = Configuration.GetValue<string>("MongoConnection:UserName");
+                options.Password = Configuration.GetValue<string>("MongoConnection:Password");
+                options.UseSsL = Configuration.GetValue<bool>("MongoConnection:UseSsl");
+                options.Database = Configuration.GetValue<string>("MongoConnection:Database");
             });
 
             // Add framework services.
@@ -126,6 +130,7 @@ namespace Differences.Api
 
         private static void InjectOthers(IServiceCollection services)
         {
+            services.AddSingleton<DbConnectionSettings>();
             services.AddScoped<DifferencesDbContext>();
         }
     }
