@@ -22,6 +22,7 @@ namespace Differences.DataAccess
         public IMongoCollection<Article> Articles => _database.GetCollection<Article>(nameof(Article).Pluralize());
         public IMongoCollection<Question> Questions => _database.GetCollection<Question>(nameof(Question).Pluralize());
         public IMongoCollection<Reply> Answers => _database.GetCollection<Reply>(nameof(Reply).Pluralize());
+        public IMongoCollection<Comment> Comments => _database.GetCollection<Comment>(nameof(Comment).Pluralize());
 
         public IMongoCollection<TEntity> GetCollection<TEntity>()
             where TEntity : Entity
