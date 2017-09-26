@@ -16,60 +16,29 @@ namespace Differences.DataAccess.Repositories
         public override TEntity Add(TEntity entity)
         {
             var added = base.Add(entity);
-            AddModifyHistory(entity, DataStatus.New);
+            InsertModifyHistory(entity, DataStatus.New);
             return added;
         }
 
-        public override Task AddAsync(TEntity entity)
-        {
-            return base.AddAsync(entity).ContinueWith((t) => AddModifyHistoryAsync(entity, DataStatus.New));
-        }
-
-        public override bool Remove(string id)
+        public override long Remove(long id)
         {
             var result = base.Remove(id);
-            if (result)
-                AddRemoveHistory(id);
+            if (result != default(long))
+                InsertRemoveHistory(id);
             return result;
         }
 
-        public override Task<bool> RemoveAsync(string id)
-        {
-            return base.RemoveAsync(id).ContinueWith((t) =>
-            {
-                if (t.Result)
-                    AddRemoveHistoryAsync(id);
-
-                return t.Result;
-            });
-        }
-
-        public override bool Update(string id, TEntity entity)
+        public override TEntity Update(long id, TEntity entity)
         {
             var result = base.Update(id, entity);
-            if (result)
-                AddModifyHistory(entity, DataStatus.Normal);
+            if (result != default(TEntity))
+                InsertModifyHistory(entity, DataStatus.Normal);
 
             return result;
         }
 
-        public override Task<bool> UpdateAsync(string id, TEntity entity)
-        {
-            return base.UpdateAsync(id, entity).ContinueWith((t) =>
-            {
-                if (t.Result)
-                    AddModifyHistoryAsync(entity, DataStatus.Normal);
+        protected abstract void InsertModifyHistory(TEntity entity, DataStatus status);
 
-                return t.Result;
-            });
-        }
-
-        protected abstract void AddModifyHistory(TEntity entity, DataStatus status);
-
-        protected abstract Task AddModifyHistoryAsync(TEntity entity, DataStatus status);
-
-        protected abstract void AddRemoveHistory(string id);
-
-        protected abstract Task AddRemoveHistoryAsync(string id);
+        protected abstract void InsertRemoveHistory(long id);
     }
 }

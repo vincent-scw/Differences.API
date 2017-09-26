@@ -14,9 +14,9 @@ namespace Differences.DataAccess.Repositories
         {
         }
         
-        protected override void AddModifyHistory(Article entity, DataStatus status)
+        protected override void InsertModifyHistory(Article entity, DataStatus status)
         {
-            DbContext.GetCollection<ArticleUpdateHistory>().InsertOne(new ArticleUpdateHistory
+            DbContext.Set<ArticleUpdateHistory>().Add(new ArticleUpdateHistory
             {
                 ArticleId = entity.Id,
                 Content = entity.Content,
@@ -24,28 +24,9 @@ namespace Differences.DataAccess.Repositories
             });
         }
 
-        protected override Task AddModifyHistoryAsync(Article entity, DataStatus status)
+        protected override void InsertRemoveHistory(long id)
         {
-            return DbContext.GetCollection<ArticleUpdateHistory>().InsertOneAsync(new ArticleUpdateHistory
-            {
-                ArticleId = entity.Id,
-                Content = entity.Content,
-                Status = status
-            });
-        }
-
-        protected override void AddRemoveHistory(string id)
-        {
-            DbContext.GetCollection<ArticleUpdateHistory>().InsertOne(new ArticleUpdateHistory
-            {
-                ArticleId = id,
-                Status = DataStatus.Deleted
-            });
-        }
-
-        protected override Task AddRemoveHistoryAsync(string id)
-        {
-            return DbContext.GetCollection<ArticleUpdateHistory>().InsertOneAsync(new ArticleUpdateHistory
+            DbContext.Set<ArticleUpdateHistory>().Add(new ArticleUpdateHistory
             {
                 ArticleId = id,
                 Status = DataStatus.Deleted

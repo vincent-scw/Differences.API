@@ -13,7 +13,7 @@ namespace Differences.Api.Model
         {
             Field(x => x.Id);
             Field(x => x.Name);
-            Field(x => x.NickName);
+            Field(x => x.DisplaykName);
             Field(x => x.AvatarUrl);
         }
     }

@@ -6,7 +6,7 @@ namespace Differences.Interaction.Models
 {
     public class ArticleUpdateHistory : TraceableEntity
     {
-        public string ArticleId { get; set; }
+        public long ArticleId { get; set; }
         public string Content { get; set; }
     }
 }

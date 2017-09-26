@@ -5,30 +5,22 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using MongoDB.Driver.Linq;
 
 namespace Differences.Interaction.Repositories
 {
     public interface IRepository<TEntity> where TEntity : AggregateRoot
     {
-        TEntity Get(string id);
-        IMongoQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression);
-        IMongoQueryable<TEntity> Find(ISpecification<TEntity> spec);
-        IMongoQueryable<TEntity> GetAll();
+        TEntity Get(long id);
+        IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression);
+        IQueryable<TEntity> Find(ISpecification<TEntity> spec);
+        IQueryable<TEntity> GetAll();
 
-        Task<TEntity> GetAsync(string id);
+        Task<TEntity> GetAsync(long id);
         Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression);
         Task<List<TEntity>> FindAsync(ISpecification<TEntity> spec);
 
         TEntity Add(TEntity entity);
-        bool Remove(string id);
-        bool Update(string id, TEntity entity);
-
-        Task AddAsync(TEntity entity);
-
-        Task<bool> RemoveAsync(string id);
-
-        Task<bool> UpdateAsync(string id, TEntity entity);
-        //void CommitChanges();
+        long Remove(long id);
+        TEntity Update(long id, TEntity entity);
     }
 }

@@ -1,33 +1,29 @@
 ﻿using System.Collections.Generic;
 using Differences.Common.Configuration;
 using Differences.Interaction.Models;
-using Humanizer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 
 namespace Differences.DataAccess
 {
-    public class DifferencesDbContext
+    public class DifferencesDbContext : DbContext
     {
-        private readonly IMongoDatabase _database;
+        private readonly IOptions<DbConnectionSettings> _settings;
 
-        public DifferencesDbContext(DbConnectionSettings settings)
+        public DifferencesDbContext(IOptions<DbConnectionSettings> settings)
         {
-
-            var client = new MongoClient(settings.ClientSettings);
-            _database = client.GetDatabase(settings.Database);
+            _settings = settings;
         }
 
-        public IMongoCollection<User> Users => _database.GetCollection<User>(nameof(User).Pluralize());
-        public IMongoCollection<Article> Articles => _database.GetCollection<Article>(nameof(Article).Pluralize());
-        public IMongoCollection<Question> Questions => _database.GetCollection<Question>(nameof(Question).Pluralize());
-        public IMongoCollection<Reply> Answers => _database.GetCollection<Reply>(nameof(Reply).Pluralize());
-        public IMongoCollection<Comment> Comments => _database.GetCollection<Comment>(nameof(Comment).Pluralize());
-
-        public IMongoCollection<TEntity> GetCollection<TEntity>()
-            where TEntity : Entity
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            return _database.GetCollection<TEntity>(typeof(TEntity).Name.Pluralize());
+            optionsBuilder.UseSqlServer(_settings.Value.Differences);
         }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Reply> Answers { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }

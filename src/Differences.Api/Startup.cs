@@ -65,16 +65,9 @@ namespace Differences.Api
             //    options.AddPolicy(Policies.AccessResourcesControl, policy => policy.RequireRole("administrator", "user"));
             //});
 
-            services.Configure<DbConnectionSettingsModel>(options =>
+            services.Configure<DbConnectionSettings>(options =>
             {
-                options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
-
-                options.Host = Configuration.GetValue<string>("MongoConnection:Host");
-                options.Port = Configuration.GetValue<int>("MongoConnection:Port");
-                options.UserName = Configuration.GetValue<string>("MongoConnection:UserName");
-                options.Password = Configuration.GetValue<string>("MongoConnection:Password");
-                options.UseSsL = Configuration.GetValue<bool>("MongoConnection:UseSsl");
-                options.Database = Configuration.GetValue<string>("MongoConnection:Database");
+                options.Differences = Configuration.GetSection("ConnectionString:Differences").Value;
             });
 
             // Add framework services.
@@ -96,13 +89,6 @@ namespace Differences.Api
                 loggerFactory.AddConsole(Configuration.GetSection("Logging"));
                 loggerFactory.AddDebug();
             }
-
-            app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
-            {
-                Authority = Configuration.GetSection("IdentityServer:UrlPath").Value,
-                AllowedScopes = { "WebApi" },
-                RequireHttpsMetadata = false
-            });
 
             // global policy, if assigned here (it could be defined indvidually for each controller) 
             app.UseCors("CorsPolicy");

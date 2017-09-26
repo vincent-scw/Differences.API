@@ -1,13 +1,12 @@
 ﻿using Differences.Interaction.Models;
 using Differences.Interaction.Repositories;
 using Microsoft.Extensions.Options;
-using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Differences.DataAccess.Repositories
 {
@@ -23,37 +22,35 @@ namespace Differences.DataAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public virtual TEntity Get(string id)
+        public virtual TEntity Get(long id)
         {
-            var filter = Builders<TEntity>.Filter.Eq("Id", id);
-            return _dbContext.GetCollection<TEntity>().Find(filter).FirstOrDefault();
+            return _dbContext.Set<TEntity>().FirstOrDefault(x => x.Id == id);
         }
 
-        public virtual IMongoQueryable<TEntity> Find(ISpecification<TEntity> spec)
+        public virtual IQueryable<TEntity> Find(ISpecification<TEntity> spec)
         {
             return Find(spec.Expression);
         }
 
-        public virtual IMongoQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression)
+        public virtual IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression)
         {
-            return _dbContext.GetCollection<TEntity>().AsQueryable().Where(expression);
+            return _dbContext.Set<TEntity>().AsQueryable().Where(expression);
         }
 
-        public virtual IMongoQueryable<TEntity> GetAll()
+        public virtual IQueryable<TEntity> GetAll()
         {
-            return _dbContext.GetCollection<TEntity>().AsQueryable();
+            return _dbContext.Set<TEntity>().AsQueryable();
         }
 
         #region Async retrive
-        public virtual Task<TEntity> GetAsync(string id)
+        public virtual Task<TEntity> GetAsync(long id)
         {
-            var filter = Builders<TEntity>.Filter.Eq("Id", id);
-            return _dbContext.GetCollection<TEntity>().Find(filter).FirstOrDefaultAsync();
+            return _dbContext.Set<TEntity>().FirstOrDefaultAsync();
         }
 
         public virtual Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression)
         {
-            return _dbContext.GetCollection<TEntity>().AsQueryable().Where(expression).ToListAsync();
+            return _dbContext.Set<TEntity>().Where(expression).ToListAsync();
         }
 
         public virtual Task<List<TEntity>> FindAsync(ISpecification<TEntity> spec)
@@ -65,43 +62,43 @@ namespace Differences.DataAccess.Repositories
         #region Modify
         public virtual TEntity Add(TEntity entity)
         {
-            _dbContext.GetCollection<TEntity>().InsertOne(entity);
-            return entity;
+            try
+            {
+                _dbContext.Set<TEntity>().Add(entity);
+                return entity;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public virtual bool Remove(string id)
+        public virtual long Remove(long id)
         {
-            var result = _dbContext.GetCollection<TEntity>().DeleteOne(
-                Builders<TEntity>.Filter.Eq("Id", id));
-            return result.DeletedCount > 0 && result.IsAcknowledged;
+            try
+            {
+                var set = _dbContext.Set<TEntity>();
+                set.Remove(set.Single(x => x.Id == id));
+                return id;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public virtual bool Update(string id, TEntity entity)
+        public virtual TEntity Update(long id, TEntity entity)
         {
-            var result = _dbContext.GetCollection<TEntity>().ReplaceOne(n => n.Id.Equals(id), entity,
-                new UpdateOptions {IsUpsert = true});
-            return result.ModifiedCount > 0 && result.IsAcknowledged;
+            try
+            {
+                var e = _dbContext.Set<TEntity>().Update(entity);
+                return e.Entity;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-
-        public virtual Task AddAsync(TEntity entity)
-        {
-            return _dbContext.GetCollection<TEntity>().InsertOneAsync(entity);
-        }
-
-        public virtual async Task<bool> RemoveAsync(string id)
-        {
-            var result = await _dbContext.GetCollection<TEntity>().DeleteOneAsync(
-                Builders<TEntity>.Filter.Eq("Id", id));
-            return result.DeletedCount > 0 && result.IsAcknowledged;
-        }
-
-        public virtual async Task<bool> UpdateAsync(string id, TEntity entity)
-        {
-            var result = await _dbContext.GetCollection<TEntity>().ReplaceOneAsync(n => n.Id.Equals(id), entity,
-                new UpdateOptions { IsUpsert = true });
-            return result.ModifiedCount > 0 && result.IsAcknowledged;
-        }
-
         #endregion
     }
 }
