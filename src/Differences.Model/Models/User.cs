@@ -9,5 +9,7 @@ namespace Differences.Interaction.Models
         public string Name { get; set; }
         public string DisplaykName { get; set; }
         public string AvatarUrl { get; set; }
+
+        public IEnumerable<Article> Articles { get; set; }
     }
 }
