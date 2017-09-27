@@ -64,6 +64,7 @@ namespace Differences.Api
             //    // Policy for resources: user or administrator roles. 
             //    options.AddPolicy(Policies.AccessResourcesControl, policy => policy.RequireRole("administrator", "user"));
             //});
+            services.AddDbContext<DifferencesDbContext>();
 
             services.Configure<DbConnectionSettings>(options =>
             {

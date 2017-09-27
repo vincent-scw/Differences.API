@@ -8,6 +8,6 @@ namespace Differences.Interaction.Models
     {
         public string QuestionId { get; set; }
         public string Content { get; set; }
-        public KeyValueHolder Owner { get; set; }
+        public User Owner { get; set; }
     }
 }

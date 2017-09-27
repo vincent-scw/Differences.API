@@ -20,7 +20,8 @@ namespace Differences.Api
         public static IDataLoader<string, TReturn> GetDataLoader<TSource, TReturn>(this ResolveFieldContext<TSource> context,
             Func<IEnumerable<string>, Task<ILookup<string, TReturn>>> fetchDelegate)
         {
-            return ((GraphQLUserContext)context.UserContext).LoadContext.GetOrCreateLoader(context.FieldDefinition, fetchDelegate);
+            //return ((GraphQLUserContext)context.UserContext).LoadContext.GetOrCreateLoader(context.FieldDefinition, fetchDelegate);
+            return null;
         }
     }
 }

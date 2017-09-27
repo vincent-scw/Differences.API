@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Differences.Interaction.Models
@@ -13,6 +14,7 @@ namespace Differences.Interaction.Models
 
     public abstract class Entity
     {
+        [Key]
         public long Id { get; set; }
         public DateTime CreateTime { get; set; }
         public string CreatedBy { get; set; }

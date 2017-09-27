@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Differences.Interaction.Models
 {
-    public class Tag : KeyValueHolder
+    public class Tag : Entity
     {
+        public string Value { get; set; }
     }
 }
