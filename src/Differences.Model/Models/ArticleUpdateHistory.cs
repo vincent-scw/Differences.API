@@ -9,6 +9,7 @@ namespace Differences.Interaction.Models
     {
         [Required]
         public long ArticleId { get; set; }
+        [Required]
         public string Content { get; set; }
     }
 }

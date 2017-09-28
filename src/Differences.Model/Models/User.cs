@@ -8,6 +8,9 @@ namespace Differences.Interaction.Models
     public class User : AggregateRoot
     {
         [Required]
+        [ConcurrencyCheck]
+        public Guid GlobalId { get; set; }
+        [Required]
         [StringLength(100)]
         public string Email { get; set; }
         [Required]
@@ -15,7 +18,5 @@ namespace Differences.Interaction.Models
         public string DisplayName { get; set; }
         [StringLength(200)]
         public string AvatarUrl { get; set; }
-
-        public IEnumerable<Article> Articles { get; set; }
     }
 }
