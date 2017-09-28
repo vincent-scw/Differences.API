@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Differences.Api.Extensions;
 
 namespace Differences.Api
 {
@@ -13,7 +14,9 @@ namespace Differences.Api
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            BuildWebHost(args)
+                .MigrateDatabase()
+                .Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
