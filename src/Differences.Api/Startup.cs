@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Differences.Common.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -64,7 +65,7 @@ namespace Differences.Api
             //    // Policy for resources: user or administrator roles. 
             //    options.AddPolicy(Policies.AccessResourcesControl, policy => policy.RequireRole("administrator", "user"));
             //});
-            services.AddDbContext<DifferencesDbContext>();
+            services.AddDbContext<DifferencesDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Differences")));
 
             services.Configure<DbConnectionSettings>(options =>
             {

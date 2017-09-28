@@ -26,9 +26,9 @@ namespace Differences.Api
             services.AddTransient<QuestionType>();
             services.AddTransient<QuestionInputType>();
 
-            services.AddSingleton<DifferencesQuery>();
-            services.AddSingleton<DifferencesMutation>();
-            services.AddSingleton<ISchema>(
+            services.AddScoped<DifferencesQuery>();
+            services.AddScoped<DifferencesMutation>();
+            services.AddScoped<ISchema>(
                 s => new GraphQLSchema(new FuncDependencyResolver(type => (GraphType) s.GetService(type))));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Differences.Common.Configuration;
+using Differences.DataAccess.Mappings;
 using Differences.Interaction.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -8,16 +9,15 @@ namespace Differences.DataAccess
 {
     public class DifferencesDbContext : DbContext
     {
-        private readonly IOptions<DbConnectionSettings> _settings;
-
-        public DifferencesDbContext(IOptions<DbConnectionSettings> settings)
+        public DifferencesDbContext(DbContextOptions<DifferencesDbContext> options)
+            : base(options)
         {
-            _settings = settings;
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseSqlServer(_settings.Value.Differences);
+            base.OnModelCreating(modelBuilder);
+            new ArticleMapping(modelBuilder.Entity<Article>());
         }
 
         public DbSet<User> Users { get; set; }
