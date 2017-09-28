@@ -23,7 +23,7 @@ namespace Differences.Api.Queries
                 "mvp_users",
                 resolve: context => Task.FromResult(new List<User>
                 {
-                    new User {Id = 12345, Name = "test", DisplaykName = "vincent shen"}
+                    new User {Id = 12345, Email = "test", DisplayName = "vincent shen"}
                 }));
         }
     }

@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Differences.Interaction.Models
 {
     public class Question : AggregateRoot
     {
+        [Required]
+        [StringLength(100)]
         public string Title { get; set; }
         public IEnumerable<Tag> Tags { get; set; }
+        [Required]
+        [StringLength(400)]
         public string Content { get; set; }
+        [Required]
+        public long OwnerId { get; set; }
         public User Owner { get; set; }
     }
 }

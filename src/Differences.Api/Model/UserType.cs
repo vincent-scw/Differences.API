@@ -12,8 +12,8 @@ namespace Differences.Api.Model
         public UserType()
         {
             Field(x => x.Id);
-            Field(x => x.Name);
-            Field(x => x.DisplaykName);
+            Field(x => x.Email);
+            Field(x => x.DisplayName);
             Field(x => x.AvatarUrl);
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Differences.DataAccess.Mappings;
 using Differences.Interaction.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,12 +9,6 @@ namespace Differences.DataAccess
         public DifferencesDbContext(DbContextOptions<DifferencesDbContext> options)
             : base(options)
         {
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            new ArticleMapping(modelBuilder.Entity<Article>());
         }
 
         public DbSet<User> Users { get; set; }

@@ -15,9 +15,15 @@ namespace Differences.Interaction.Models
     public abstract class Entity
     {
         [Key]
+        [ConcurrencyCheck]
         public long Id { get; set; }
+
+        [Required]
         public DateTime CreateTime { get; set; }
-        public string CreatedBy { get; set; }
+
+        [Required]
+        public long CreatedBy { get; set; }
+
         public DateTime? LastUpdateTime { get; set; }
 
         public static bool operator ==(Entity a, Entity b)
@@ -60,6 +66,7 @@ namespace Differences.Interaction.Models
 
     public abstract class TraceableEntity : Entity
     {
+        [Required]
         public DataStatus Status { get; set; }
     }
 }
