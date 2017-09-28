@@ -17,5 +17,9 @@ namespace Differences.Interaction.Models
         public long AuthorId { get; set; }
         [ForeignKey("AuthorId")]
         public User Author { get; set; }
+        [ForeignKey("ArticleId")]
+        public IEnumerable<Comment> Comments { get; set; }
+        [ForeignKey("ArticleId")]
+        public IEnumerable<ArticleUpdateHistory> UpdateHistories { get; set; }
     }
 }

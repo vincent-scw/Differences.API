@@ -18,5 +18,7 @@ namespace Differences.Interaction.Models
         public long OwnerId { get; set; }
         [ForeignKey("OwnerId")]
         public User Owner { get; set; }
+        [ForeignKey("QuestionId")]
+        public IEnumerable<Reply> Replies { get; set; }
     }
 }
