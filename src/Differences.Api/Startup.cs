@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Differences.Common.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -65,12 +64,8 @@ namespace Differences.Api
             //    // Policy for resources: user or administrator roles. 
             //    options.AddPolicy(Policies.AccessResourcesControl, policy => policy.RequireRole("administrator", "user"));
             //});
-            services.AddDbContext<DifferencesDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Differences")));
-
-            services.Configure<DbConnectionSettings>(options =>
-            {
-                options.Differences = Configuration.GetSection("ConnectionString:Differences").Value;
-            });
+            services.AddDbContext<DifferencesDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("Differences")));
 
             // Add framework services.
             services.AddMvc().AddJsonOptions(options =>
@@ -118,7 +113,6 @@ namespace Differences.Api
 
         private static void InjectOthers(IServiceCollection services)
         {
-            services.AddSingleton<DbConnectionSettings>();
             services.AddScoped<DifferencesDbContext>();
         }
     }

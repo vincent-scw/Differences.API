@@ -12,7 +12,7 @@ namespace Differences.Api.Extensions
             {
                 var services = scope.ServiceProvider;
                 var dbContext = services.GetRequiredService<DataAccess.DifferencesDbContext>();
-
+                
                 dbContext.Database.Migrate();
             }
 

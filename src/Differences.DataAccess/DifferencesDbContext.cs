@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using Differences.Common.Configuration;
 using Differences.DataAccess.Mappings;
 using Differences.Interaction.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace Differences.DataAccess
 {
