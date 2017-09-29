@@ -108,8 +108,8 @@ namespace Differences.Api
             var s = $"AuthenticationFailed: {arg.Exception.Message}";
             arg.Response.ContentLength = s.Length;
             arg.Response.Body.Write(Encoding.UTF8.GetBytes(s), 0, s.Length);
-            return Task.FromResult(0);
 #endif
+            return Task.FromResult(0);
         }
 
         private static void InjectRepositories(IServiceCollection services)
