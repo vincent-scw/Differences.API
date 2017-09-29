@@ -15,6 +15,8 @@ using Differences.DataAccess.Repositories;
 using Differences.DataAccess;
 using Differences.Domain.Questions;
 using Differences.Domain.Users;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
 namespace Differences.Api
 {
@@ -50,20 +52,22 @@ namespace Differences.Api
                         .AllowCredentials());
             });
 
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //});
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(o =>
+            {
+                o.Authority = string.Format("https://login.microsoftonline.com/tfp/{0}/{1}/v2.0/",
+                    Configuration["Authentication:AzureAdB2C:Tenant"], Configuration["Authentication:AzureAdB2C:Policy"]);
+                o.Audience = Configuration["Authentication:AzureAdB2C:ClientId"];
 
-            services.AddAuthorization();
-            //    (options =>
-            //{
-            //    // Policy for dashboard: only administrator role.
-            //    options.AddPolicy(Policies.AdministratorControl, policy => policy.RequireRole("administrator"));
-            //    // Policy for resources: user or administrator roles. 
-            //    options.AddPolicy(Policies.AccessResourcesControl, policy => policy.RequireRole("administrator", "user"));
-            //});
+                o.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = AuthenticationFailed
+                };
+             });
 
             services.AddDbContext<DifferencesDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Differences")));
@@ -90,11 +94,22 @@ namespace Differences.Api
 
             // global policy, if assigned here (it could be defined indvidually for each controller) 
             app.UseCors("CorsPolicy");
-
+            
             app.UseMiddleware<GraphQLMiddleware>(new GraphQLSettings());
 
             app.UseStaticFiles();
             app.UseMvc();
+        }
+
+        private Task AuthenticationFailed(AuthenticationFailedContext arg)
+        {
+#if DEBUG
+            // For debugging purposes only!
+            var s = $"AuthenticationFailed: {arg.Exception.Message}";
+            arg.Response.ContentLength = s.Length;
+            arg.Response.Body.Write(Encoding.UTF8.GetBytes(s), 0, s.Length);
+            return Task.FromResult(0);
+#endif
         }
 
         private static void InjectRepositories(IServiceCollection services)
