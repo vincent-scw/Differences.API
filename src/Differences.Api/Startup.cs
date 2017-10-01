@@ -94,7 +94,7 @@ namespace Differences.Api
 
             // global policy, if assigned here (it could be defined indvidually for each controller) 
             app.UseCors("CorsPolicy");
-            
+            app.UseAuthentication();
             app.UseMiddleware<GraphQLMiddleware>(new GraphQLSettings());
 
             app.UseStaticFiles();
