@@ -17,8 +17,8 @@ namespace Differences.Api
         /// <param name="context"></param>
         /// <param name="fetchDelegate"></param>
         /// <returns></returns>
-        public static IDataLoader<string, TReturn> GetDataLoader<TSource, TReturn>(this ResolveFieldContext<TSource> context,
-            Func<IEnumerable<string>, Task<ILookup<string, TReturn>>> fetchDelegate)
+        public static IDataLoader<long, TReturn> GetDataLoader<TSource, TReturn>(this ResolveFieldContext<TSource> context,
+            Func<IEnumerable<long>, Task<ILookup<long, TReturn>>> fetchDelegate)
         {
             //return ((GraphQLUserContext)context.UserContext).LoadContext.GetOrCreateLoader(context.FieldDefinition, fetchDelegate);
             return null;

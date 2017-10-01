@@ -8,6 +8,6 @@ namespace Differences.Domain.Questions
 {
     public interface IQuestionService
     {
-        Question AskQuestion(string title, IEnumerable<string> tags, string content);
+        Question AskQuestion(string title, string content, Guid userGuid);
     }
 }

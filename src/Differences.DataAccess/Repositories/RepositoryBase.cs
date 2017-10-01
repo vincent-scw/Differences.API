@@ -64,6 +64,8 @@ namespace Differences.DataAccess.Repositories
         {
             try
             {
+                entity.CreateTime = DateTime.Now;
+                
                 _dbContext.Set<TEntity>().Add(entity);
                 return entity;
             }
@@ -91,6 +93,8 @@ namespace Differences.DataAccess.Repositories
         {
             try
             {
+                entity.LastUpdateTime = DateTime.Now;
+
                 var e = _dbContext.Set<TEntity>().Update(entity);
                 return e.Entity;
             }
