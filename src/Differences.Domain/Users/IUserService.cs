@@ -8,6 +8,7 @@ namespace Differences.Domain.Users
     public interface IUserService
     {
         User GetUserInfo(Guid globalId);
-        IEnumerable<User> GetTopReputationUsers(long categoryId, int topCount);
+        User FindOrCreate(Guid globalId, string displayName, string email, string avatarUrl);
+        IEnumerable<User> GetTopReputationUsers(long categoryId, int topCount = 20);
     }
 }

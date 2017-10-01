@@ -104,5 +104,15 @@ namespace Differences.DataAccess.Repositories
             }
         }
         #endregion
+
+        public virtual void SaveChanges()
+        {
+            _dbContext.SaveChanges();
+        }
+
+        public virtual Task SaveChangesAsync()
+        {
+            return _dbContext.SaveChangesAsync();
+        }
     }
 }

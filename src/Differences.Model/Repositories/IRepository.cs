@@ -22,5 +22,8 @@ namespace Differences.Interaction.Repositories
         TEntity Add(TEntity entity);
         long Remove(long id);
         TEntity Update(long id, TEntity entity);
+
+        void SaveChanges();
+        Task SaveChangesAsync();
     }
 }

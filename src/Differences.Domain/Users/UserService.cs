@@ -21,9 +21,31 @@ namespace Differences.Domain.Users
             return _userRepository.Find(x => x.GlobalId == globalId).SingleOrDefault();
         }
 
+        public User FindOrCreate(Guid globalId, string displayName, string email, string avatarUrl)
+        {
+            var user = this.GetUserInfo(globalId);
+            if (user != null)
+                return user;
+
+            user = new User
+            {
+                GlobalId = globalId,
+                DisplayName = displayName,
+                Email = email,
+                AvatarUrl = avatarUrl,
+                CreatedBy = -1
+            };
+
+            _userRepository.Add(user);
+
+            _userRepository.SaveChanges(); // TODO: should not do this here
+            return user;
+        }
+
         public IEnumerable<User> GetTopReputationUsers(long categoryId, int topCount = 20)
         {
-            throw new NotImplementedException();
+            //TODO
+            return _userRepository.GetAll();
         }
     }
 }
