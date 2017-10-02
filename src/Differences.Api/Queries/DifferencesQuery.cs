@@ -30,15 +30,8 @@ namespace Differences.Api.Queries
                 "checkUserInDb",
                 resolve: context =>
                 {
-                    var user = ((GraphQLUserContext) context.UserContext).User;
-
-                    var userGuidString = user.FindFirst(x => x.Type.Equals("aud")).Value;
-                    Guid.TryParse(userGuidString, out Guid userGuid);
-                    var displayName = user.FindFirst(x => x.Type.Equals("name")).Value;
-                    var email = user.FindFirst(x => x.Type.Equals("emails")).Value;
-                    //var avatarUrl = user.FindFirst(x => x.Type.Equals("avatarUrl")).Value;
-
-                    return Task.FromResult(userService.FindOrCreate(userGuid, displayName, email, null));
+                    var user = ((GraphQLUserContext) context.UserContext).UserInfo;
+                    return Task.FromResult(userService.FindOrCreate(user.GlobalId, user.DisplayName, user.Email, user.AvatarUrl));
                 });
         }
     }
