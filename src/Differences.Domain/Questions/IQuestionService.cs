@@ -9,6 +9,8 @@ namespace Differences.Domain.Questions
     public interface IQuestionService
     {
         Question AskQuestion(string title, string content, Guid userGuid);
-        IList<Question> GetQuestionsByCategory(long categoryId);
+        IReadOnlyList<Question> GetQuestionsByCategory(long categoryId);
+
+        Reply AddReply(long questionId, long? parentReplyId, string content, Guid userGuid);
     }
 }

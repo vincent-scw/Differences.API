@@ -15,7 +15,8 @@ namespace Differences.Domain.Questions
         private readonly IQuestionRepository _questionRepository;
         private readonly IUserService _userService;
 
-        public QuestionService(IQuestionRepository questionRepository,
+        public QuestionService(
+            IQuestionRepository questionRepository,
             IUserService userService)
         {
             _questionRepository = questionRepository;
@@ -36,9 +37,14 @@ namespace Differences.Domain.Questions
             });
         }
 
-        public IList<Question> GetQuestionsByCategory(long categoryId)
+        public IReadOnlyList<Question> GetQuestionsByCategory(long categoryId)
         {
             return _questionRepository.GetAll().ToList();
+        }
+
+        public Reply AddReply(long questionId, long? parentReplyId, string content, Guid userGuid)
+        {
+            throw new NotImplementedException();
         }
     }
 }

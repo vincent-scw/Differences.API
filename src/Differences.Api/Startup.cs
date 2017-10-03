@@ -17,6 +17,7 @@ using Differences.Domain.Questions;
 using Differences.Domain.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using Differences.Domain.Articles;
 
 namespace Differences.Api
 {
@@ -123,6 +124,7 @@ namespace Differences.Api
 
         private static void InjectServices(IServiceCollection services)
         {
+            services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IUserService, UserService>();
         }
