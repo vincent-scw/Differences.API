@@ -27,14 +27,7 @@ namespace Differences.Domain.Users
             if (user != null)
                 return user;
 
-            user = new User
-            {
-                GlobalId = globalId,
-                DisplayName = displayName,
-                Email = email,
-                AvatarUrl = avatarUrl,
-                CreatedBy = -1
-            };
+            user = new User(globalId, displayName, email, avatarUrl);
 
             _userRepository.Add(user);
 

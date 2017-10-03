@@ -95,7 +95,11 @@ namespace Differences.DataAccess.Migrations
 
                     b.Property<long>("OwnerId");
 
+                    b.Property<long?>("ParentCommentId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
 
                     b.HasIndex("OwnerId");
 
@@ -149,11 +153,15 @@ namespace Differences.DataAccess.Migrations
 
                     b.Property<long>("OwnerId");
 
+                    b.Property<long?>("ParentReplyId");
+
                     b.Property<long>("QuestionId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
+
+                    b.HasIndex("QuestionId");
 
                     b.ToTable("Answers");
                 });
@@ -207,6 +215,11 @@ namespace Differences.DataAccess.Migrations
 
             modelBuilder.Entity("Differences.Interaction.Models.Comment", b =>
                 {
+                    b.HasOne("Differences.Interaction.Models.Article")
+                        .WithMany("Comments")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Differences.Interaction.Models.User", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
@@ -226,6 +239,11 @@ namespace Differences.DataAccess.Migrations
                     b.HasOne("Differences.Interaction.Models.User", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Differences.Interaction.Models.Question")
+                        .WithMany("Replies")
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

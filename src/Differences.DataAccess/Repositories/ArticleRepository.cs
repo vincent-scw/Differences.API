@@ -16,21 +16,12 @@ namespace Differences.DataAccess.Repositories
         
         protected override void InsertModifyHistory(Article entity, DataStatus status)
         {
-            DbContext.Set<ArticleUpdateHistory>().Add(new ArticleUpdateHistory
-            {
-                ArticleId = entity.Id,
-                Content = entity.Content,
-                Status = status
-            });
+            DbContext.Set<ArticleUpdateHistory>().Add(new ArticleUpdateHistory(entity.Id, entity.Content, status));
         }
 
         protected override void InsertRemoveHistory(long id)
         {
-            DbContext.Set<ArticleUpdateHistory>().Add(new ArticleUpdateHistory
-            {
-                ArticleId = id,
-                Status = DataStatus.Deleted
-            });
+            DbContext.Set<ArticleUpdateHistory>().Add(new ArticleUpdateHistory(id, null, DataStatus.Deleted));
         }
     }
 }

@@ -33,12 +33,7 @@ namespace Differences.Domain.Articles
             if (user == null)
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            var article = new Article
-            {
-                AuthorId = user.Id,
-                Title = title,
-                Content = content
-            };
+            var article = new Article(title, content, user.Id);
             _articleRepository.Add(article);
 
             return article;

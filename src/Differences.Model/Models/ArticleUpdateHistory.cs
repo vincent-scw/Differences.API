@@ -1,15 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Differences.Interaction.Models
 {
     public class ArticleUpdateHistory : TraceableEntity
     {
+        [ExcludeFromCodeCoverage]
+        private ArticleUpdateHistory()
+        {
+        }
+
+        public ArticleUpdateHistory(long articleId, 
+            string content,
+            DataStatus status)
+            : this()
+        {
+            ArticleId = articleId;
+            Content = content;
+            Status = status;
+        }
+
         [Required]
-        public long ArticleId { get; set; }
+        public long ArticleId { get; private set; }
         [Required]
-        public string Content { get; set; }
+        public string Content { get; private set; }
     }
 }

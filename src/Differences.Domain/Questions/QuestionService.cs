@@ -29,12 +29,7 @@ namespace Differences.Domain.Questions
             if (user == null)
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            return _questionRepository.Add(new Question
-            {
-                Title = title,
-                Content = content,
-                OwnerId = user.Id
-            });
+            return _questionRepository.Add(new Question(title, content, user.Id));
         }
 
         public IReadOnlyList<Question> GetQuestionsByCategory(long categoryId)
