@@ -33,7 +33,7 @@ namespace Differences.Api.Queries
                 "questions",
                 resolve: context =>
                 {
-                    return questionService.GetQuestionsByCategory(1);
+                    return Task.FromResult(questionService.GetQuestionsByCategory(1));
                 });
         }
     }

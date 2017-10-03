@@ -42,23 +42,6 @@ namespace Differences.DataAccess.Repositories
             return _dbContext.Set<TEntity>().AsQueryable();
         }
 
-        #region Async retrive
-        public virtual Task<TEntity> GetAsync(long id)
-        {
-            return _dbContext.Set<TEntity>().FirstOrDefaultAsync();
-        }
-
-        public virtual Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression)
-        {
-            return _dbContext.Set<TEntity>().Where(expression).ToListAsync();
-        }
-
-        public virtual Task<List<TEntity>> FindAsync(ISpecification<TEntity> spec)
-        {
-            return FindAsync(spec.Expression);
-        }
-        #endregion  
-
         #region Modify
         public virtual TEntity Add(TEntity entity)
         {

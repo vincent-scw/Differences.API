@@ -15,10 +15,6 @@ namespace Differences.Interaction.Repositories
         IQueryable<TEntity> Find(ISpecification<TEntity> spec);
         IQueryable<TEntity> GetAll();
 
-        Task<TEntity> GetAsync(long id);
-        Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression);
-        Task<List<TEntity>> FindAsync(ISpecification<TEntity> spec);
-
         TEntity Add(TEntity entity);
         long Remove(long id);
         TEntity Update(long id, TEntity entity);
