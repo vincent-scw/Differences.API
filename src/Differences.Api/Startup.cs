@@ -117,9 +117,7 @@ namespace Differences.Api
         {
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IReplyRepository, ReplyRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
-            services.AddScoped<ICommentRepository, CommentRepository>();
         }
 
         private static void InjectServices(IServiceCollection services)
