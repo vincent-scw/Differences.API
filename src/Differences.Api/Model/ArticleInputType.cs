@@ -1,16 +1,17 @@
-﻿using System;
+﻿using GraphQL.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GraphQL.Types;
 
 namespace Differences.Api.Model
 {
-    public class QuestionInputType : InputObjectGraphType
+    public class ArticleInputType : InputObjectGraphType
     {
-        public QuestionInputType()
+        public ArticleInputType()
         {
-            Name = "QuestionInput";
+            Name = "ArticleInput";
+
             Field<NonNullGraphType<StringGraphType>>("title");
             Field<NonNullGraphType<StringGraphType>>("content");
             Field<NonNullGraphType<IntGraphType>>("categoryId");

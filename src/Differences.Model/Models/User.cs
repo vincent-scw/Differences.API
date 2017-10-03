@@ -11,12 +11,12 @@ namespace Differences.Interaction.Models
         [ExcludeFromCodeCoverage]
         private User() { }
 
-        public User(Guid globalId, string email, string displayName, string avatarUrl)
+        public User(Guid globalId, string displayName, string email, string avatarUrl)
             : this()
         {
             GlobalId = globalId;
-            Email = email;
             DisplayName = displayName;
+            Email = email;
             AvatarUrl = avatarUrl;
         }
 

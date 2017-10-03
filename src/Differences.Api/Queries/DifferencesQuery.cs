@@ -8,6 +8,7 @@ using Differences.Interaction.Models;
 using GraphQL.Types;
 using Differences.Interaction.Repositories;
 using Differences.Domain.Questions;
+using Differences.Domain.Articles;
 
 namespace Differences.Api.Queries
 {
@@ -15,7 +16,10 @@ namespace Differences.Api.Queries
     {
         public DifferencesQuery(
             IUserService userService,
-            IQuestionService questionService)
+            IArticleService articleService,
+            IArticleRepository articleRepository,
+            IQuestionService questionService,
+            IQuestionRepository questionRepository)
         {
             Field<ListGraphType<UserType>>(
                 "topUsers",
@@ -29,11 +33,47 @@ namespace Differences.Api.Queries
                     return Task.FromResult(userService.FindOrCreate(user.GlobalId, user.DisplayName, user.Email, user.AvatarUrl));
                 });
 
-            Field<QuestionType>(
+            Field<ListGraphType<QuestionType>>(
                 "questions",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<CriteriaInputType>> { Name = "criteria" }
+                ),
                 resolve: context =>
                 {
+                    
                     return Task.FromResult(questionService.GetQuestionsByCategory(1));
+                });
+
+            Field<QuestionType>(
+                "question",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "id" }
+                ),
+                resolve: context =>
+                {
+                    var questionId = context.GetArgument<int>("id");
+                    return Task.FromResult(questionRepository.Get(questionId));
+                });
+
+            Field<ListGraphType<ArticleType>>(
+                "articles",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<CriteriaInputType>> { Name = "criteria" }
+                ),
+                resolve: context =>
+                {
+                    return Task.FromResult(articleService.GetArticlesByCategory(1));
+                });
+
+            Field<ArticleType>(
+                "article",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "id" }
+                ),
+                resolve: context =>
+                {
+                    var articleId = context.GetArgument<int>("id");
+                    return Task.FromResult(articleRepository.Get(articleId));
                 });
         }
     }
