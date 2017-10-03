@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Differences.Common;
@@ -25,7 +26,7 @@ namespace Differences.Domain.Questions
         {
             var user = _userService.GetUserInfo(userGuid);
             if (user == null)
-                throw new DefinedException { ErrorCode = ErrorDefinitions.User.CannotFindUser };
+                throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
             return _questionRepository.Add(new Question
             {
@@ -33,6 +34,11 @@ namespace Differences.Domain.Questions
                 Content = content,
                 OwnerId = user.Id
             });
+        }
+
+        public IList<Question> GetQuestionsByCategory(long categoryId)
+        {
+            return _questionRepository.GetAll().ToList();
         }
     }
 }

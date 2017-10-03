@@ -8,7 +8,7 @@ namespace Differences.Common
     {
         public static class User
         {
-            public const string CannotFindUser = "U10001";
+            public const string UserNotFound = "U10001";
             public const string UserNotAuthenticated = "U10002";
         }
 

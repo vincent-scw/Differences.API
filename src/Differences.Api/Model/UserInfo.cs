@@ -21,8 +21,7 @@ namespace Differences.Api.Model
             this.DisplayName = claimsPrincipal.FindFirst(x => x.Type.Equals(Claims_Name)).Value;
             this.Email = claimsPrincipal.FindFirst(x => x.Type.Equals(Claims_Emails)).Value; // Only 1 email is allowed
         }
-
-        public long Id { get; }
+        
         public string DisplayName { get; }
         public string Email { get; }
         public string AvatarUrl { get; }

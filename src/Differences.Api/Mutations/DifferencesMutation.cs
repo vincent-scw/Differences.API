@@ -6,16 +6,14 @@ using Differences.Api.Model;
 using Differences.Interaction.Models;
 using Differences.Interaction.Repositories;
 using GraphQL.Types;
+using Differences.Domain.Questions;
 
 namespace Differences.Api.Mutations
 {
-    public partial class DifferencesMutation : GraphQLTypeBase<object>
+    public partial class DifferencesMutation : ObjectGraphType<object>
     {
         public DifferencesMutation(
-            IArticleRepository articleRepository, 
-            IQuestionRepository questionRepository, 
-            IReplyRepository replyRepository)
-            : base(articleRepository, questionRepository, replyRepository)
+            IQuestionService questionService)
         {
             Name = "DifferencesMutation";
 
@@ -26,8 +24,9 @@ namespace Differences.Api.Mutations
                 ),
                 resolve: context =>
                 {
+                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var question = context.GetArgument<Question>("question");
-                    return questionRepository.Add(question);
+                    return questionService.AskQuestion(question.Title, question.Content, user.GlobalId);
                 }
             );
         }

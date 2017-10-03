@@ -42,10 +42,10 @@ namespace Differences.Domain.Users
             return user;
         }
 
-        public IEnumerable<User> GetTopReputationUsers(long categoryId, int topCount = 20)
+        public IReadOnlyList<User> GetTopReputationUsers(long categoryId, int topCount = 20)
         {
             //TODO
-            return _userRepository.GetAll();
+            return _userRepository.GetAll().ToList();
         }
     }
 }
