@@ -22,7 +22,7 @@ namespace Differences.Domain.Articles
             _userService = userService;
         }
 
-        public IReadOnlyList<Article> GetArticlesByCategory(long categoryId)
+        public IReadOnlyList<Article> GetArticlesByCategory(int categoryId)
         {
             return _articleRepository.GetAll().ToList();
         }
@@ -39,9 +39,20 @@ namespace Differences.Domain.Articles
             return article;
         }
 
-        public Comment AddComment(long articleId, long? commentId, string content, Guid userGuid)
+        public Comment AddComment(int articleId, int? parentCommentId, string content, Guid userGuid)
         {
-            throw new NotImplementedException();
+            var article = _articleRepository.Get(articleId);
+            if (article == null)
+                throw new DefinedException { ErrorCode = ErrorDefinitions.Article.ArticleNotExists };
+
+            var user = _userService.GetUserInfo(userGuid);
+            if (user == null)
+                throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
+
+            var comment = new Comment(articleId, parentCommentId, content, user.Id);
+            article.AddComment(comment);
+
+            return comment;
         }
     }
 }

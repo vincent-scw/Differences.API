@@ -32,14 +32,25 @@ namespace Differences.Domain.Questions
             return _questionRepository.Add(new Question(title, content, user.Id));
         }
 
-        public IReadOnlyList<Question> GetQuestionsByCategory(long categoryId)
+        public IReadOnlyList<Question> GetQuestionsByCategory(int categoryId)
         {
             return _questionRepository.GetAll().ToList();
         }
 
-        public Reply AddReply(long questionId, long? parentReplyId, string content, Guid userGuid)
+        public Reply AddReply(int questionId, int? parentReplyId, string content, Guid userGuid)
         {
-            throw new NotImplementedException();
+            var question = _questionRepository.Get(questionId);
+            if (question == null)
+                throw new DefinedException {ErrorCode = ErrorDefinitions.Question.QuestionNotExists};
+
+            var user = _userService.GetUserInfo(userGuid);
+            if (user == null)
+                throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
+
+            var reply = new Reply(questionId, parentReplyId, content, user.Id);
+            question.AddReply(reply);
+
+            return reply;
         }
     }
 }

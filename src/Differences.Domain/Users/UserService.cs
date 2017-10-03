@@ -35,7 +35,7 @@ namespace Differences.Domain.Users
             return user;
         }
 
-        public IReadOnlyList<User> GetTopReputationUsers(long categoryId, int topCount = 20)
+        public IReadOnlyList<User> GetTopReputationUsers(int categoryId, int topCount = 20)
         {
             //TODO
             return _userRepository.GetAll().ToList();

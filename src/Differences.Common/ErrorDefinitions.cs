@@ -14,12 +14,12 @@ namespace Differences.Common
 
         public static class Article
         {
-            
+            public const string ArticleNotExists = "A100001";
         }
 
         public static class Question
         {
-            
+            public const string QuestionNotExists = "Q10001";
         }
     }
 }

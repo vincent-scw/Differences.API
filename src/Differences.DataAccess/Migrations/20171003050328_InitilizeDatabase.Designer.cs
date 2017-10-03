@@ -12,7 +12,7 @@ using System;
 namespace Differences.DataAccess.Migrations
 {
     [DbContext(typeof(DifferencesDbContext))]
-    [Migration("20171003044142_InitilizeDatabase")]
+    [Migration("20171003050328_InitilizeDatabase")]
     partial class InitilizeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,18 +24,18 @@ namespace Differences.DataAccess.Migrations
 
             modelBuilder.Entity("Differences.Interaction.Models.Article", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("AuthorId");
+                    b.Property<int>("AuthorId");
 
                     b.Property<string>("Content")
                         .IsRequired();
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<long>("CreatedBy");
+                    b.Property<int>("CreatedBy");
 
                     b.Property<DateTime?>("LastUpdateTime");
 
@@ -52,18 +52,18 @@ namespace Differences.DataAccess.Migrations
 
             modelBuilder.Entity("Differences.Interaction.Models.ArticleUpdateHistory", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("ArticleId");
+                    b.Property<int>("ArticleId");
 
                     b.Property<string>("Content")
                         .IsRequired();
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<long>("CreatedBy");
+                    b.Property<int>("CreatedBy");
 
                     b.Property<DateTime?>("LastUpdateTime");
 
@@ -78,11 +78,11 @@ namespace Differences.DataAccess.Migrations
 
             modelBuilder.Entity("Differences.Interaction.Models.Comment", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("ArticleId");
+                    b.Property<int>("ArticleId");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -90,13 +90,13 @@ namespace Differences.DataAccess.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<long>("CreatedBy");
+                    b.Property<int>("CreatedBy");
 
                     b.Property<DateTime?>("LastUpdateTime");
 
-                    b.Property<long>("OwnerId");
+                    b.Property<int>("OwnerId");
 
-                    b.Property<long?>("ParentCommentId");
+                    b.Property<int?>("ParentCommentId");
 
                     b.HasKey("Id");
 
@@ -109,7 +109,7 @@ namespace Differences.DataAccess.Migrations
 
             modelBuilder.Entity("Differences.Interaction.Models.Question", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd();
 
@@ -119,11 +119,11 @@ namespace Differences.DataAccess.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<long>("CreatedBy");
+                    b.Property<int>("CreatedBy");
 
                     b.Property<DateTime?>("LastUpdateTime");
 
-                    b.Property<long>("OwnerId");
+                    b.Property<int>("OwnerId");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -138,7 +138,7 @@ namespace Differences.DataAccess.Migrations
 
             modelBuilder.Entity("Differences.Interaction.Models.Reply", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd();
 
@@ -148,15 +148,15 @@ namespace Differences.DataAccess.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<long>("CreatedBy");
+                    b.Property<int>("CreatedBy");
 
                     b.Property<DateTime?>("LastUpdateTime");
 
-                    b.Property<long>("OwnerId");
+                    b.Property<int>("OwnerId");
 
-                    b.Property<long?>("ParentReplyId");
+                    b.Property<int?>("ParentReplyId");
 
-                    b.Property<long>("QuestionId");
+                    b.Property<int>("QuestionId");
 
                     b.HasKey("Id");
 
@@ -169,7 +169,7 @@ namespace Differences.DataAccess.Migrations
 
             modelBuilder.Entity("Differences.Interaction.Models.User", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd();
 
@@ -178,7 +178,7 @@ namespace Differences.DataAccess.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<long>("CreatedBy");
+                    b.Property<int>("CreatedBy");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()

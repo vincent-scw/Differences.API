@@ -16,13 +16,13 @@ namespace Differences.Interaction.Models
     {
         [Key]
         [ConcurrencyCheck]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public DateTime CreateTime { get; set; }
 
         [Required]
-        public long CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
 
         public DateTime? LastUpdateTime { get; set; }
 

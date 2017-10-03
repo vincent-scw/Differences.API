@@ -11,7 +11,7 @@ namespace Differences.Interaction.Models
         [ExcludeFromCodeCoverage]
         private Comment() { }
 
-        public Comment(long articleId, string content, long ownerId)
+        public Comment(int articleId, string content, int ownerId)
             : this()
         {
             ArticleId = articleId;
@@ -19,20 +19,20 @@ namespace Differences.Interaction.Models
             OwnerId = ownerId;
         }
 
-        public Comment(long articleId, long parentCommentId, string content, long ownerId)
+        public Comment(int articleId, int? parentCommentId, string content, int ownerId)
             : this(articleId, content, ownerId)
         {
             ParentCommentId = parentCommentId;
         }
 
         [Required]
-        public long ArticleId { get; private set; }
-        public long? ParentCommentId { get; private set; }
+        public int ArticleId { get; private set; }
+        public int? ParentCommentId { get; private set; }
         [Required]
         [StringLength(400)]
         public string Content { get; private set; }
         [Required]
-        public long OwnerId { get; private set; }
+        public int OwnerId { get; private set; }
         [ForeignKey("OwnerId")]
         public User Owner { get; private set; }
 

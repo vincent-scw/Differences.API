@@ -8,9 +8,9 @@ namespace Differences.Domain.Articles
 {
     public interface IArticleService
     {
-        IReadOnlyList<Article> GetArticlesByCategory(long categoryId);
+        IReadOnlyList<Article> GetArticlesByCategory(int categoryId);
         Article WriteArticle(string title, string content, Guid userGuid);
 
-        Comment AddComment(long articleId, long? commentId, string content, Guid userGuid);
+        Comment AddComment(int articleId, int? commentId, string content, Guid userGuid);
     }
 }

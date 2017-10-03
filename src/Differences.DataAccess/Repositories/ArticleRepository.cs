@@ -19,7 +19,7 @@ namespace Differences.DataAccess.Repositories
             DbContext.Set<ArticleUpdateHistory>().Add(new ArticleUpdateHistory(entity.Id, entity.Content, status));
         }
 
-        protected override void InsertRemoveHistory(long id)
+        protected override void InsertRemoveHistory(int id)
         {
             DbContext.Set<ArticleUpdateHistory>().Add(new ArticleUpdateHistory(id, null, DataStatus.Deleted));
         }

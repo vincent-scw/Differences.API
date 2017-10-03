@@ -10,14 +10,14 @@ namespace Differences.Interaction.Repositories
 {
     public interface IRepository<TEntity> where TEntity : AggregateRoot
     {
-        TEntity Get(long id);
+        TEntity Get(int id);
         IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression);
         IQueryable<TEntity> Find(ISpecification<TEntity> spec);
         IQueryable<TEntity> GetAll();
 
         TEntity Add(TEntity entity);
-        long Remove(long id);
-        TEntity Update(long id, TEntity entity);
+        int Remove(int id);
+        TEntity Update(int id, TEntity entity);
 
         void SaveChanges();
         Task SaveChangesAsync();

@@ -9,6 +9,6 @@ namespace Differences.Domain.Users
     {
         User GetUserInfo(Guid globalId);
         User FindOrCreate(Guid globalId, string displayName, string email, string avatarUrl);
-        IReadOnlyList<User> GetTopReputationUsers(long categoryId, int topCount = 20);
+        IReadOnlyList<User> GetTopReputationUsers(int categoryId, int topCount = 20);
     }
 }

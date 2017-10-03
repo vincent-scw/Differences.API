@@ -20,15 +20,15 @@ namespace Differences.DataAccess.Repositories
             return added;
         }
 
-        public override long Remove(long id)
+        public override int Remove(int id)
         {
             var result = base.Remove(id);
-            if (result != default(long))
+            if (result != default(int))
                 InsertRemoveHistory(id);
             return result;
         }
 
-        public override TEntity Update(long id, TEntity entity)
+        public override TEntity Update(int id, TEntity entity)
         {
             var result = base.Update(id, entity);
             if (result != default(TEntity))
@@ -39,6 +39,6 @@ namespace Differences.DataAccess.Repositories
 
         protected abstract void InsertModifyHistory(TEntity entity, DataStatus status);
 
-        protected abstract void InsertRemoveHistory(long id);
+        protected abstract void InsertRemoveHistory(int id);
     }
 }

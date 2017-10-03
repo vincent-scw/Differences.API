@@ -12,7 +12,7 @@ namespace Differences.Interaction.Models
         [ExcludeFromCodeCoverage]
         private Reply() { }
 
-        public Reply(long questionId, string content, long ownerId)
+        public Reply(int questionId, string content, int ownerId)
             : this()
         {
             QuestionId = questionId;
@@ -20,20 +20,20 @@ namespace Differences.Interaction.Models
             OwnerId = ownerId;
         }
 
-        public Reply(long questionId, long parentReplyId, string content, long ownerId)
+        public Reply(int questionId, int? parentReplyId, string content, int ownerId)
             : this(questionId, content, ownerId)
         {
             ParentReplyId = parentReplyId;
         }
 
         [Required]
-        public long QuestionId { get; private set; }
-        public long? ParentReplyId { get; private set; }
+        public int QuestionId { get; private set; }
+        public int? ParentReplyId { get; private set; }
         [Required]
         [StringLength(400)]
         public string Content { get; private set; }
         [Required]
-        public long OwnerId { get; private set; }
+        public int OwnerId { get; private set; }
         [ForeignKey("OwnerId")]
         public User Owner { get; private set; }
 

@@ -13,11 +13,11 @@ namespace Differences.DataAccess.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AvatarUrl = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     GlobalId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -32,12 +32,12 @@ namespace Differences.DataAccess.Migrations
                 name: "Articles",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AuthorId = table.Column<long>(type: "bigint", nullable: false),
+                    AuthorId = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
                     LastUpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
@@ -56,13 +56,13 @@ namespace Differences.DataAccess.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Content = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
                     LastUpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    OwnerId = table.Column<long>(type: "bigint", nullable: false),
+                    OwnerId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
@@ -80,12 +80,12 @@ namespace Differences.DataAccess.Migrations
                 name: "ArticleUpdateHistories",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ArticleId = table.Column<long>(type: "bigint", nullable: false),
+                    ArticleId = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
                     LastUpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
@@ -104,15 +104,15 @@ namespace Differences.DataAccess.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ArticleId = table.Column<long>(type: "bigint", nullable: false),
+                    ArticleId = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
                     LastUpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    OwnerId = table.Column<long>(type: "bigint", nullable: false),
-                    ParentCommentId = table.Column<long>(type: "bigint", nullable: true)
+                    OwnerId = table.Column<int>(type: "int", nullable: false),
+                    ParentCommentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -135,15 +135,15 @@ namespace Differences.DataAccess.Migrations
                 name: "Answers",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Content = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
                     LastUpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    OwnerId = table.Column<long>(type: "bigint", nullable: false),
-                    ParentReplyId = table.Column<long>(type: "bigint", nullable: true),
-                    QuestionId = table.Column<long>(type: "bigint", nullable: false)
+                    OwnerId = table.Column<int>(type: "int", nullable: false),
+                    ParentReplyId = table.Column<int>(type: "int", nullable: true),
+                    QuestionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

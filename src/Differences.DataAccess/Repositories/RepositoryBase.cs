@@ -22,7 +22,7 @@ namespace Differences.DataAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public virtual TEntity Get(long id)
+        public virtual TEntity Get(int id)
         {
             return _dbContext.Set<TEntity>().FirstOrDefault(x => x.Id == id);
         }
@@ -58,7 +58,7 @@ namespace Differences.DataAccess.Repositories
             }
         }
 
-        public virtual long Remove(long id)
+        public virtual int Remove(int id)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace Differences.DataAccess.Repositories
             }
         }
 
-        public virtual TEntity Update(long id, TEntity entity)
+        public virtual TEntity Update(int id, TEntity entity)
         {
             try
             {

@@ -13,7 +13,7 @@ namespace Differences.Interaction.Models
         {
         }
 
-        public ArticleUpdateHistory(long articleId, 
+        public ArticleUpdateHistory(int articleId, 
             string content,
             DataStatus status)
             : this()
@@ -24,7 +24,7 @@ namespace Differences.Interaction.Models
         }
 
         [Required]
-        public long ArticleId { get; private set; }
+        public int ArticleId { get; private set; }
         [Required]
         public string Content { get; private set; }
     }
