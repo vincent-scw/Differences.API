@@ -24,7 +24,9 @@ namespace Differences.Api
             services.AddTransient<ReplyType>();
             services.AddTransient<ArticleType>();
             services.AddTransient<QuestionType>();
+            services.AddTransient<ArticleInputType>();
             services.AddTransient<QuestionInputType>();
+            services.AddTransient<CriteriaInputType>();
 
             services.AddScoped<DifferencesQuery>();
             services.AddScoped<DifferencesMutation>();

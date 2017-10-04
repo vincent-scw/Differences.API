@@ -10,7 +10,7 @@ namespace Differences.Interaction.Models
     public class Reply : Entity
     {
         [ExcludeFromCodeCoverage]
-        private Reply() { }
+        public Reply() { }
 
         public Reply(int questionId, string content, int ownerId)
             : this()

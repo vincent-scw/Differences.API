@@ -9,7 +9,7 @@ namespace Differences.Interaction.Models
     public class ArticleUpdateHistory : TraceableEntity
     {
         [ExcludeFromCodeCoverage]
-        private ArticleUpdateHistory()
+        public ArticleUpdateHistory()
         {
         }
 

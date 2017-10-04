@@ -9,7 +9,7 @@ namespace Differences.Interaction.Models
     public class Comment : Entity
     {
         [ExcludeFromCodeCoverage]
-        private Comment() { }
+        public Comment() { }
 
         public Comment(int articleId, string content, int ownerId)
             : this()

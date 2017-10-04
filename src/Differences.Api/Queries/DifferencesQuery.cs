@@ -21,6 +21,8 @@ namespace Differences.Api.Queries
             IQuestionService questionService,
             IQuestionRepository questionRepository)
         {
+            Name = "DifferencesQuery";
+
             Field<ListGraphType<UserType>>(
                 "topUsers",
                 resolve: context => Task.FromResult(userService.GetTopReputationUsers(1)));

@@ -29,7 +29,9 @@ namespace Differences.Domain.Questions
             if (user == null)
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            return _questionRepository.Add(new Question(title, content, user.Id));
+            var result = _questionRepository.Add(new Question(title, content, user.Id));
+            _questionRepository.SaveChanges();
+            return result;
         }
 
         public IReadOnlyList<Question> GetQuestionsByCategory(int categoryId)
@@ -50,6 +52,7 @@ namespace Differences.Domain.Questions
             var reply = new Reply(questionId, parentReplyId, content, user.Id);
             question.AddReply(reply);
 
+            _questionRepository.SaveChanges();
             return reply;
         }
     }

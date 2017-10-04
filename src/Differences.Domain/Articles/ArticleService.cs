@@ -36,6 +36,8 @@ namespace Differences.Domain.Articles
             var article = new Article(title, content, user.Id);
             _articleRepository.Add(article);
 
+            _articleRepository.SaveChanges();
+
             return article;
         }
 
@@ -51,6 +53,8 @@ namespace Differences.Domain.Articles
 
             var comment = new Comment(articleId, parentCommentId, content, user.Id);
             article.AddComment(comment);
+
+            _articleRepository.SaveChanges();
 
             return comment;
         }

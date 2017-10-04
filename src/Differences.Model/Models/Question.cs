@@ -10,7 +10,7 @@ namespace Differences.Interaction.Models
     public class Question : AggregateRoot
     {
         [ExcludeFromCodeCoverage]
-        private Question()
+        public Question()
         {
             Replies = new List<Reply>();
         }

@@ -9,7 +9,7 @@ namespace Differences.Interaction.Models
     public class Category : Entity
     {
         [ExcludeFromCodeCoverage]
-        private Category()
+        public Category()
         {
         }
 

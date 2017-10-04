@@ -10,10 +10,10 @@ namespace Differences.Api.Model
     {
         public CriteriaInputType()
         {
-            Name = "FetchInput";
+            Name = "CriteriaInput";
             Field<NonNullGraphType<IntGraphType>>("categoryId");
             Field<IntGraphType>("offset");
-            Field<IntGraphType>("count");
+            Field<IntGraphType>("limit");
         }
     }
 }

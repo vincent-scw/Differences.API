@@ -9,7 +9,7 @@ namespace Differences.Interaction.Models
     public class User : AggregateRoot
     {
         [ExcludeFromCodeCoverage]
-        private User() { }
+        public User() { }
 
         public User(Guid globalId, string displayName, string email, string avatarUrl)
             : this()

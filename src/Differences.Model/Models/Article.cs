@@ -10,7 +10,7 @@ namespace Differences.Interaction.Models
     public class Article : AggregateRoot
     {
         [ExcludeFromCodeCoverage]
-        private Article()
+        public Article()
         {
             UpdateHistories = new List<ArticleUpdateHistory>();
         }
