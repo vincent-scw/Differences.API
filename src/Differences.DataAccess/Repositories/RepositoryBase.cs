@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Differences.DataAccess.Repositories
 {
-    public class RepositoryBase<TEntity> : IRepository<TEntity>
+    public abstract class RepositoryBase<TEntity> : IRepository<TEntity>
         where TEntity : AggregateRoot
     {
         private readonly DifferencesDbContext _dbContext;
@@ -22,9 +22,11 @@ namespace Differences.DataAccess.Repositories
             _dbContext = dbContext;
         }
 
+        protected virtual Expression<Func<TEntity, object>>[] DefaultIncludes { get; }
+
         public virtual TEntity Get(int id)
         {
-            return _dbContext.Set<TEntity>().FirstOrDefault(x => x.Id == id);
+            return _dbContext.Set<TEntity>().IncludeEx(DefaultIncludes).FirstOrDefault(x => x.Id == id);
         }
 
         public virtual IQueryable<TEntity> Find(ISpecification<TEntity> spec)
@@ -34,12 +36,12 @@ namespace Differences.DataAccess.Repositories
 
         public virtual IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression)
         {
-            return _dbContext.Set<TEntity>().AsQueryable().Where(expression);
+            return _dbContext.Set<TEntity>().IncludeEx(DefaultIncludes).Where(expression);
         }
 
         public virtual IQueryable<TEntity> GetAll()
         {
-            return _dbContext.Set<TEntity>().AsQueryable();
+            return _dbContext.Set<TEntity>().IncludeEx(DefaultIncludes);
         }
 
         #region Modify
