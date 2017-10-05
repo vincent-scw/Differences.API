@@ -28,7 +28,7 @@ namespace Differences.Api.Mutations
                 {
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var question = context.GetArgument<Question>("question");
-                    return questionService.AskQuestion(question.Title, question.Content, user.GlobalId);
+                    return questionService.AskQuestion(question.Title, question.Content, user.Id);
                 }
             );
 
@@ -41,7 +41,7 @@ namespace Differences.Api.Mutations
                 {
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var article = context.GetArgument<Article>("article");
-                    return articleService.WriteArticle(article.Title, article.Content, user.GlobalId);
+                    return articleService.WriteArticle(article.Title, article.Content, user.Id);
                 }
             );
         }

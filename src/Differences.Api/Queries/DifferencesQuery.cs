@@ -32,7 +32,7 @@ namespace Differences.Api.Queries
                 resolve: context =>
                 {
                     var user = ((GraphQLUserContext) context.UserContext).UserInfo;
-                    return Task.FromResult(userService.FindOrCreate(user.GlobalId, user.DisplayName, user.Email, user.AvatarUrl));
+                    return Task.FromResult(userService.FindOrCreate(user.Id, user.DisplayName, user.Email, user.AvatarUrl));
                 });
 
             Field<ListGraphType<QuestionType>>(

@@ -16,7 +16,7 @@ namespace Differences.Api.Model
         {
             var userGuidString = claimsPrincipal.FindFirst(x => x.Type.Equals(Claims_ObjectId)).Value;
             Guid.TryParse(userGuidString, out Guid userGuid);
-            this.GlobalId = userGuid;
+            this.Id = userGuid;
 
             this.DisplayName = claimsPrincipal.FindFirst(x => x.Type.Equals(Claims_Name)).Value;
             this.Email = claimsPrincipal.FindFirst(x => x.Type.Equals(Claims_Emails)).Value; // Only 1 email is allowed
@@ -25,6 +25,6 @@ namespace Differences.Api.Model
         public string DisplayName { get; }
         public string Email { get; }
         public string AvatarUrl { get; }
-        public Guid GlobalId { get; }
+        public Guid Id { get; }
     }
 }
