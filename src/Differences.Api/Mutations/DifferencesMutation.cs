@@ -11,7 +11,7 @@ using Differences.Domain.Articles;
 
 namespace Differences.Api.Mutations
 {
-    public partial class DifferencesMutation : ObjectGraphType<object>
+    public class DifferencesMutation : ObjectGraphType<object>
     {
         public DifferencesMutation(
             IQuestionService questionService,
@@ -22,7 +22,7 @@ namespace Differences.Api.Mutations
             Field<QuestionType>(
                 "submitQuestion",
                 arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<QuestionInputType>> { Name = "question"}
+                    new QueryArgument<NonNullGraphType<SubjectInputType>> { Name = "question"}
                 ),
                 resolve: context =>
                 {
@@ -32,10 +32,23 @@ namespace Differences.Api.Mutations
                 }
             );
 
+            Field<AnswerType>(
+                "submitAnswer",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<ReplyInputType>> { Name = "answer" }
+                ),
+                resolve: context =>
+                {
+                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
+                    var question = context.GetArgument<Answer>("answer");
+                    return questionService.AddAnswer(question.QuestionId, null, question.Content, user.Id);
+                }
+            );
+
             Field<ArticleType>(
                 "submitArticle",
                 arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<ArticleInputType>> { Name ="article"}
+                    new QueryArgument<NonNullGraphType<SubjectInputType>> { Name ="article"}
                     ),
                 resolve: context =>
                 {

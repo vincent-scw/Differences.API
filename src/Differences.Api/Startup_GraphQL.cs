@@ -21,11 +21,11 @@ namespace Differences.Api
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
 
             services.AddTransient<UserType>();
-            services.AddTransient<ReplyType>();
+            services.AddTransient<AnswerType>();
             services.AddTransient<ArticleType>();
             services.AddTransient<QuestionType>();
-            services.AddTransient<ArticleInputType>();
-            services.AddTransient<QuestionInputType>();
+            services.AddTransient<ReplyInputType>();
+            services.AddTransient<SubjectInputType>();
             services.AddTransient<CriteriaInputType>();
 
             services.AddScoped<DifferencesQuery>();

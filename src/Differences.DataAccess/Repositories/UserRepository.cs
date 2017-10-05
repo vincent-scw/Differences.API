@@ -18,9 +18,14 @@ namespace Differences.DataAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public User Get(Guid globalId)
+        public bool Exists(Guid userId)
         {
-            return _dbContext.Users.SingleOrDefault(x => x.Id == globalId);
+            return _dbContext.Users.Any(x => x.Id == userId);
+        }
+
+        public User Get(Guid userId)
+        {
+            return _dbContext.Users.SingleOrDefault(x => x.Id == userId);
         }
 
         public User Add(User user)

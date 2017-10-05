@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Differences.Api.Model
 {
-    public class ArticleInputType : InputObjectGraphType
+    public class ReplyInputType : InputObjectGraphType
     {
-        public ArticleInputType()
+        public ReplyInputType()
         {
-            Name = "ArticleInput";
+            Name = "ReplyInput";
 
-            Field<NonNullGraphType<StringGraphType>>("title");
+            Field<NonNullGraphType<IntGraphType>>("subjectId");
             Field<NonNullGraphType<StringGraphType>>("content");
-            Field<NonNullGraphType<IntGraphType>>("categoryId");
+            Field<IntGraphType>("parentId");
         }
     }
 }

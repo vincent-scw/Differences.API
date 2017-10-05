@@ -7,9 +7,9 @@ using GraphQL.Types;
 
 namespace Differences.Api.Model
 {
-    public class ReplyType : ObjectGraphType<Answer>
+    public class AnswerType : ObjectGraphType<Answer>
     {
-        public ReplyType()
+        public AnswerType()
         {
             Field(x => x.Id);
             Field(x => x.Content);

@@ -12,7 +12,7 @@ namespace Differences.Interaction.Models
         [ExcludeFromCodeCoverage]
         public Question()
         {
-            Replies = new List<Answer>();
+            //Answers = new List<Answer>();
         }
 
         public Question(string title, string content, Guid ownerId)
@@ -34,7 +34,7 @@ namespace Differences.Interaction.Models
         [ForeignKey("OwnerId")]
         public User Owner { get; private set; }
         [ForeignKey("QuestionId")]
-        public IList<Answer> Replies { get; private set; }
+        public virtual ICollection<Answer> Answers { get; private set; }
 
         public void Update(string title, string content)
         {
@@ -43,9 +43,9 @@ namespace Differences.Interaction.Models
             LastUpdateTime = DateTime.Now;
         }
 
-        public void AddReply(Answer reply)
+        public void AddAnswer(Answer reply)
         {
-            Replies.Add(reply);
+            Answers.Add(reply);
         }
     }
 }

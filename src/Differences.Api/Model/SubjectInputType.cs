@@ -6,11 +6,11 @@ using GraphQL.Types;
 
 namespace Differences.Api.Model
 {
-    public class QuestionInputType : InputObjectGraphType
+    public class SubjectInputType : InputObjectGraphType
     {
-        public QuestionInputType()
+        public SubjectInputType()
         {
-            Name = "QuestionInput";
+            Name = "SubjectInput";
             Field<NonNullGraphType<StringGraphType>>("title");
             Field<NonNullGraphType<StringGraphType>>("content");
             Field<NonNullGraphType<IntGraphType>>("categoryId");

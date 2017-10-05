@@ -13,23 +13,22 @@ namespace Differences.Domain.Questions
     public class QuestionService : IQuestionService
     {
         private readonly IQuestionRepository _questionRepository;
-        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
         public QuestionService(
             IQuestionRepository questionRepository,
-            IUserService userService)
+            IUserRepository userRepository)
         {
             _questionRepository = questionRepository;
-            _userService = userService;
+            _userRepository = userRepository;
         }
 
         public Question AskQuestion(string title, string content, Guid userGuid)
         {
-            var user = _userService.GetUserInfo(userGuid);
-            if (user == null)
+            if (!_userRepository.Exists(userGuid))
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            var result = _questionRepository.Add(new Question(title, content, user.Id));
+            var result = _questionRepository.Add(new Question(title, content, userGuid));
             _questionRepository.SaveChanges();
             return result;
         }
@@ -39,18 +38,17 @@ namespace Differences.Domain.Questions
             return _questionRepository.GetAll().ToList();
         }
 
-        public Answer AddReply(int questionId, int? parentReplyId, string content, Guid userGuid)
+        public Answer AddAnswer(int questionId, int? parentReplyId, string content, Guid userGuid)
         {
             var question = _questionRepository.Get(questionId);
             if (question == null)
                 throw new DefinedException {ErrorCode = ErrorDefinitions.Question.QuestionNotExists};
 
-            var user = _userService.GetUserInfo(userGuid);
-            if (user == null)
+            if (!_userRepository.Exists(userGuid))
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            var reply = new Answer(questionId, parentReplyId, content, user.Id);
-            question.AddReply(reply);
+            var reply = new Answer(questionId, parentReplyId, content, userGuid);
+            question.AddAnswer(reply);
 
             _questionRepository.SaveChanges();
             return reply;

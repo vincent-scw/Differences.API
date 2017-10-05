@@ -16,14 +16,9 @@ namespace Differences.Domain.Users
             _userRepository = userRepository;
         }
 
-        public User GetUserInfo(Guid globalId)
-        {
-            return _userRepository.Get(globalId);
-        }
-
         public User FindOrCreate(Guid globalId, string displayName, string email, string avatarUrl)
         {
-            var user = this.GetUserInfo(globalId);
+            var user = _userRepository.Get(globalId);
             if (user != null)
                 return user;
 

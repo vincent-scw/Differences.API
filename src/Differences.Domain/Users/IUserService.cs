@@ -7,7 +7,6 @@ namespace Differences.Domain.Users
 {
     public interface IUserService
     {
-        User GetUserInfo(Guid globalId);
         User FindOrCreate(Guid globalId, string displayName, string email, string avatarUrl);
         IReadOnlyList<User> GetTopReputationUsers(int categoryId, int topCount = 20);
     }

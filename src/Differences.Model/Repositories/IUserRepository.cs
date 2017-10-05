@@ -8,7 +8,9 @@ namespace Differences.Interaction.Repositories
 {
     public interface IUserRepository
     {
-        User Get(Guid globalId);
+        bool Exists(Guid userId);
+
+        User Get(Guid userId);
 
         User Add(User user);
 

@@ -20,9 +20,9 @@ namespace Differences.DataAccess.Repositories
             (x => x.Owner)
         };
 
-        public IReadOnlyList<Answer> GetReplies(int questionId)
+        public IReadOnlyList<Answer> GetAnswers(int questionId)
         {
-            return this.Get(questionId).Replies.ToList();
+            return DbContext.Answers.Where(x => x.QuestionId == questionId).OrderByDescending(x => x.CreateTime).ToList();
         }
     }
 }
