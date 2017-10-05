@@ -7,5 +7,6 @@ namespace Differences.Interaction.Repositories
 {
     public interface IQuestionRepository : IRepository<Question>
     {
+        IReadOnlyList<Answer> GetReplies(int questionId);
     }
 }

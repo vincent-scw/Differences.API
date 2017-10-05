@@ -15,7 +15,7 @@ namespace Differences.DataAccess
         public DbSet<Article> Articles { get; set; }
         public DbSet<ArticleUpdateHistory> ArticleUpdateHistories { get; set; }
         public DbSet<Question> Questions { get; set; }
-        public DbSet<Reply> Answers { get; set; }
+        public DbSet<Answer> Answers { get; set; }
         public DbSet<Comment> Comments { get; set; }
     }
 }

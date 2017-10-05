@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using Differences.Interaction.Models;
@@ -18,5 +19,10 @@ namespace Differences.DataAccess.Repositories
         {
             (x => x.Owner)
         };
+
+        public IReadOnlyList<Answer> GetReplies(int questionId)
+        {
+            return this.Get(questionId).Replies.ToList();
+        }
     }
 }

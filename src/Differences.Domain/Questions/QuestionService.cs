@@ -39,7 +39,7 @@ namespace Differences.Domain.Questions
             return _questionRepository.GetAll().ToList();
         }
 
-        public Reply AddReply(int questionId, int? parentReplyId, string content, Guid userGuid)
+        public Answer AddReply(int questionId, int? parentReplyId, string content, Guid userGuid)
         {
             var question = _questionRepository.Get(questionId);
             if (question == null)
@@ -49,7 +49,7 @@ namespace Differences.Domain.Questions
             if (user == null)
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            var reply = new Reply(questionId, parentReplyId, content, user.Id);
+            var reply = new Answer(questionId, parentReplyId, content, user.Id);
             question.AddReply(reply);
 
             _questionRepository.SaveChanges();

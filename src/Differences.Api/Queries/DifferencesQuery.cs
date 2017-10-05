@@ -57,6 +57,17 @@ namespace Differences.Api.Queries
                     return Task.FromResult(questionRepository.Get(questionId));
                 });
 
+            Field<ReplyType>(
+                "question_replies",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "questionId" }
+                ),
+                resolve: context =>
+                {
+                    var questionId = context.GetArgument<int>("questionId");
+                    return Task.FromResult(questionRepository.GetReplies(questionId));
+                });
+
             Field<ListGraphType<ArticleType>>(
                 "articles",
                 arguments: new QueryArguments(

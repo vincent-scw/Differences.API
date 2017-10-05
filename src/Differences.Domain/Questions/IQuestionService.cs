@@ -11,6 +11,6 @@ namespace Differences.Domain.Questions
         Question AskQuestion(string title, string content, Guid userGuid);
         IReadOnlyList<Question> GetQuestionsByCategory(int categoryId);
 
-        Reply AddReply(int questionId, int? parentReplyId, string content, Guid userGuid);
+        Answer AddReply(int questionId, int? parentReplyId, string content, Guid userGuid);
     }
 }

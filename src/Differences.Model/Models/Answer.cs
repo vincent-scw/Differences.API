@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Differences.Interaction.Models
 {
-    public class Reply : Entity
+    public class Answer : Entity
     {
         [ExcludeFromCodeCoverage]
-        public Reply() { }
+        public Answer() { }
 
-        public Reply(int questionId, string content, Guid ownerId)
+        public Answer(int questionId, string content, Guid ownerId)
             : this()
         {
             QuestionId = questionId;
@@ -20,7 +20,7 @@ namespace Differences.Interaction.Models
             OwnerId = ownerId;
         }
 
-        public Reply(int questionId, int? parentReplyId, string content, Guid ownerId)
+        public Answer(int questionId, int? parentReplyId, string content, Guid ownerId)
             : this(questionId, content, ownerId)
         {
             ParentReplyId = parentReplyId;

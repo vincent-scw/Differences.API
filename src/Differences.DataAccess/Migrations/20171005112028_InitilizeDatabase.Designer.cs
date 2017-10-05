@@ -12,7 +12,7 @@ using System;
 namespace Differences.DataAccess.Migrations
 {
     [DbContext(typeof(DifferencesDbContext))]
-    [Migration("20171005102402_InitilizeDatabase")]
+    [Migration("20171005112028_InitilizeDatabase")]
     partial class InitilizeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,39 @@ namespace Differences.DataAccess.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Differences.Interaction.Models.Answer", b =>
+                {
+                    b.Property<int>("Id")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(400);
+
+                    b.Property<DateTime>("CreateTime");
+
+                    b.Property<Guid>("CreatedBy");
+
+                    b.Property<DateTime?>("LastUpdateTime");
+
+                    b.Property<Guid?>("LastUpdatedBy");
+
+                    b.Property<Guid>("OwnerId");
+
+                    b.Property<int?>("ParentReplyId");
+
+                    b.Property<int>("QuestionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Answers");
+                });
 
             modelBuilder.Entity("Differences.Interaction.Models.Article", b =>
                 {
@@ -144,39 +177,6 @@ namespace Differences.DataAccess.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("Differences.Interaction.Models.Reply", b =>
-                {
-                    b.Property<int>("Id")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(400);
-
-                    b.Property<DateTime>("CreateTime");
-
-                    b.Property<Guid>("CreatedBy");
-
-                    b.Property<DateTime?>("LastUpdateTime");
-
-                    b.Property<Guid?>("LastUpdatedBy");
-
-                    b.Property<Guid>("OwnerId");
-
-                    b.Property<int?>("ParentReplyId");
-
-                    b.Property<int>("QuestionId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("Answers");
-                });
-
             modelBuilder.Entity("Differences.Interaction.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -205,6 +205,19 @@ namespace Differences.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Differences.Interaction.Models.Answer", b =>
+                {
+                    b.HasOne("Differences.Interaction.Models.User", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Differences.Interaction.Models.Question")
+                        .WithMany("Replies")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Differences.Interaction.Models.Article", b =>
@@ -241,19 +254,6 @@ namespace Differences.DataAccess.Migrations
                     b.HasOne("Differences.Interaction.Models.User", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Differences.Interaction.Models.Reply", b =>
-                {
-                    b.HasOne("Differences.Interaction.Models.User", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Differences.Interaction.Models.Question")
-                        .WithMany("Replies")
-                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
