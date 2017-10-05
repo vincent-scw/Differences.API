@@ -44,6 +44,11 @@ namespace Differences.DataAccess.Repositories
             return _dbContext.Set<TEntity>().IncludeEx(DefaultIncludes);
         }
 
+        public bool Exists(int id)
+        {
+            return _dbContext.Set<TEntity>().Any(x => x.Id == id);
+        }
+
         #region Modify
         public virtual TEntity Add(TEntity entity)
         {

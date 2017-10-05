@@ -14,6 +14,7 @@ namespace Differences.Interaction.Repositories
         IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression);
         IQueryable<TEntity> Find(ISpecification<TEntity> spec);
         IQueryable<TEntity> GetAll();
+        bool Exists(int id);
 
         TEntity Add(TEntity entity);
         int Remove(int id);
