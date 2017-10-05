@@ -12,7 +12,7 @@ using System;
 namespace Differences.DataAccess.Migrations
 {
     [DbContext(typeof(DifferencesDbContext))]
-    [Migration("20171003050328_InitilizeDatabase")]
+    [Migration("20171005102402_InitilizeDatabase")]
     partial class InitilizeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,16 +28,18 @@ namespace Differences.DataAccess.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AuthorId");
+                    b.Property<Guid>("AuthorId");
 
                     b.Property<string>("Content")
                         .IsRequired();
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime?>("LastUpdateTime");
+
+                    b.Property<Guid?>("LastUpdatedBy");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -63,9 +65,11 @@ namespace Differences.DataAccess.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime?>("LastUpdateTime");
+
+                    b.Property<Guid?>("LastUpdatedBy");
 
                     b.Property<int>("Status");
 
@@ -90,11 +94,13 @@ namespace Differences.DataAccess.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime?>("LastUpdateTime");
 
-                    b.Property<int>("OwnerId");
+                    b.Property<Guid?>("LastUpdatedBy");
+
+                    b.Property<Guid>("OwnerId");
 
                     b.Property<int?>("ParentCommentId");
 
@@ -119,11 +125,13 @@ namespace Differences.DataAccess.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime?>("LastUpdateTime");
 
-                    b.Property<int>("OwnerId");
+                    b.Property<Guid?>("LastUpdatedBy");
+
+                    b.Property<Guid>("OwnerId");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -148,11 +156,13 @@ namespace Differences.DataAccess.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<DateTime?>("LastUpdateTime");
 
-                    b.Property<int>("OwnerId");
+                    b.Property<Guid?>("LastUpdatedBy");
+
+                    b.Property<Guid>("OwnerId");
 
                     b.Property<int?>("ParentReplyId");
 
@@ -169,7 +179,7 @@ namespace Differences.DataAccess.Migrations
 
             modelBuilder.Entity("Differences.Interaction.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd();
 
@@ -178,7 +188,7 @@ namespace Differences.DataAccess.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
@@ -188,10 +198,9 @@ namespace Differences.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<Guid>("GlobalId")
-                        .IsConcurrencyToken();
-
                     b.Property<DateTime?>("LastUpdateTime");
+
+                    b.Property<Guid?>("LastUpdatedBy");
 
                     b.HasKey("Id");
 

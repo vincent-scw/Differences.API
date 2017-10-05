@@ -15,12 +15,15 @@ namespace Differences.Interaction.Models
 
         public ArticleUpdateHistory(int articleId, 
             string content,
-            DataStatus status)
+            DataStatus status,
+            Guid? userId)
             : this()
         {
             ArticleId = articleId;
             Content = content;
             Status = status;
+            LastUpdatedBy = userId;
+            LastUpdateTime = DateTime.Now;
         }
 
         [Required]

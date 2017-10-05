@@ -12,19 +12,11 @@ namespace Differences.Interaction.Models
         Deleted
     }
 
-    public abstract class Entity
+    public abstract class Entity : AuditModel
     {
         [Key]
         [ConcurrencyCheck]
-        public int Id { get; set; }
-
-        [Required]
-        public DateTime CreateTime { get; set; }
-
-        [Required]
-        public int CreatedBy { get; set; }
-
-        public DateTime? LastUpdateTime { get; set; }
+        public int Id { get; protected set; }
 
         public static bool operator ==(Entity a, Entity b)
         {

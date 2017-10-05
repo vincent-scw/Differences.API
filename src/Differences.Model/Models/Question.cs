@@ -15,7 +15,7 @@ namespace Differences.Interaction.Models
             Replies = new List<Reply>();
         }
 
-        public Question(string title, string content, int ownerId)
+        public Question(string title, string content, Guid ownerId)
             : this()
         {
             Title = title;
@@ -30,7 +30,7 @@ namespace Differences.Interaction.Models
         [StringLength(400)]
         public string Content { get; private set; }
         [Required]
-        public int OwnerId { get; private set; }
+        public Guid OwnerId { get; private set; }
         [ForeignKey("OwnerId")]
         public User Owner { get; private set; }
         [ForeignKey("QuestionId")]

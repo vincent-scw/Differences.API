@@ -18,7 +18,7 @@ namespace Differences.Domain.Users
 
         public User GetUserInfo(Guid globalId)
         {
-            return _userRepository.Find(x => x.GlobalId == globalId).SingleOrDefault();
+            return _userRepository.Get(globalId);
         }
 
         public User FindOrCreate(Guid globalId, string displayName, string email, string avatarUrl)

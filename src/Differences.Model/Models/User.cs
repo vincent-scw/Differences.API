@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Differences.Interaction.Models
 {
-    public class User : AggregateRoot
+    public class User : AuditModel
     {
         [ExcludeFromCodeCoverage]
         public User() { }
@@ -14,15 +14,15 @@ namespace Differences.Interaction.Models
         public User(Guid globalId, string displayName, string email, string avatarUrl)
             : this()
         {
-            GlobalId = globalId;
+            Id = globalId;
             DisplayName = displayName;
             Email = email;
             AvatarUrl = avatarUrl;
         }
 
-        [Required]
+        [Key]
         [ConcurrencyCheck]
-        public Guid GlobalId { get; private set; }
+        public Guid Id { get; protected set; }
         [Required]
         [StringLength(100)]
         public string Email { get; private set; }

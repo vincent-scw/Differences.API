@@ -16,7 +16,7 @@ namespace Differences.DataAccess.Repositories
         public override TEntity Add(TEntity entity)
         {
             var added = base.Add(entity);
-            InsertModifyHistory(entity, DataStatus.New);
+            InsertModifyHistory(entity, DataStatus.New, entity.CreatedBy);
             return added;
         }
 
@@ -24,21 +24,21 @@ namespace Differences.DataAccess.Repositories
         {
             var result = base.Remove(id);
             if (result != default(int))
-                InsertRemoveHistory(id);
+                InsertRemoveHistory(id, new Guid());
             return result;
         }
 
         public override TEntity Update(int id, TEntity entity)
         {
             var result = base.Update(id, entity);
-            if (result != default(TEntity))
-                InsertModifyHistory(entity, DataStatus.Normal);
+            if (result != null)
+                InsertModifyHistory(entity, DataStatus.Normal, entity.LastUpdatedBy);
 
             return result;
         }
 
-        protected abstract void InsertModifyHistory(TEntity entity, DataStatus status);
+        protected abstract void InsertModifyHistory(TEntity entity, DataStatus status, Guid? userId);
 
-        protected abstract void InsertRemoveHistory(int id);
+        protected abstract void InsertRemoveHistory(int id, Guid userId);
     }
 }

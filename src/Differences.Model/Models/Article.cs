@@ -17,7 +17,7 @@ namespace Differences.Interaction.Models
 
         public Article(string title,
             string content,
-            int authorId)
+            Guid authorId)
             : this()
         {
             Title = title;
@@ -31,7 +31,7 @@ namespace Differences.Interaction.Models
         [Required]
         public string Content { get; private set; }
         [Required]
-        public int AuthorId { get; private set; }
+        public Guid AuthorId { get; private set; }
         [ForeignKey("AuthorId")]
         public User Author { get; private set; }
         [ForeignKey("ArticleId")]

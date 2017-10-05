@@ -20,14 +20,14 @@ namespace Differences.DataAccess.Repositories
             (x => x.Author)
         };
 
-        protected override void InsertModifyHistory(Article entity, DataStatus status)
+        protected override void InsertModifyHistory(Article entity, DataStatus status, Guid? userId)
         {
-            DbContext.Set<ArticleUpdateHistory>().Add(new ArticleUpdateHistory(entity.Id, entity.Content, status));
+            DbContext.Set<ArticleUpdateHistory>().Add(new ArticleUpdateHistory(entity.Id, entity.Content, status, userId));
         }
 
-        protected override void InsertRemoveHistory(int id)
+        protected override void InsertRemoveHistory(int id, Guid userId)
         {
-            DbContext.Set<ArticleUpdateHistory>().Add(new ArticleUpdateHistory(id, null, DataStatus.Deleted));
+            DbContext.Set<ArticleUpdateHistory>().Add(new ArticleUpdateHistory(id, null, DataStatus.Deleted, userId));
         }
     }
 }
