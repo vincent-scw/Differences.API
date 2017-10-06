@@ -58,7 +58,7 @@ namespace Differences.Api.Queries
                 });
 
             Field<ListGraphType<AnswerType>>(
-                "question_replies",
+                "question_answers",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "questionId" }
                 ),

@@ -12,14 +12,14 @@ namespace Differences.Domain.Articles
     public class ArticleService : IArticleService
     {
         private readonly IArticleRepository _articleRepository;
-        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
         public ArticleService(
             IArticleRepository articleRepository,
-            IUserService userService)
+            IUserRepository userRepository)
         {
             _articleRepository = articleRepository;
-            _userService = userService;
+            _userRepository = userRepository;
         }
 
         public IReadOnlyList<Article> GetArticlesByCategory(int categoryId)
@@ -29,11 +29,10 @@ namespace Differences.Domain.Articles
 
         public Article WriteArticle(string title, string content, Guid userGuid)
         {
-            var user = _userService.GetUserInfo(userGuid);
-            if (user == null)
+            if (!_userRepository.Exists(userGuid))
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            var article = new Article(title, content, user.Id);
+            var article = new Article(title, content, userGuid);
             _articleRepository.Add(article);
 
             _articleRepository.SaveChanges();
@@ -47,11 +46,10 @@ namespace Differences.Domain.Articles
             if (article == null)
                 throw new DefinedException { ErrorCode = ErrorDefinitions.Article.ArticleNotExists };
 
-            var user = _userService.GetUserInfo(userGuid);
-            if (user == null)
+            if (!_userRepository.Exists(userGuid))
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            var comment = new Comment(articleId, parentCommentId, content, user.Id);
+            var comment = new Comment(articleId, parentCommentId, content, userGuid);
             article.AddComment(comment);
 
             _articleRepository.SaveChanges();
