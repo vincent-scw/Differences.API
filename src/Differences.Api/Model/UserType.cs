@@ -14,7 +14,7 @@ namespace Differences.Api.Model
             Field("id", x => x.Id.ToString());
             Field(x => x.Email);
             Field(x => x.DisplayName);
-            Field(x => x.AvatarUrl);
+            Field(x => x.AvatarUrl, nullable: true);
         }
     }
 }

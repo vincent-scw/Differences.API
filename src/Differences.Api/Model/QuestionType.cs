@@ -14,8 +14,7 @@ namespace Differences.Api.Model
             Field(x => x.Id).Description("The id of the question");
             Field(x => x.Title).Description("The title of the question");
             Field(x => x.Content).Description("The content of the question");
-            //Field(x => x.Owner.Id).Name("OwnerId");
-            //Field(x => x.Owner.DisplayName).Name("OwnerName");
+            Field<UserType>("user", resolve: context => context.Source.Owner);
         }
     }
 }

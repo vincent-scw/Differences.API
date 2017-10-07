@@ -13,6 +13,8 @@ namespace Differences.Api.Model
         {
             Field(x => x.Id);
             Field(x => x.Content);
+
+            Field<UserType>("user", resolve: context => context.Source.Owner);
         }
     }
 }
