@@ -14,6 +14,9 @@ namespace Differences.Api.Model
             Field(x => x.Id).Description("The id of the Article");
             Field(x => x.Title).Description("The title of the Article");
             Field(x => x.Content).Description("The content of the Article");
+            Field(x => x.CreateTime);
+            Field(x => x.LastUpdateTime, nullable: true);
+
             Field<UserType>("user", resolve: context => context.Source.Author);
         }
     }

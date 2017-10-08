@@ -22,7 +22,7 @@ namespace Differences.DataAccess.Repositories
 
         public IReadOnlyList<Answer> GetAnswers(int questionId)
         {
-            return DbContext.Answers.Where(x => x.QuestionId == questionId).OrderByDescending(x => x.CreateTime).ToList();
+            return DbContext.Set<Answer>().IncludeEx(x => x.Owner).Where(x => x.QuestionId == questionId).OrderByDescending(x => x.CreateTime).ToList();
         }
     }
 }

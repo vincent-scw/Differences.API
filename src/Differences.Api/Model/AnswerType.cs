@@ -13,6 +13,8 @@ namespace Differences.Api.Model
         {
             Field(x => x.Id);
             Field(x => x.Content);
+            Field(x => x.CreateTime);
+            Field(x => x.LastUpdateTime, nullable: true);
 
             Field<UserType>("user", resolve: context => context.Source.Owner);
         }
