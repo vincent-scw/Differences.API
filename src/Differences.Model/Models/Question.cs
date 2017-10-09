@@ -45,6 +45,8 @@ namespace Differences.Interaction.Models
 
         public void AddAnswer(Answer reply)
         {
+            reply.CreateTime = DateTime.Now;
+            reply.CreatedBy = reply.OwnerId;
             Answers.Add(reply);
         }
     }

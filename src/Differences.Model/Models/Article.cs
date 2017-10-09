@@ -48,6 +48,8 @@ namespace Differences.Interaction.Models
 
         public void AddComment(Comment comment)
         {
+            comment.CreateTime = DateTime.Now;
+            comment.CreatedBy = comment.OwnerId;
             Comments.Add(comment);
         }
     }
