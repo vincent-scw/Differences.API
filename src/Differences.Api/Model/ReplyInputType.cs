@@ -17,4 +17,11 @@ namespace Differences.Api.Model
             Field<IntGraphType>("parentId");
         }
     }
+
+    public class ReplyModel
+    {
+        public int SubjectId { get; set; }
+        public string Content { get; set; }
+        public int? ParentId { get; set; }
+    }
 }

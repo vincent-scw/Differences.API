@@ -16,4 +16,11 @@ namespace Differences.Api.Model
             Field<NonNullGraphType<IntGraphType>>("categoryId");
         }
     }
+
+    public class SubjectModel
+    {
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public int CategoryId { get; set; }
+    }
 }

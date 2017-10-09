@@ -12,7 +12,7 @@ namespace Differences.Interaction.Models
         [ExcludeFromCodeCoverage]
         public Question()
         {
-            //Answers = new List<Answer>();
+            Answers = new List<Answer>();
         }
 
         public Question(string title, string content, Guid ownerId)
