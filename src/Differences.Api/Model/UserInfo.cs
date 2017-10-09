@@ -8,7 +8,7 @@ namespace Differences.Api.Model
 {
     public class UserInfo
     {
-        private const string Claims_ObjectId = "aud";
+        private const string Claims_ObjectId = "oid";
         private const string Claims_Name = "name";
         private const string Claims_Emails = "emails";
 
