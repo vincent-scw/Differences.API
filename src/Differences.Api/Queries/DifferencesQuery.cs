@@ -88,6 +88,17 @@ namespace Differences.Api.Queries
                     var articleId = context.GetArgument<int>("id");
                     return Task.FromResult(articleRepository.Get(articleId));
                 });
+
+            Field<ListGraphType<CommentType>>(
+                "article_comments",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "articleId" }
+                ),
+                resolve: context =>
+                {
+                    var articleId = context.GetArgument<int>("articleId");
+                    return Task.FromResult(articleRepository.GetComments(articleId));
+                });
         }
     }
 }
