@@ -13,6 +13,7 @@ namespace Differences.Interaction.Models
         public Article()
         {
             UpdateHistories = new List<ArticleUpdateHistory>();
+            Comments = new List<Comment>();
         }
 
         public Article(string title,
