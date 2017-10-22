@@ -11,6 +11,7 @@ namespace Differences.Api.Model
         public SubjectInputType()
         {
             Name = "SubjectInput";
+            Field<IntGraphType>("id");
             Field<NonNullGraphType<StringGraphType>>("title");
             Field<NonNullGraphType<StringGraphType>>("content");
             Field<NonNullGraphType<IntGraphType>>("categoryId");
@@ -19,6 +20,7 @@ namespace Differences.Api.Model
 
     public class SubjectModel
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public int CategoryId { get; set; }

@@ -12,6 +12,7 @@ namespace Differences.Api.Model
         {
             Name = "ReplyInput";
 
+            Field<IntGraphType>("id");
             Field<NonNullGraphType<IntGraphType>>("subjectId");
             Field<NonNullGraphType<StringGraphType>>("content");
             Field<IntGraphType>("parentId");
@@ -20,6 +21,7 @@ namespace Differences.Api.Model
 
     public class ReplyModel
     {
+        public int Id { get; set; }
         public int SubjectId { get; set; }
         public string Content { get; set; }
         public int? ParentId { get; set; }

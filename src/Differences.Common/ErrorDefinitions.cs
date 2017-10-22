@@ -10,16 +10,22 @@ namespace Differences.Common
         {
             public const string UserNotFound = "U10001";
             public const string UserNotAuthenticated = "U10002";
+
+            public const string AccessDenied = "U10009";
         }
 
         public static class Article
         {
-            public const string ArticleNotExists = "A100001";
+            public const string ArticleNotExists = "A10001";
+
+            public const string CommentNotExists = "A20001";
         }
 
         public static class Question
         {
             public const string QuestionNotExists = "Q10001";
+
+            public const string AnswerNotExists = "Q20001";
         }
     }
 }

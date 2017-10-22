@@ -27,7 +27,7 @@ namespace Differences.Domain.Articles
             return _articleRepository.GetAll().ToList();
         }
 
-        public Article WriteArticle(string title, string content, Guid userGuid)
+        public Article WriteArticle(int categoryId, string title, string content, Guid userGuid)
         {
             if (!_userRepository.Exists(userGuid))
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
@@ -37,6 +37,20 @@ namespace Differences.Domain.Articles
 
             _articleRepository.SaveChanges();
 
+            return article;
+        }
+
+        public Article UpdateArticle(int articleId, int categoryId, string title, string content, Guid userGuid)
+        {
+            var article = _articleRepository.Get(articleId);
+            if (article == null)
+                throw new DefinedException { ErrorCode = ErrorDefinitions.Article.ArticleNotExists };
+
+            if (article.AuthorId != userGuid)
+                throw new DefinedException {ErrorCode = ErrorDefinitions.User.AccessDenied};
+
+            article.Update(title, content);
+            _articleRepository.SaveChanges();
             return article;
         }
 
@@ -54,6 +68,20 @@ namespace Differences.Domain.Articles
 
             _articleRepository.SaveChanges();
 
+            return comment;
+        }
+
+        public Comment UpdateComment(int commentId, string content, Guid userGuid)
+        {
+            var comment = _articleRepository.GetComment(commentId);
+            if (comment == null)
+                throw new DefinedException {ErrorCode = ErrorDefinitions.Article.CommentNotExists};
+
+            if (comment.OwnerId != userGuid)
+                throw new DefinedException {ErrorCode = ErrorDefinitions.User.AccessDenied};
+
+            comment.Update(content);
+            _articleRepository.SaveChanges();
             return comment;
         }
     }

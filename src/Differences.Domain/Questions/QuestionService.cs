@@ -33,6 +33,23 @@ namespace Differences.Domain.Questions
             return result;
         }
 
+        public Question UpdateQuestion(int questionId, string title, string content, Guid userGuid)
+        {
+            if (!_userRepository.Exists(userGuid))
+                throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
+
+            var question = _questionRepository.Get(questionId);
+            if (question == null)
+                throw new DefinedException {ErrorCode = ErrorDefinitions.Question.QuestionNotExists};
+
+            if (question.OwnerId != userGuid)
+                throw new DefinedException {ErrorCode = ErrorDefinitions.User.AccessDenied};
+
+            question.Update(title, content);
+            _questionRepository.SaveChanges();
+            return question;
+        }
+
         public IReadOnlyList<Question> GetQuestionsByCategory(int categoryId)
         {
             return _questionRepository.GetAll().ToList();
@@ -52,6 +69,20 @@ namespace Differences.Domain.Questions
 
             _questionRepository.SaveChanges();
             return reply;
+        }
+
+        public Answer UpdateAnswer(int answerId, string content, Guid userGuid)
+        {
+            var answer = _questionRepository.GetAnswer(answerId);
+            if (answer == null)
+                throw new DefinedException {ErrorCode = ErrorDefinitions.Question.AnswerNotExists};
+
+            if (answer.OwnerId != userGuid)
+                throw new DefinedException {ErrorCode = ErrorDefinitions.User.AccessDenied};
+
+            answer.Update(content);
+            _questionRepository.SaveChanges();
+            return answer;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Differences.Api.Mutations
         {
             Name = "DifferencesMutation";
 
+            #region Question
             Field<QuestionType>(
                 "submitQuestion",
                 arguments: new QueryArguments(
@@ -29,6 +30,19 @@ namespace Differences.Api.Mutations
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var question = context.GetArgument<SubjectModel>("question");
                     return questionService.AskQuestion(question.Title, question.Content, user.Id);
+                }
+            );
+
+            Field<QuestionType>(
+                "updateQuestion",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<SubjectInputType>> { Name = "question" }
+                ),
+                resolve: context =>
+                {
+                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
+                    var question = context.GetArgument<SubjectModel>("question");
+                    return questionService.UpdateQuestion(question.Id, question.Title, question.Content, user.Id);
                 }
             );
 
@@ -45,6 +59,21 @@ namespace Differences.Api.Mutations
                 }
             );
 
+            Field<AnswerType>(
+                "updateAnswer",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<ReplyInputType>> { Name = "answer" }
+                ),
+                resolve: context =>
+                {
+                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
+                    var answer = context.GetArgument<ReplyModel>("answer");
+                    return questionService.UpdateAnswer(answer.Id, answer.Content, user.Id);
+                }
+            );
+            #endregion
+
+            #region Article
             Field<ArticleType>(
                 "submitArticle",
                 arguments: new QueryArguments(
@@ -54,7 +83,20 @@ namespace Differences.Api.Mutations
                 {
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var article = context.GetArgument<SubjectModel>("article");
-                    return articleService.WriteArticle(article.Title, article.Content, user.Id);
+                    return articleService.WriteArticle(article.CategoryId, article.Title, article.Content, user.Id);
+                }
+            );
+
+            Field<ArticleType>(
+                "updateArticle",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<SubjectInputType>> { Name = "article" }
+                ),
+                resolve: context =>
+                {
+                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
+                    var article = context.GetArgument<SubjectModel>("article");
+                    return articleService.UpdateArticle(article.Id, article.CategoryId, article.Title, article.Content, user.Id);
                 }
             );
 
@@ -70,6 +112,21 @@ namespace Differences.Api.Mutations
                     return articleService.AddComment(comment.SubjectId, null, comment.Content, user.Id);
                 }
             );
+
+            Field<CommentType>(
+                "updateComment",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<ReplyInputType>> { Name = "comment" }
+                ),
+                resolve: context =>
+                {
+                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
+                    var comment = context.GetArgument<ReplyModel>("comment");
+                    return articleService.UpdateComment(comment.Id, comment.Content, user.Id);
+                }
+            );
+
+            #endregion
         }
     }
 }

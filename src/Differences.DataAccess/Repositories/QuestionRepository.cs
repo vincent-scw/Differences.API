@@ -24,5 +24,11 @@ namespace Differences.DataAccess.Repositories
         {
             return DbContext.Set<Answer>().IncludeEx(x => x.Owner).Where(x => x.QuestionId == questionId).OrderByDescending(x => x.CreateTime).ToList();
         }
+
+        public Answer GetAnswer(int answerId)
+        {
+            var retval = DbContext.Set<Answer>().IncludeEx(x => x.Owner).FirstOrDefault(x => x.Id == answerId);
+            return retval;
+        }
     }
 }

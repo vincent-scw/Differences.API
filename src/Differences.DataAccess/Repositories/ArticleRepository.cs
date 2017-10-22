@@ -35,5 +35,10 @@ namespace Differences.DataAccess.Repositories
         {
             return DbContext.Set<Comment>().IncludeEx(x => x.Owner).Where(x => x.ArticleId == articleId).OrderByDescending(x => x.CreateTime).ToList();
         }
+
+        public Comment GetComment(int commentId)
+        {
+            return DbContext.Set<Comment>().IncludeEx(x => x.Owner).FirstOrDefault(x => x.Id == commentId);
+        }
     }
 }
