@@ -13,7 +13,7 @@ namespace Differences.Api.Model
             Name = "ReplyInput";
 
             Field<IntGraphType>("id");
-            Field<NonNullGraphType<IntGraphType>>("subjectId");
+            Field<IntGraphType>("subjectId");
             Field<NonNullGraphType<StringGraphType>>("content");
             Field<IntGraphType>("parentId");
         }

@@ -29,20 +29,9 @@ namespace Differences.Api.Mutations
                 {
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var question = context.GetArgument<SubjectModel>("question");
-                    return questionService.AskQuestion(question.Title, question.Content, user.Id);
-                }
-            );
-
-            Field<QuestionType>(
-                "updateQuestion",
-                arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<SubjectInputType>> { Name = "question" }
-                ),
-                resolve: context =>
-                {
-                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
-                    var question = context.GetArgument<SubjectModel>("question");
-                    return questionService.UpdateQuestion(question.Id, question.Title, question.Content, user.Id);
+                    return question.Id == 0
+                        ? questionService.AskQuestion(question.Title, question.Content, user.Id)
+                        : questionService.UpdateQuestion(question.Id, question.Title, question.Content, user.Id);
                 }
             );
 
@@ -55,20 +44,9 @@ namespace Differences.Api.Mutations
                 {
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var answer = context.GetArgument<ReplyModel>("answer");
-                    return questionService.AddAnswer(answer.SubjectId, null, answer.Content, user.Id);
-                }
-            );
-
-            Field<AnswerType>(
-                "updateAnswer",
-                arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<ReplyInputType>> { Name = "answer" }
-                ),
-                resolve: context =>
-                {
-                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
-                    var answer = context.GetArgument<ReplyModel>("answer");
-                    return questionService.UpdateAnswer(answer.Id, answer.Content, user.Id);
+                    return answer.Id == 0 
+                        ? questionService.AddAnswer(answer.SubjectId, null, answer.Content, user.Id)
+                        : questionService.UpdateAnswer(answer.Id, answer.Content, user.Id);
                 }
             );
             #endregion
@@ -83,20 +61,9 @@ namespace Differences.Api.Mutations
                 {
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var article = context.GetArgument<SubjectModel>("article");
-                    return articleService.WriteArticle(article.CategoryId, article.Title, article.Content, user.Id);
-                }
-            );
-
-            Field<ArticleType>(
-                "updateArticle",
-                arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<SubjectInputType>> { Name = "article" }
-                ),
-                resolve: context =>
-                {
-                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
-                    var article = context.GetArgument<SubjectModel>("article");
-                    return articleService.UpdateArticle(article.Id, article.CategoryId, article.Title, article.Content, user.Id);
+                    return article.Id == 0
+                        ? articleService.WriteArticle(article.CategoryId, article.Title, article.Content, user.Id)
+                        : articleService.UpdateArticle(article.Id, article.CategoryId, article.Title, article.Content, user.Id);
                 }
             );
 
@@ -109,23 +76,11 @@ namespace Differences.Api.Mutations
                 {
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var comment = context.GetArgument<ReplyModel>("comment");
-                    return articleService.AddComment(comment.SubjectId, null, comment.Content, user.Id);
+                    return comment.Id == 0 
+                        ? articleService.AddComment(comment.SubjectId, null, comment.Content, user.Id)
+                        : articleService.UpdateComment(comment.Id, comment.Content, user.Id);
                 }
             );
-
-            Field<CommentType>(
-                "updateComment",
-                arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<ReplyInputType>> { Name = "comment" }
-                ),
-                resolve: context =>
-                {
-                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
-                    var comment = context.GetArgument<ReplyModel>("comment");
-                    return articleService.UpdateComment(comment.Id, comment.Content, user.Id);
-                }
-            );
-
             #endregion
         }
     }
