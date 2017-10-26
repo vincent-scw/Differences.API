@@ -15,6 +15,7 @@ namespace Differences.Api.Model
             Field(x => x.Content);
             Field(x => x.CreateTime);
             Field(x => x.LastUpdateTime, nullable: true);
+            Field<ListGraphType<AnswerType>>("subReplies", resolve: context => context.Source.SubAnswers);
 
             Field<UserType>("user", resolve: context => context.Source.Owner);
         }

@@ -10,7 +10,10 @@ namespace Differences.Interaction.Models
     public class Answer : Entity
     {
         [ExcludeFromCodeCoverage]
-        public Answer() { }
+        public Answer()
+        {
+            this.SubAnswers = new List<Answer>();
+        }
 
         public Answer(int questionId, string content, Guid ownerId)
             : this()
@@ -36,6 +39,8 @@ namespace Differences.Interaction.Models
         public Guid OwnerId { get; private set; }
         [ForeignKey("OwnerId")]
         public User Owner { get; private set; }
+        [NotMapped]
+        public List<Answer> SubAnswers { get; set; }
 
         public void Update(string content)
         {

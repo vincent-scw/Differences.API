@@ -65,7 +65,7 @@ namespace Differences.Api.Queries
                 resolve: context =>
                 {
                     var questionId = context.GetArgument<int>("questionId");
-                    return Task.FromResult(questionRepository.GetAnswers(questionId));
+                    return Task.FromResult(questionService.GetAnswersByQuestionId(questionId));
                 });
 
             Field<ListGraphType<ArticleType>>(

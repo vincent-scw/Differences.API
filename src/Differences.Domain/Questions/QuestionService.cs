@@ -55,6 +55,20 @@ namespace Differences.Domain.Questions
             return _questionRepository.GetAll().ToList();
         }
 
+        public IReadOnlyList<Answer> GetAnswersByQuestionId(int questionId)
+        {
+            var answers = _questionRepository.GetAnswers(questionId);
+            var firstLevel = answers.Where(x => x.ParentReplyId == null).ToList();
+            var secondLevel = answers.Where(x => x.ParentReplyId != null).ToList();
+
+            firstLevel.ForEach(f =>
+            {
+                f.SubAnswers.AddRange(secondLevel.Where(s => s.ParentReplyId == f.Id).OrderBy(x => x.CreateTime));
+            });
+
+            return firstLevel.OrderByDescending(x => x.CreateTime).ToList();
+        }
+
         public Answer AddAnswer(int questionId, int? parentReplyId, string content, Guid userGuid)
         {
             var question = _questionRepository.Get(questionId);
