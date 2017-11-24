@@ -15,14 +15,7 @@ namespace Differences.Api.Model
             Field<NonNullGraphType<StringGraphType>>("title");
             Field<NonNullGraphType<StringGraphType>>("content");
             Field<NonNullGraphType<IntGraphType>>("categoryId");
+            Field<StringGraphType>("tags");
         }
-    }
-
-    public class SubjectModel
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public int CategoryId { get; set; }
     }
 }

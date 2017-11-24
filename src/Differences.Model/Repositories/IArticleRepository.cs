@@ -1,7 +1,5 @@
-﻿using Differences.Interaction.Models;
-using System;
+﻿using Differences.Interaction.EntityModels;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Differences.Interaction.Repositories
 {

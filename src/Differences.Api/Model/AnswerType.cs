@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Differences.Interaction.Models;
+using Differences.Interaction.EntityModels;
 using GraphQL.Types;
 
 namespace Differences.Api.Model

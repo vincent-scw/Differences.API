@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using Differences.Interaction.Models;
+using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
 using Microsoft.Extensions.Options;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Differences.Interaction.Models;
+using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
 
 namespace Differences.Domain.Users

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Differences.Interaction.Models;
+using Differences.Interaction.EntityModels;
 
 namespace Differences.Domain.Users
 {

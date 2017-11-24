@@ -1,4 +1,4 @@
-﻿using Differences.Interaction.Models;
+﻿using Differences.Interaction.EntityModels;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Differences.Interaction.Models
+namespace Differences.Interaction.EntityModels
 {
     public abstract class AggregateRoot : Entity
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Differences.Common;
 using Differences.Domain.Users;
-using Differences.Interaction.Models;
+using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
 
 namespace Differences.Domain.Questions

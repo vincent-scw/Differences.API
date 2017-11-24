@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace Differences.Interaction.Models
+namespace Differences.Interaction.EntityModels
 {
     public class Question : AggregateRoot
     {
@@ -29,6 +29,8 @@ namespace Differences.Interaction.Models
         [Required]
         [StringLength(400)]
         public string Content { get; private set; }
+        [Required]
+        public int CategoryId { get; private set; }
         [Required]
         public Guid OwnerId { get; private set; }
         [ForeignKey("OwnerId")]

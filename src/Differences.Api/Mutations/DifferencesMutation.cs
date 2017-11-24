@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Differences.Api.Model;
-using Differences.Interaction.Models;
-using Differences.Interaction.Repositories;
-using GraphQL.Types;
-using Differences.Domain.Questions;
+﻿using Differences.Api.Model;
 using Differences.Domain.Articles;
+using Differences.Domain.Questions;
+using Differences.Interaction.DataTransferModels;
+using GraphQL.Types;
 
 namespace Differences.Api.Mutations
 {
@@ -62,8 +57,8 @@ namespace Differences.Api.Mutations
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var article = context.GetArgument<SubjectModel>("article");
                     return article.Id == 0
-                        ? articleService.WriteArticle(article.CategoryId, article.Title, article.Content, user.Id)
-                        : articleService.UpdateArticle(article.Id, article.CategoryId, article.Title, article.Content, user.Id);
+                        ? articleService.WriteArticle(article, user.Id)
+                        : articleService.UpdateArticle(article, user.Id);
                 }
             );
 

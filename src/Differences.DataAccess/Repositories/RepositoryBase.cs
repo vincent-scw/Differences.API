@@ -1,4 +1,4 @@
-﻿using Differences.Interaction.Models;
+﻿using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
 using Microsoft.Extensions.Options;
 using System;

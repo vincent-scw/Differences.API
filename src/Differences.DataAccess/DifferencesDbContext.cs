@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Differences.Interaction.Models;
+using Differences.Interaction.EntityModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Differences.DataAccess

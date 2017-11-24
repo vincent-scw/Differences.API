@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
+using Differences.Interaction.DataTransferModels;
 
-namespace Differences.Interaction.Models
+namespace Differences.Interaction.EntityModels
 {
     public class Article : AggregateRoot
     {
@@ -16,13 +16,15 @@ namespace Differences.Interaction.Models
             Comments = new List<Comment>();
         }
 
-        public Article(string title,
-            string content,
+        public Article(SubjectModel subject,
             Guid authorId)
             : this()
         {
-            Title = title;
-            Content = content;
+            Title = subject.Title;
+            Content = subject.Content;
+            CategoryId = subject.CategoryId;
+            Tags = subject.Tags;
+
             AuthorId = authorId;
         }
 
@@ -32,6 +34,9 @@ namespace Differences.Interaction.Models
         [Required]
         public string Content { get; private set; }
         [Required]
+        public int CategoryId { get; private set; }
+        public string Tags { get; private set; }
+        [Required]
         public Guid AuthorId { get; private set; }
         [ForeignKey("AuthorId")]
         public User Author { get; private set; }
@@ -40,10 +45,13 @@ namespace Differences.Interaction.Models
         [ForeignKey("ArticleId")]
         public IList<Comment> Comments { get; private set; }
 
-        public void Update(string title, string content)
+        public void Update(SubjectModel subject)
         {
-            Title = title;
-            Content = content;
+            Title = subject.Title;
+            Content = subject.Content;
+            CategoryId = subject.CategoryId;
+            Tags = subject.Tags;
+
             LastUpdateTime = DateTime.Now;
         }
 

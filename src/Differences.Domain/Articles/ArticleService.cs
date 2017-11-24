@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Differences.Common;
-using Differences.Domain.Users;
-using Differences.Interaction.Models;
+using Differences.Interaction.DataTransferModels;
+using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
 
 namespace Differences.Domain.Articles
@@ -27,12 +26,12 @@ namespace Differences.Domain.Articles
             return _articleRepository.GetAll().ToList();
         }
 
-        public Article WriteArticle(int categoryId, string title, string content, Guid userGuid)
+        public Article WriteArticle(SubjectModel subject, Guid userGuid)
         {
             if (!_userRepository.Exists(userGuid))
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            var article = new Article(title, content, userGuid);
+            var article = new Article(subject, userGuid);
             _articleRepository.Add(article);
 
             _articleRepository.SaveChanges();
@@ -40,16 +39,16 @@ namespace Differences.Domain.Articles
             return article;
         }
 
-        public Article UpdateArticle(int articleId, int categoryId, string title, string content, Guid userGuid)
+        public Article UpdateArticle(SubjectModel subject, Guid userGuid)
         {
-            var article = _articleRepository.Get(articleId);
+            var article = _articleRepository.Get(subject.Id);
             if (article == null)
                 throw new DefinedException { ErrorCode = ErrorDefinitions.Article.ArticleNotExists };
 
             if (article.AuthorId != userGuid)
                 throw new DefinedException {ErrorCode = ErrorDefinitions.User.AccessDenied};
 
-            article.Update(title, content);
+            article.Update(subject);
             _articleRepository.SaveChanges();
             return article;
         }

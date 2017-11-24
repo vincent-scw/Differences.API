@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Differences.Interaction.Models;
+using Differences.Interaction.EntityModels;
 
 namespace Differences.DataAccess.Repositories
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Differences.Interaction.Models
+namespace Differences.Interaction.EntityModels
 {
     public abstract class AuditModel
     {

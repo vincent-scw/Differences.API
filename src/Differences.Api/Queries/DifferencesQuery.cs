@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Differences.Api.Model;
 using Differences.Domain.Users;
-using Differences.Interaction.Models;
+using Differences.Interaction.EntityModels;
 using GraphQL.Types;
 using Differences.Interaction.Repositories;
 using Differences.Domain.Questions;

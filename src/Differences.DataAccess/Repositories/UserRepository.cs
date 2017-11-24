@@ -1,11 +1,7 @@
-﻿using Differences.Interaction.Models;
+﻿using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using Microsoft.Extensions.Options;
 
 namespace Differences.DataAccess.Repositories
 {

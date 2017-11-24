@@ -3,31 +3,35 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
-namespace Differences.Interaction.Models
+namespace Differences.Interaction.EntityModels
 {
-    public class Comment : Entity
+    public class Answer : Entity
     {
         [ExcludeFromCodeCoverage]
-        public Comment() { }
+        public Answer()
+        {
+            this.SubAnswers = new List<Answer>();
+        }
 
-        public Comment(int articleId, string content, Guid ownerId)
+        public Answer(int questionId, string content, Guid ownerId)
             : this()
         {
-            ArticleId = articleId;
+            QuestionId = questionId;
             Content = content;
             OwnerId = ownerId;
         }
 
-        public Comment(int articleId, int? parentCommentId, string content, Guid ownerId)
-            : this(articleId, content, ownerId)
+        public Answer(int questionId, int? parentReplyId, string content, Guid ownerId)
+            : this(questionId, content, ownerId)
         {
-            ParentCommentId = parentCommentId;
+            ParentReplyId = parentReplyId;
         }
 
         [Required]
-        public int ArticleId { get; private set; }
-        public int? ParentCommentId { get; private set; }
+        public int QuestionId { get; private set; }
+        public int? ParentReplyId { get; private set; }
         [Required]
         [StringLength(400)]
         public string Content { get; private set; }
@@ -35,6 +39,8 @@ namespace Differences.Interaction.Models
         public Guid OwnerId { get; private set; }
         [ForeignKey("OwnerId")]
         public User Owner { get; private set; }
+        [NotMapped]
+        public List<Answer> SubAnswers { get; set; }
 
         public void Update(string content)
         {

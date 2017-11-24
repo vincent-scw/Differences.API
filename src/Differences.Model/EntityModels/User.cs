@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace Differences.Interaction.Models
+namespace Differences.Interaction.EntityModels
 {
     public class User : AuditModel
     {
