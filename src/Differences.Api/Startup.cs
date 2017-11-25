@@ -131,7 +131,6 @@ namespace Differences.Api
         private static void InjectOthers(IServiceCollection services)
         {
             services.AddScoped<DifferencesDbContext>();
-            services.AddSingleton<CategoryDefinition>();
         }
     }
 }

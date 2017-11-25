@@ -52,7 +52,16 @@ namespace Differences.Domain.Questions
 
         public IReadOnlyList<Question> GetQuestionsByCategory(int categoryId)
         {
-            return _questionRepository.GetAll().ToList();
+            var categoryGroup = CategoryDefinition.GetCategoryGroup(categoryId);
+            if (categoryGroup == null)
+                return _questionRepository.GetAll().Where(x => x.CategoryId == categoryId)
+                    .OrderByDescending(x => x.CreateTime).ToList();
+            else
+            {
+                var ids = categoryGroup.Categories.Select(x => x.Id);
+                return _questionRepository.GetAll().Where(x => ids.Contains(x.CategoryId))
+                    .OrderByDescending(x => x.CreateTime).ToList();
+            }
         }
 
         public IReadOnlyList<Answer> GetAnswersByQuestionId(int questionId)

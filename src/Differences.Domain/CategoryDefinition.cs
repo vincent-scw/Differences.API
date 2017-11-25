@@ -6,9 +6,9 @@ using Differences.Interaction.EntityModels;
 
 namespace Differences.Domain
 {
-    public class CategoryDefinition
+    public static class CategoryDefinition
     {
-        private IList<CategoryGroup> categoryGroups = new List<CategoryGroup>
+        private static IList<CategoryGroup> categoryGroups = new List<CategoryGroup>
         {
             new CategoryGroup(1, "技术", "")
             {
@@ -60,14 +60,14 @@ namespace Differences.Domain
                 }
             }
         };
-        public IList<CategoryGroup> CategoryGroups => categoryGroups;
+        public static IList<CategoryGroup> CategoryGroups => categoryGroups;
 
-        public bool IsCategoryGroup(int id)
+        public static bool IsCategoryGroup(int id)
         {
             return categoryGroups.Any(x => x.Id == id);
         }
 
-        public CategoryGroup GetCategoryGroup(int id)
+        public static CategoryGroup GetCategoryGroup(int id)
         {
             return categoryGroups.FirstOrDefault(x => x.Id == id);
         }
