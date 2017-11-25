@@ -12,18 +12,29 @@ namespace Differences.Domain.Articles
     {
         private readonly IArticleRepository _articleRepository;
         private readonly IUserRepository _userRepository;
+        private readonly CategoryDefinition _categoryDefinition;
 
         public ArticleService(
             IArticleRepository articleRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            CategoryDefinition categoryDefinition)
         {
             _articleRepository = articleRepository;
             _userRepository = userRepository;
+            _categoryDefinition = categoryDefinition;
         }
 
         public IReadOnlyList<Article> GetArticlesByCategory(int categoryId)
         {
-            return _articleRepository.GetAll().ToList();
+            var categoryGroup = _categoryDefinition.GetCategoryGroup(categoryId);
+            if (categoryGroup == null)
+                return _articleRepository.GetAll().Where(x => x.CategoryId == categoryId)
+                    .OrderByDescending(x => x.CreateTime).ToList();
+            else
+            {
+                var ids = categoryGroup.Categories.Select(x => x.Id);
+                return _articleRepository.GetAll().Where(x => ids.Contains(x.CategoryId)).OrderByDescending(x => x.CreateTime).ToList();
+            }
         }
 
         public Article WriteArticle(SubjectModel subject, Guid userGuid)

@@ -8,24 +8,24 @@ namespace Differences.Common
     {
         public static class User
         {
-            public const string UserNotFound = "U10001";
-            public const string UserNotAuthenticated = "U10002";
+            public const string UserNotFound = "UserNotFound";
+            public const string UserNotAuthenticated = "UserNotAuthenticated";
 
-            public const string AccessDenied = "U10009";
+            public const string AccessDenied = "AccessDenied";
         }
 
         public static class Article
         {
-            public const string ArticleNotExists = "A10001";
+            public const string ArticleNotExists = "ArticleNotExists";
 
-            public const string CommentNotExists = "A20001";
+            public const string CommentNotExists = "CommentNotExists";
         }
 
         public static class Question
         {
-            public const string QuestionNotExists = "Q10001";
+            public const string QuestionNotExists = "QuestionNotExists";
 
-            public const string AnswerNotExists = "Q20001";
+            public const string AnswerNotExists = "AnswerNotExists";
         }
     }
 }

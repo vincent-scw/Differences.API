@@ -17,6 +17,7 @@ using Differences.Domain.Questions;
 using Differences.Domain.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using Differences.Domain;
 using Differences.Domain.Articles;
 
 namespace Differences.Api
@@ -130,6 +131,7 @@ namespace Differences.Api
         private static void InjectOthers(IServiceCollection services)
         {
             services.AddScoped<DifferencesDbContext>();
+            services.AddSingleton<CategoryDefinition>();
         }
     }
 }

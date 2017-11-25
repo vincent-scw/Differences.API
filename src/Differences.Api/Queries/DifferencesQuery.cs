@@ -9,6 +9,7 @@ using GraphQL.Types;
 using Differences.Interaction.Repositories;
 using Differences.Domain.Questions;
 using Differences.Domain.Articles;
+using Differences.Interaction.DataTransferModels;
 
 namespace Differences.Api.Queries
 {
@@ -75,7 +76,8 @@ namespace Differences.Api.Queries
                 ),
                 resolve: context =>
                 {
-                    return Task.FromResult(articleService.GetArticlesByCategory(1));
+                    var criteria = context.GetArgument<CriteriaModel>("criteria");
+                    return Task.FromResult(articleService.GetArticlesByCategory(criteria.CategoryId));
                 });
 
             Field<ArticleType>(
