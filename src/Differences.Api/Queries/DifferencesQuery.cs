@@ -46,8 +46,8 @@ namespace Differences.Api.Queries
                 ),
                 resolve: context =>
                 {
-                    
-                    return Task.FromResult(questionService.GetQuestionsByCategory(1));
+                    var criteria = context.GetArgument<CriteriaModel>("criteria");
+                    return Task.FromResult(questionService.GetQuestionsByCategory(criteria.CategoryId));
                 });
 
             Field<QuestionType>(

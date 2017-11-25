@@ -15,11 +15,12 @@ namespace Differences.Interaction.EntityModels
             Answers = new List<Answer>();
         }
 
-        public Question(string title, string content, Guid ownerId)
+        public Question(string title, string content, int categoryId, Guid ownerId)
             : this()
         {
             Title = title;
             Content = content;
+            this.CategoryId = categoryId;
             OwnerId = ownerId;
         }
 
@@ -38,10 +39,11 @@ namespace Differences.Interaction.EntityModels
         [ForeignKey("QuestionId")]
         public virtual ICollection<Answer> Answers { get; private set; }
 
-        public void Update(string title, string content)
+        public void Update(string title, string content, int categoryId)
         {
             Title = title;
             Content = content;
+            this.CategoryId = categoryId;
             LastUpdateTime = DateTime.Now;
         }
 

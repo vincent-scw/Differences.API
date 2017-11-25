@@ -25,8 +25,8 @@ namespace Differences.Api.Mutations
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var question = context.GetArgument<SubjectModel>("question");
                     return question.Id == 0
-                        ? questionService.AskQuestion(question.Title, question.Content, user.Id)
-                        : questionService.UpdateQuestion(question.Id, question.Title, question.Content, user.Id);
+                        ? questionService.AskQuestion(question, user.Id)
+                        : questionService.UpdateQuestion(question, user.Id);
                 }
             );
 
@@ -40,8 +40,8 @@ namespace Differences.Api.Mutations
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var answer = context.GetArgument<ReplyModel>("answer");
                     return answer.Id == 0 
-                        ? questionService.AddAnswer(answer.SubjectId, null, answer.Content, user.Id)
-                        : questionService.UpdateAnswer(answer.Id, answer.Content, user.Id);
+                        ? questionService.AddAnswer(answer, user.Id)
+                        : questionService.UpdateAnswer(answer, user.Id);
                 }
             );
             #endregion

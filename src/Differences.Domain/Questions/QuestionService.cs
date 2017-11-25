@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Differences.Common;
 using Differences.Domain.Users;
+using Differences.Interaction.DataTransferModels;
 using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
 
@@ -23,29 +24,29 @@ namespace Differences.Domain.Questions
             _userRepository = userRepository;
         }
 
-        public Question AskQuestion(string title, string content, Guid userGuid)
+        public Question AskQuestion(SubjectModel subject, Guid userGuid)
         {
             if (!_userRepository.Exists(userGuid))
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            var result = _questionRepository.Add(new Question(title, content, userGuid));
+            var result = _questionRepository.Add(new Question(subject.Title, subject.Content, subject.CategoryId, userGuid));
             _questionRepository.SaveChanges();
             return result;
         }
 
-        public Question UpdateQuestion(int questionId, string title, string content, Guid userGuid)
+        public Question UpdateQuestion(SubjectModel subject, Guid userGuid)
         {
             if (!_userRepository.Exists(userGuid))
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            var question = _questionRepository.Get(questionId);
+            var question = _questionRepository.Get(subject.Id);
             if (question == null)
                 throw new DefinedException {ErrorCode = ErrorDefinitions.Question.QuestionNotExists};
 
             if (question.OwnerId != userGuid)
                 throw new DefinedException {ErrorCode = ErrorDefinitions.User.AccessDenied};
 
-            question.Update(title, content);
+            question.Update(subject.Title, subject.Content, subject.CategoryId);
             _questionRepository.SaveChanges();
             return question;
         }
@@ -78,32 +79,32 @@ namespace Differences.Domain.Questions
             return firstLevel.OrderByDescending(x => x.CreateTime).ToList();
         }
 
-        public Answer AddAnswer(int questionId, int? parentReplyId, string content, Guid userGuid)
+        public Answer AddAnswer(ReplyModel reply, Guid userGuid)
         {
-            var question = _questionRepository.Get(questionId);
+            var question = _questionRepository.Get(reply.SubjectId);
             if (question == null)
                 throw new DefinedException {ErrorCode = ErrorDefinitions.Question.QuestionNotExists};
 
             if (!_userRepository.Exists(userGuid))
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            var reply = new Answer(questionId, parentReplyId, content, userGuid);
-            question.AddAnswer(reply);
+            var answer = new Answer(reply.SubjectId, reply.ParentId, reply.Content, userGuid);
+            question.AddAnswer(answer);
 
             _questionRepository.SaveChanges();
-            return reply;
+            return answer;
         }
 
-        public Answer UpdateAnswer(int answerId, string content, Guid userGuid)
+        public Answer UpdateAnswer(ReplyModel reply, Guid userGuid)
         {
-            var answer = _questionRepository.GetAnswer(answerId);
+            var answer = _questionRepository.GetAnswer(reply.Id);
             if (answer == null)
                 throw new DefinedException {ErrorCode = ErrorDefinitions.Question.AnswerNotExists};
 
             if (answer.OwnerId != userGuid)
                 throw new DefinedException {ErrorCode = ErrorDefinitions.User.AccessDenied};
 
-            answer.Update(content);
+            answer.Update(reply.Content);
             _questionRepository.SaveChanges();
             return answer;
         }
