@@ -71,5 +71,15 @@ namespace Differences.Domain
         {
             return categoryGroups.FirstOrDefault(x => x.Id == id);
         }
+
+        public static string GetCategoryString(int id)
+        {
+            if (id < 10)
+                return categoryGroups.FirstOrDefault(x => x.Id == id)?.Name;
+
+            var groupId = id / 100;
+            var group = categoryGroups.FirstOrDefault(x => x.Id == groupId);
+            return @group != null ? $"{@group.Name} - {@group.Categories.FirstOrDefault(x => x.Id == id)?.Name}" : null;
+        }
     }
 }

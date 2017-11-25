@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Differences.Domain;
 using Differences.Interaction.EntityModels;
 using GraphQL.Types;
 
@@ -17,6 +18,8 @@ namespace Differences.Api.Model
             Field(x => x.CreateTime);
             Field(x => x.LastUpdateTime, nullable: true);
 
+            Field<StringGraphType>("category",
+                resolve: context => CategoryDefinition.GetCategoryString(context.Source.CategoryId));
             Field<UserType>("user", resolve: context => context.Source.Owner);
         }
     }
