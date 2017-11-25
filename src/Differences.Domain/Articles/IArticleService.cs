@@ -13,7 +13,8 @@ namespace Differences.Domain.Articles
         Article WriteArticle(SubjectModel subject, Guid userGuid);
         Article UpdateArticle(SubjectModel subject, Guid userGuid);
 
-        Comment AddComment(int articleId, int? commentId, string content, Guid userGuid);
-        Comment UpdateComment(int commentId, string content, Guid userGuid);
+        Comment AddComment(ReplyModel reply, Guid userGuid);
+        Comment UpdateComment(ReplyModel reply, Guid userGuid);
+        IReadOnlyList<Comment> GetCommentsByArticleId(int articleId);
     }
 }

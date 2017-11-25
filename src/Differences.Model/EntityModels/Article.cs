@@ -16,14 +16,17 @@ namespace Differences.Interaction.EntityModels
             Comments = new List<Comment>();
         }
 
-        public Article(SubjectModel subject,
+        public Article(string title,
+            string content,
+            int categoryId,
+            string tags,
             Guid authorId)
             : this()
         {
-            Title = subject.Title;
-            Content = subject.Content;
-            CategoryId = subject.CategoryId;
-            Tags = subject.Tags;
+            Title = title;
+            Content = content;
+            CategoryId = categoryId;
+            Tags = tags;
 
             AuthorId = authorId;
         }
@@ -45,12 +48,15 @@ namespace Differences.Interaction.EntityModels
         [ForeignKey("ArticleId")]
         public IList<Comment> Comments { get; private set; }
 
-        public void Update(SubjectModel subject)
+        public void Update(string title,
+            string content,
+            int categoryId,
+            string tags)
         {
-            Title = subject.Title;
-            Content = subject.Content;
-            CategoryId = subject.CategoryId;
-            Tags = subject.Tags;
+            Title = title;
+            Content = content;
+            CategoryId = categoryId;
+            Tags = tags;
 
             LastUpdateTime = DateTime.Now;
         }

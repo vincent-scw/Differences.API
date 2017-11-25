@@ -9,7 +9,10 @@ namespace Differences.Interaction.EntityModels
     public class Comment : Entity
     {
         [ExcludeFromCodeCoverage]
-        public Comment() { }
+        public Comment()
+        {
+            this.SubComments = new List<Comment>();
+        }
 
         public Comment(int articleId, string content, Guid ownerId)
             : this()
@@ -35,6 +38,8 @@ namespace Differences.Interaction.EntityModels
         public Guid OwnerId { get; private set; }
         [ForeignKey("OwnerId")]
         public User Owner { get; private set; }
+        [NotMapped]
+        public List<Comment> SubComments { get; set; }
 
         public void Update(string content)
         {

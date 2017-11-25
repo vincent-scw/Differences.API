@@ -72,8 +72,8 @@ namespace Differences.Api.Mutations
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var comment = context.GetArgument<ReplyModel>("comment");
                     return comment.Id == 0 
-                        ? articleService.AddComment(comment.SubjectId, null, comment.Content, user.Id)
-                        : articleService.UpdateComment(comment.Id, comment.Content, user.Id);
+                        ? articleService.AddComment(comment, user.Id)
+                        : articleService.UpdateComment(comment, user.Id);
                 }
             );
             #endregion

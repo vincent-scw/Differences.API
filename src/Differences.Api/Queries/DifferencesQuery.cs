@@ -24,6 +24,7 @@ namespace Differences.Api.Queries
         {
             Name = "DifferencesQuery";
 
+            #region User
             Field<ListGraphType<UserType>>(
                 "topUsers",
                 resolve: context => Task.FromResult(userService.GetTopReputationUsers(1)));
@@ -35,7 +36,9 @@ namespace Differences.Api.Queries
                     var user = ((GraphQLUserContext) context.UserContext).UserInfo;
                     return Task.FromResult(userService.FindOrCreate(user.Id, user.DisplayName, user.Email, user.AvatarUrl));
                 });
+            #endregion
 
+            #region Question
             Field<ListGraphType<QuestionType>>(
                 "questions",
                 arguments: new QueryArguments(
@@ -68,7 +71,9 @@ namespace Differences.Api.Queries
                     var questionId = context.GetArgument<int>("questionId");
                     return Task.FromResult(questionService.GetAnswersByQuestionId(questionId));
                 });
+            #endregion
 
+            #region Article
             Field<ListGraphType<ArticleType>>(
                 "articles",
                 arguments: new QueryArguments(
@@ -99,8 +104,9 @@ namespace Differences.Api.Queries
                 resolve: context =>
                 {
                     var articleId = context.GetArgument<int>("articleId");
-                    return Task.FromResult(articleRepository.GetComments(articleId));
+                    return Task.FromResult(articleService.GetCommentsByArticleId(articleId));
                 });
+            #endregion
         }
     }
 }

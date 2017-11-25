@@ -40,7 +40,7 @@ namespace Differences.Domain.Articles
             if (!_userRepository.Exists(userGuid))
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            var article = new Article(subject, userGuid);
+            var article = new Article(subject.Title, subject.Content, subject.CategoryId, subject.Tags, userGuid);
             _articleRepository.Add(article);
 
             _articleRepository.SaveChanges();
@@ -57,21 +57,21 @@ namespace Differences.Domain.Articles
             if (article.AuthorId != userGuid)
                 throw new DefinedException {ErrorCode = ErrorDefinitions.User.AccessDenied};
 
-            article.Update(subject);
+            article.Update(subject.Title, subject.Content, subject.CategoryId, subject.Tags);
             _articleRepository.SaveChanges();
             return article;
         }
 
-        public Comment AddComment(int articleId, int? parentCommentId, string content, Guid userGuid)
+        public Comment AddComment(ReplyModel reply, Guid userGuid)
         {
-            var article = _articleRepository.Get(articleId);
+            var article = _articleRepository.Get(reply.SubjectId);
             if (article == null)
                 throw new DefinedException { ErrorCode = ErrorDefinitions.Article.ArticleNotExists };
 
             if (!_userRepository.Exists(userGuid))
                 throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
 
-            var comment = new Comment(articleId, parentCommentId, content, userGuid);
+            var comment = new Comment(reply.SubjectId, reply.ParentId, reply.Content, userGuid);
             article.AddComment(comment);
 
             _articleRepository.SaveChanges();
@@ -79,18 +79,32 @@ namespace Differences.Domain.Articles
             return comment;
         }
 
-        public Comment UpdateComment(int commentId, string content, Guid userGuid)
+        public Comment UpdateComment(ReplyModel reply, Guid userGuid)
         {
-            var comment = _articleRepository.GetComment(commentId);
+            var comment = _articleRepository.GetComment(reply.Id);
             if (comment == null)
                 throw new DefinedException {ErrorCode = ErrorDefinitions.Article.CommentNotExists};
 
             if (comment.OwnerId != userGuid)
                 throw new DefinedException {ErrorCode = ErrorDefinitions.User.AccessDenied};
 
-            comment.Update(content);
+            comment.Update(reply.Content);
             _articleRepository.SaveChanges();
             return comment;
+        }
+
+        public IReadOnlyList<Comment> GetCommentsByArticleId(int articleId)
+        {
+            var comments = _articleRepository.GetComments(articleId);
+            var firstLevel = comments.Where(x => x.ParentCommentId == null).ToList();
+            var secondLevel = comments.Where(x => x.ParentCommentId != null).ToList();
+
+            firstLevel.ForEach(f =>
+            {
+                f.SubComments.AddRange(secondLevel.Where(s => s.ParentCommentId == f.Id).OrderBy(x => x.CreateTime));
+            });
+
+            return firstLevel.OrderByDescending(x => x.CreateTime).ToList();
         }
     }
 }
