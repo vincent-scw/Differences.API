@@ -21,17 +21,27 @@ namespace Differences.Domain.Articles
             _userRepository = userRepository;
         }
 
-        public IReadOnlyList<Article> GetArticlesByCategory(int categoryId)
+        public IReadOnlyList<Article> GetArticlesByCategory(CriteriaModel criteria)
+        {   
+            return GetSearchCondition(criteria.CategoryId).ToList();
+        }
+
+        public int GetArticleCountByCategory(CriteriaModel criteria)
+        {
+            return GetSearchCondition(criteria.CategoryId).Count();
+        }
+
+        private IQueryable<Article> GetSearchCondition(int categoryId)
         {
             var categoryGroup = CategoryDefinition.GetCategoryGroup(categoryId);
             if (categoryGroup == null)
                 return _articleRepository.GetAll().Where(x => x.CategoryId == categoryId)
-                    .OrderByDescending(x => x.CreateTime).ToList();
+                    .OrderByDescending(x => x.CreateTime);
             else
             {
                 var ids = categoryGroup.Categories.Select(x => x.Id);
                 return _articleRepository.GetAll().Where(x => ids.Contains(x.CategoryId))
-                    .OrderByDescending(x => x.CreateTime).ToList();
+                    .OrderByDescending(x => x.CreateTime);
             }
         }
 

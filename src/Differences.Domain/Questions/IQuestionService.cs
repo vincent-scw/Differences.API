@@ -11,7 +11,8 @@ namespace Differences.Domain.Questions
     {
         Question AskQuestion(SubjectModel subject, Guid userGuid);
         Question UpdateQuestion(SubjectModel subject, Guid userGuid);
-        IReadOnlyList<Question> GetQuestionsByCategory(int categoryId);
+        IReadOnlyList<Question> GetQuestionsByCriteria(CriteriaModel criteria);
+        int GetQuestionCountByCriteria(CriteriaModel criteria);
         IReadOnlyList<Answer> GetAnswersByQuestionId(int questionId);
 
         Answer AddAnswer(ReplyModel reply, Guid userGuid);

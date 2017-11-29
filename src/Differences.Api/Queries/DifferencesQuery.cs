@@ -25,21 +25,21 @@ namespace Differences.Api.Queries
             Name = "DifferencesQuery";
 
             #region User
-            Field<ListGraphType<UserType>>(
+            FieldAsync<ListGraphType<UserType>>(
                 "topUsers",
-                resolve: context => Task.FromResult(userService.GetTopReputationUsers(1)));
+                resolve: context => userService.GetTopReputationUsers(1));
 
-            Field<UserType>(
+            FieldAsync<UserType>(
                 "checkUserInDb",
                 resolve: context =>
                 {
                     var user = ((GraphQLUserContext) context.UserContext).UserInfo;
-                    return Task.FromResult(userService.FindOrCreate(user.Id, user.DisplayName, user.Email, user.AvatarUrl));
+                    return userService.FindOrCreate(user.Id, user.DisplayName, user.Email, user.AvatarUrl);
                 });
             #endregion
 
             #region Question
-            Field<ListGraphType<QuestionType>>(
+            FieldAsync<ListGraphType<QuestionType>>(
                 "questions",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<CriteriaInputType>> { Name = "criteria" }
@@ -47,10 +47,19 @@ namespace Differences.Api.Queries
                 resolve: context =>
                 {
                     var criteria = context.GetArgument<CriteriaModel>("criteria");
-                    return Task.FromResult(questionService.GetQuestionsByCategory(criteria.CategoryId));
+                    return questionService.GetQuestionsByCriteria(criteria);
                 });
 
-            Field<QuestionType>(
+            FieldAsync<IntGraphType>(
+                "question_count",
+                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<CriteriaInputType>> { Name = "criteria" }),
+                resolve: context =>
+                {
+                    var criteria = context.GetArgument<CriteriaModel>("criteria");
+                    return questionService.GetQuestionCountByCriteria(criteria);
+                });
+
+            FieldAsync<QuestionType>(
                 "question",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "id" }
@@ -58,10 +67,10 @@ namespace Differences.Api.Queries
                 resolve: context =>
                 {
                     var questionId = context.GetArgument<int>("id");
-                    return Task.FromResult(questionRepository.Get(questionId));
+                    return questionRepository.Get(questionId);
                 });
 
-            Field<ListGraphType<AnswerType>>(
+            FieldAsync<ListGraphType<AnswerType>>(
                 "question_answers",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "questionId" }
@@ -69,12 +78,12 @@ namespace Differences.Api.Queries
                 resolve: context =>
                 {
                     var questionId = context.GetArgument<int>("questionId");
-                    return Task.FromResult(questionService.GetAnswersByQuestionId(questionId));
+                    return questionService.GetAnswersByQuestionId(questionId);
                 });
             #endregion
 
             #region Article
-            Field<ListGraphType<ArticleType>>(
+            FieldAsync<ListGraphType<ArticleType>>(
                 "articles",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<CriteriaInputType>> { Name = "criteria" }
@@ -82,10 +91,19 @@ namespace Differences.Api.Queries
                 resolve: context =>
                 {
                     var criteria = context.GetArgument<CriteriaModel>("criteria");
-                    return Task.FromResult(articleService.GetArticlesByCategory(criteria.CategoryId));
+                    return articleService.GetArticlesByCategory(criteria);
                 });
 
-            Field<ArticleType>(
+            FieldAsync<IntGraphType>(
+                "article_count",
+                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<CriteriaInputType>> { Name = "criteria" }),
+                resolve: context =>
+                {
+                    var criteria = context.GetArgument<CriteriaModel>("criteria");
+                    return articleService.GetArticleCountByCategory(criteria);
+                });
+
+            FieldAsync<ArticleType>(
                 "article",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "id" }
@@ -93,10 +111,10 @@ namespace Differences.Api.Queries
                 resolve: context =>
                 {
                     var articleId = context.GetArgument<int>("id");
-                    return Task.FromResult(articleRepository.Get(articleId));
+                    return articleRepository.Get(articleId);
                 });
 
-            Field<ListGraphType<CommentType>>(
+            FieldAsync<ListGraphType<CommentType>>(
                 "article_comments",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "articleId" }
@@ -104,7 +122,7 @@ namespace Differences.Api.Queries
                 resolve: context =>
                 {
                     var articleId = context.GetArgument<int>("articleId");
-                    return Task.FromResult(articleService.GetCommentsByArticleId(articleId));
+                    return articleService.GetCommentsByArticleId(articleId);
                 });
             #endregion
         }

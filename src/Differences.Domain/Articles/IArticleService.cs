@@ -9,7 +9,8 @@ namespace Differences.Domain.Articles
 {
     public interface IArticleService
     {
-        IReadOnlyList<Article> GetArticlesByCategory(int categoryId);
+        IReadOnlyList<Article> GetArticlesByCategory(CriteriaModel criteria);
+        int GetArticleCountByCategory(CriteriaModel criteria);
         Article WriteArticle(SubjectModel subject, Guid userGuid);
         Article UpdateArticle(SubjectModel subject, Guid userGuid);
 

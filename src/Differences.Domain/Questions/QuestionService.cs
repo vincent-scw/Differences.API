@@ -51,17 +51,27 @@ namespace Differences.Domain.Questions
             return question;
         }
 
-        public IReadOnlyList<Question> GetQuestionsByCategory(int categoryId)
+        public IReadOnlyList<Question> GetQuestionsByCriteria(CriteriaModel criteria)
+        {
+            return GetSearchQuery(criteria.CategoryId).ToList();
+        }
+
+        public int GetQuestionCountByCriteria(CriteriaModel criteria)
+        {
+            return GetSearchQuery(criteria.CategoryId).Count();
+        }
+
+        private IQueryable<Question> GetSearchQuery(int categoryId)
         {
             var categoryGroup = CategoryDefinition.GetCategoryGroup(categoryId);
             if (categoryGroup == null)
                 return _questionRepository.GetAll().Where(x => x.CategoryId == categoryId)
-                    .OrderByDescending(x => x.CreateTime).ToList();
+                    .OrderByDescending(x => x.CreateTime);
             else
             {
                 var ids = categoryGroup.Categories.Select(x => x.Id);
                 return _questionRepository.GetAll().Where(x => ids.Contains(x.CategoryId))
-                    .OrderByDescending(x => x.CreateTime).ToList();
+                                          .OrderByDescending(x => x.CreateTime);
             }
         }
 

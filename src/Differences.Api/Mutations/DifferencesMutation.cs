@@ -15,7 +15,7 @@ namespace Differences.Api.Mutations
             Name = "DifferencesMutation";
 
             #region Question
-            Field<QuestionType>(
+            FieldAsync<QuestionType>(
                 "submitQuestion",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<SubjectInputType>> { Name = "question"}
@@ -30,7 +30,7 @@ namespace Differences.Api.Mutations
                 }
             );
 
-            Field<AnswerType>(
+            FieldAsync<AnswerType>(
                 "submitAnswer",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<ReplyInputType>> { Name = "answer" }
@@ -47,7 +47,7 @@ namespace Differences.Api.Mutations
             #endregion
 
             #region Article
-            Field<ArticleType>(
+            FieldAsync<ArticleType>(
                 "submitArticle",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<SubjectInputType>> { Name ="article"}
@@ -62,7 +62,7 @@ namespace Differences.Api.Mutations
                 }
             );
 
-            Field<CommentType>(
+            FieldAsync<CommentType>(
                 "submitComment",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<ReplyInputType>> { Name = "comment" }
