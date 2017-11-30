@@ -10,22 +10,22 @@ namespace Differences.Domain
     {
         private static IList<CategoryGroup> categoryGroups = new List<CategoryGroup>
         {
-            new CategoryGroup(1, "技术", "")
+            new CategoryGroup(1, "科学与自然", "")
             {
                 Categories = new List<Category>
                 {
-                    new Category(101, "IT", ""),
-                    new Category(102, "机械", ""),
-                    new Category(103, "电子", ""),
-                    new Category(199, "其他", ""),
+                    new Category(101, "科学", ""),
+                    new Category(102, "自然", ""),
                 }
             },
-            new CategoryGroup(2, "科学与自然", "")
+            new CategoryGroup(2, "技术", "")
             {
                 Categories = new List<Category>
                 {
-                    new Category(201, "科学", ""),
-                    new Category(202, "自然", ""),
+                    new Category(201, "IT", ""),
+                    new Category(202, "机械", ""),
+                    new Category(203, "电子", ""),
+                    new Category(299, "其他", ""),
                 }
             },
             new CategoryGroup(3, "语言", "")
@@ -36,20 +36,22 @@ namespace Differences.Domain
                     new Category(399, "其他", ""),
                 }
             },
-            new CategoryGroup(4, "社科", "")
+            new CategoryGroup(4, "社科人文", "")
             {
                 Categories = new List<Category>
                 {
                     new Category(401, "历史", ""),
+                    new Category(402, "文化", ""),
+                    new Category(403, "名人", ""),
                     new Category(499, "其他", ""),
                 }
             },
-            new CategoryGroup(5, "人文", "")
+            new CategoryGroup(5, "游戏娱乐", "")
             {
                 Categories = new List<Category>
                 {
-                    new Category(501, "名人", ""),
-                    new Category(599, "其他", ""),
+                    new Category(501, "游戏", ""),
+                    new Category(502, "娱乐", "")
                 }
             },
             new CategoryGroup(9, "其他", "")

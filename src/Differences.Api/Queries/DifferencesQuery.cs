@@ -10,6 +10,7 @@ using Differences.Interaction.Repositories;
 using Differences.Domain.Questions;
 using Differences.Domain.Articles;
 using Differences.Interaction.DataTransferModels;
+using Differences.Domain;
 
 namespace Differences.Api.Queries
 {
@@ -125,6 +126,13 @@ namespace Differences.Api.Queries
                     return articleService.GetCommentsByArticleId(articleId);
                 });
             #endregion
+
+            FieldAsync<ListGraphType<CategoryGroupType>>(
+                "category_definition",
+                resolve: context =>
+                {
+                    return CategoryDefinition.CategoryGroups;
+                });
         }
     }
 }

@@ -28,6 +28,8 @@ namespace Differences.Api
             services.AddTransient<ReplyInputType>();
             services.AddTransient<SubjectInputType>();
             services.AddTransient<CriteriaInputType>();
+            services.AddTransient<CategoryType>();
+            services.AddTransient<CategoryGroupType>();
 
             services.AddScoped<DifferencesQuery>();
             services.AddScoped<DifferencesMutation>();
