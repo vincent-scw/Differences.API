@@ -54,6 +54,15 @@ namespace Differences.Domain
                     new Category(502, "娱乐", "")
                 }
             },
+            new CategoryGroup(6, "体育运动", "")
+            {
+                Categories = new List<Category>
+                {
+                    new Category(601, "足球", ""),
+                    new Category(602, "篮球", ""),
+                    new Category(699, "其他", "")
+                }
+            },
             new CategoryGroup(9, "其他", "")
             {
                 Categories = new List<Category>

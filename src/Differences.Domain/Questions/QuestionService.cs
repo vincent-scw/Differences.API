@@ -53,7 +53,7 @@ namespace Differences.Domain.Questions
 
         public IReadOnlyList<Question> GetQuestionsByCriteria(CriteriaModel criteria)
         {
-            return GetSearchQuery(criteria.CategoryId).ToList();
+            return GetSearchQuery(criteria.CategoryId).Skip(criteria.Offset ?? 0).Take(criteria.Limit ?? 0).ToList();
         }
 
         public int GetQuestionCountByCriteria(CriteriaModel criteria)

@@ -23,7 +23,7 @@ namespace Differences.Domain.Articles
 
         public IReadOnlyList<Article> GetArticlesByCategory(CriteriaModel criteria)
         {   
-            return GetSearchCondition(criteria.CategoryId).ToList();
+            return GetSearchCondition(criteria.CategoryId).Skip(criteria.Offset ?? 0).Take(criteria.Limit ?? 0).ToList();
         }
 
         public int GetArticleCountByCategory(CriteriaModel criteria)
