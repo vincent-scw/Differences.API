@@ -55,6 +55,7 @@ namespace Differences.Domain.Articles
 
             _articleRepository.SaveChanges();
 
+            _articleRepository.LoadReference(article, x => x.Author);
             return article;
         }
 
@@ -69,6 +70,8 @@ namespace Differences.Domain.Articles
 
             article.Update(subject.Title, subject.Content, subject.CategoryId, subject.Tags);
             _articleRepository.SaveChanges();
+
+            _articleRepository.LoadReference(article, x => x.Author);
             return article;
         }
 
@@ -86,6 +89,7 @@ namespace Differences.Domain.Articles
 
             _articleRepository.SaveChanges();
 
+            _articleRepository.LoadReference(comment, x => x.Owner);
             return comment;
         }
 
@@ -100,6 +104,8 @@ namespace Differences.Domain.Articles
 
             comment.Update(reply.Content);
             _articleRepository.SaveChanges();
+
+            _articleRepository.LoadReference(comment, x => x.Owner);
             return comment;
         }
 

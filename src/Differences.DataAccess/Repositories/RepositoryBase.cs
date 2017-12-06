@@ -104,5 +104,10 @@ namespace Differences.DataAccess.Repositories
         {
             return _dbContext.SaveChangesAsync();
         }
+
+        public void LoadReference<T, TProperty>(T entity, Expression<Func<T, TProperty>> expression)
+            where T: class
+            where TProperty: class 
+        => _dbContext.Entry(entity).Reference(expression).Load();
     }
 }

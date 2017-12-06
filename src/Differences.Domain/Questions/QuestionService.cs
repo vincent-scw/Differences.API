@@ -31,6 +31,8 @@ namespace Differences.Domain.Questions
 
             var result = _questionRepository.Add(new Question(subject.Title, subject.Content, subject.CategoryId, userGuid));
             _questionRepository.SaveChanges();
+
+            _questionRepository.LoadReference(result, x => x.Owner);
             return result;
         }
 
@@ -48,6 +50,8 @@ namespace Differences.Domain.Questions
 
             question.Update(subject.Title, subject.Content, subject.CategoryId);
             _questionRepository.SaveChanges();
+
+            _questionRepository.LoadReference(question, x => x.Owner);
             return question;
         }
 
@@ -102,6 +106,8 @@ namespace Differences.Domain.Questions
             question.AddAnswer(answer);
 
             _questionRepository.SaveChanges();
+
+            _questionRepository.LoadReference(answer, x => x.Owner);
             return answer;
         }
 
@@ -116,6 +122,8 @@ namespace Differences.Domain.Questions
 
             answer.Update(reply.Content);
             _questionRepository.SaveChanges();
+
+            _questionRepository.LoadReference(answer, x => x.Owner);
             return answer;
         }
     }

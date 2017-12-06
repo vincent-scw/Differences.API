@@ -22,5 +22,9 @@ namespace Differences.Interaction.Repositories
 
         void SaveChanges();
         Task SaveChangesAsync();
+
+        void LoadReference<T, TProperty>(T entity, Expression<Func<T, TProperty>> expression)
+            where T : class
+            where TProperty : class;
     }
 }
