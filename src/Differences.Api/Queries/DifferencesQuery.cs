@@ -8,7 +8,6 @@ using Differences.Interaction.EntityModels;
 using GraphQL.Types;
 using Differences.Interaction.Repositories;
 using Differences.Domain.Questions;
-using Differences.Domain.Articles;
 using Differences.Interaction.DataTransferModels;
 using Differences.Domain;
 
@@ -18,8 +17,6 @@ namespace Differences.Api.Queries
     {
         public DifferencesQuery(
             IUserService userService,
-            IArticleService articleService,
-            IArticleRepository articleRepository,
             IQuestionService questionService,
             IQuestionRepository questionRepository)
         {
@@ -80,50 +77,6 @@ namespace Differences.Api.Queries
                 {
                     var questionId = context.GetArgument<int>("questionId");
                     return questionService.GetAnswersByQuestionId(questionId);
-                });
-            #endregion
-
-            #region Article
-            FieldAsync<ListGraphType<ArticleType>>(
-                "articles",
-                arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<CriteriaInputType>> { Name = "criteria" }
-                ),
-                resolve: context =>
-                {
-                    var criteria = context.GetArgument<CriteriaModel>("criteria");
-                    return articleService.GetArticlesByCategory(criteria);
-                });
-
-            FieldAsync<IntGraphType>(
-                "article_count",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<CriteriaInputType>> { Name = "criteria" }),
-                resolve: context =>
-                {
-                    var criteria = context.GetArgument<CriteriaModel>("criteria");
-                    return articleService.GetArticleCountByCategory(criteria);
-                });
-
-            FieldAsync<ArticleType>(
-                "article",
-                arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "id" }
-                ),
-                resolve: context =>
-                {
-                    var articleId = context.GetArgument<int>("id");
-                    return articleRepository.Get(articleId);
-                });
-
-            FieldAsync<ListGraphType<CommentType>>(
-                "article_comments",
-                arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "articleId" }
-                ),
-                resolve: context =>
-                {
-                    var articleId = context.GetArgument<int>("articleId");
-                    return articleService.GetCommentsByArticleId(articleId);
                 });
             #endregion
 
