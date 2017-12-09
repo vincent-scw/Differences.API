@@ -17,8 +17,8 @@ namespace Differences.Api.Model
             Field(x => x.Content).Description("The content of the question");
             Field(x => x.CreateTime);
             Field(x => x.LastUpdateTime, nullable: true);
-
-            Field<StringGraphType>("category",
+            Field(x => x.CategoryId);
+            Field<StringGraphType>("categoryName",
                 resolve: context => CategoryDefinition.GetCategoryString(context.Source.CategoryId));
             Field<UserType>("user", resolve: context => context.Source.Owner);
         }
