@@ -39,7 +39,7 @@ namespace Differences.Interaction.EntityModels
         public Guid OwnerId { get; private set; }
         [ForeignKey("OwnerId")]
         public User Owner { get; private set; }
-        [NotMapped]
+        [ForeignKey("ParentReplyId")]
         public List<Answer> SubAnswers { get; set; }
 
         public void Update(string content)

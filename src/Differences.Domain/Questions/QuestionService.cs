@@ -124,6 +124,7 @@ namespace Differences.Domain.Questions
             _questionRepository.SaveChanges();
 
             _questionRepository.LoadReference(answer, x => x.Owner);
+            _questionRepository.LoadReference(answer, x => x.SubAnswers);
             return answer;
         }
     }
