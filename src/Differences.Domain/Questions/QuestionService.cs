@@ -82,15 +82,8 @@ namespace Differences.Domain.Questions
         public IReadOnlyList<Answer> GetAnswersByQuestionId(int questionId)
         {
             var answers = _questionRepository.GetAnswers(questionId);
-            var firstLevel = answers.Where(x => x.ParentReplyId == null).ToList();
-            var secondLevel = answers.Where(x => x.ParentReplyId != null).ToList();
 
-            firstLevel.ForEach(f =>
-            {
-                f.SubAnswers.AddRange(secondLevel.Where(s => s.ParentReplyId == f.Id).OrderBy(x => x.CreateTime));
-            });
-
-            return firstLevel.OrderByDescending(x => x.CreateTime).ToList();
+            return answers.OrderByDescending(x => x.CreateTime).ToList();
         }
 
         public Answer AddAnswer(ReplyModel reply, Guid userGuid)
@@ -107,8 +100,7 @@ namespace Differences.Domain.Questions
 
             _questionRepository.SaveChanges();
 
-            _questionRepository.LoadReference(answer, x => x.Owner);
-            return answer;
+            return _questionRepository.GetAnswer(answer.Id);
         }
 
         public Answer UpdateAnswer(ReplyModel reply, Guid userGuid)
@@ -123,9 +115,7 @@ namespace Differences.Domain.Questions
             answer.Update(reply.Content);
             _questionRepository.SaveChanges();
 
-            _questionRepository.LoadReference(answer, x => x.Owner);
-            _questionRepository.LoadReference(answer, x => x.SubAnswers);
-            return answer;
+            return _questionRepository.GetAnswer(answer.Id);
         }
     }
 }

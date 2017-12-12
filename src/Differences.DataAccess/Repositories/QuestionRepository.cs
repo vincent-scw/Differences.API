@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace Differences.DataAccess.Repositories
@@ -22,12 +23,20 @@ namespace Differences.DataAccess.Repositories
 
         public IReadOnlyList<Answer> GetAnswers(int questionId)
         {
-            return DbContext.Set<Answer>().IncludeEx(x => x.Owner).Where(x => x.QuestionId == questionId).ToList();
+            return DbContext.Set<Answer>()
+                            .Include(x => x.Owner)
+                            .Include(x => x.SubAnswers)
+                                .ThenInclude(answer => answer.Owner)
+                            .Where(x => x.QuestionId == questionId && x.ParentReplyId == null).ToList();
         }
 
         public Answer GetAnswer(int answerId)
         {
-            var retval = DbContext.Set<Answer>().IncludeEx(x => x.Owner).FirstOrDefault(x => x.Id == answerId);
+            var retval = DbContext.Set<Answer>()
+                            .Include(x => x.Owner)
+                            .Include(x => x.SubAnswers)
+                                .ThenInclude(answer => answer.Owner)
+                            .FirstOrDefault(x => x.Id == answerId);
             return retval;
         }
     }
