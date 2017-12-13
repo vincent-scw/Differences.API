@@ -5,10 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using DataLoader;
+using Differences.Api.Authentication;
 using Differences.Api.Model;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
+using GraphQL.Validation;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -66,6 +68,7 @@ namespace Differences.Api
                 _.Schema = schema;
                 _.Query = request.Query;
                 _.Inputs = request.Variables.ToInputs();
+                _.ValidationRules = new List<IValidationRule> { new RequiresAuthValidationRule() };
                 _.UserContext = new GraphQLUserContext(ctx, context.User);
             }));
 
