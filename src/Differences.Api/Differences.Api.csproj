@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
-    <Folder Include="Authentication\" />
+    <Folder Include="Rules\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DataLoader" Version="0.3.0" />

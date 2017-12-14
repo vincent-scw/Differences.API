@@ -1,4 +1,5 @@
-﻿using Differences.Api.Model;
+﻿using Differences.Api.Extensions;
+using Differences.Api.Model;
 using Differences.Domain.Questions;
 using Differences.Interaction.DataTransferModels;
 using GraphQL.Types;

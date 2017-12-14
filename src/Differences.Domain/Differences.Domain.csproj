@@ -9,4 +9,7 @@
     <ProjectReference Include="..\Differences.Model\Differences.Interaction.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validators\" />
+  </ItemGroup>
 </Project>

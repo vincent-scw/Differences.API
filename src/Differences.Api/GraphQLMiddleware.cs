@@ -5,8 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using DataLoader;
-using Differences.Api.Authentication;
 using Differences.Api.Model;
+using Differences.Api.Rules;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
@@ -62,13 +62,18 @@ namespace Differences.Api
 
             var request = JsonConvert.DeserializeObject<GraphQLRequest>(body);
 
+            var validationRules = new List<IValidationRule>()
+            {
+                new RequiresAuthValidationRule()
+            };
+
             var result = await DataLoaderContext.Run(ctx => _executer.ExecuteAsync(_ =>
             {
                 _.OperationName = request.OperationName;
                 _.Schema = schema;
                 _.Query = request.Query;
                 _.Inputs = request.Variables.ToInputs();
-                _.ValidationRules = new List<IValidationRule> { new RequiresAuthValidationRule() };
+                _.ValidationRules = validationRules.Concat(DocumentValidator.CoreRules());
                 _.UserContext = new GraphQLUserContext(ctx, context.User);
             }));
 

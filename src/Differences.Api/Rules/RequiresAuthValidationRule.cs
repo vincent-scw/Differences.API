@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Differences.Common;
+using GraphQL;
 using GraphQL.Language.AST;
 using GraphQL.Validation;
 
-namespace Differences.Api.Authentication
+namespace Differences.Api.Rules
 {
     public class RequiresAuthValidationRule : IValidationRule
     {
@@ -26,7 +28,15 @@ namespace Differences.Api.Authentication
                     }
                 });
 
-                // TODO: per pield authentication check
+                // TODO: per field authentication check
+                _.Match<Field>(fieldAst =>
+                {
+                    var fieldDef = context.TypeInfo.GetFieldDef();
+                    if (fieldDef == null)
+                    {
+                        return;
+                    }
+                });
             });
         }
     }

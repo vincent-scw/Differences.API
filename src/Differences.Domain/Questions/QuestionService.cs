@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Differences.Common;
 using Differences.Domain.Users;
+using Differences.Domain.Validators;
 using Differences.Interaction.DataTransferModels;
 using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
@@ -47,6 +48,9 @@ namespace Differences.Domain.Questions
 
             if (question.OwnerId != userGuid)
                 throw new DefinedException {ErrorCode = ErrorDefinitions.User.AccessDenied};
+
+            if (!new SubjectValidator(subject).Validate(out string errorCode))
+                throw new DefinedException { ErrorCode = errorCode };
 
             question.Update(subject.Title, subject.Content, subject.CategoryId);
             _questionRepository.SaveChanges();

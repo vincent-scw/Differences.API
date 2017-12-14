@@ -14,18 +14,14 @@ namespace Differences.Common
             public const string AccessDenied = "AccessDenied";
         }
 
-        public static class Article
-        {
-            public const string ArticleNotExists = "ArticleNotExists";
-
-            public const string CommentNotExists = "CommentNotExists";
-        }
-
         public static class Question
         {
             public const string QuestionNotExists = "QuestionNotExists";
 
             public const string AnswerNotExists = "AnswerNotExists";
+
+            public const string TitleLengthExceeding = "TitleLengthExceeding";
+            public const string ContentLengthExceeding = "ContentLengthExceeding";
         }
     }
 }
