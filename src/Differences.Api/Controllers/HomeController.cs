@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Differences.Api.Controllers
 {
     [Route("")]
-    public class HomeController
+    public class HomeController : Controller
     {
         [HttpGet]
-        public string Index()
+        public IActionResult Index()
         {
-            return "I am working...";    
+            return View();    
         }
     }
 }
