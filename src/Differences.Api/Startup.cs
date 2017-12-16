@@ -112,7 +112,7 @@ namespace Differences.Api
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
         }
 
         private Task AuthenticationFailed(AuthenticationFailedContext arg)

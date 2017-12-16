@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Differences.Api.Controllers
 {
-    [Route("")]
+    [Route("api")]
     public class HomeController : Controller
     {
         [HttpGet]
-        public IActionResult Index()
+        public string Health()
         {
-            return View();    
+            return "I am working hard...";
         }
     }
 }
