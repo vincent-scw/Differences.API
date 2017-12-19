@@ -1,11 +1,7 @@
 # Differences
+This project is the backend side of [有什么不同](https://www.ysmbt.cn). The frontend of this website is developed with Angular. You can find the project [here](https://github.com/VincentSCW/Differences.WebClient)
 
-## Overview
-The idea is a website for the differeces between/among any thing.
-User can ask question like "What's the difference between Compassion and Empathy?"
-Others can reply this question, the best will be elected as Article. (BBS+WIKI)
-
-## Environment Setup
-1. Install Docker for Windows (or anyother docker container).
-1. Install Visual Studio 2017 version 15.3, it is required by docker project.
-1. Debug or Docker-Compose to run all systems in docker. 
+## Major tech usage
+### GraphQL for .Net
+### Entity Framework Core with SQL Server
+### Azure AD B2C 
