@@ -9,19 +9,18 @@ namespace Differences.Common
         public static class User
         {
             public const string UserNotFound = "UserNotFound";
-            public const string UserNotAuthenticated = "UserNotAuthenticated";
 
-            public const string AccessDenied = "AccessDenied";
+            public const string AccessDenied = "UserAccessDenied";
         }
 
         public static class Question
         {
             public const string QuestionNotExists = "QuestionNotExists";
 
-            public const string AnswerNotExists = "AnswerNotExists";
+            public const string AnswerNotExists = "QuestionAnswerNotExists";
 
-            public const string TitleLengthExceeding = "TitleLengthExceeding";
-            public const string ContentLengthExceeding = "ContentLengthExceeding";
+            public const string TitleLengthExceeding = "QuestionTitleLengthExceeding";
+            public const string ContentLengthExceeding = "QuestionContentLengthExceeding";
         }
     }
 }

@@ -7,12 +7,10 @@ namespace Differences.Common
 {
     public class DefinedException : ExecutionError
     {
-        public DefinedException()
-            : base(string.Empty)
+        public DefinedException(string errorMsg)
+            : base(errorMsg)
         {
             
         }
-        
-        public string ErrorCode { get; set; }
     }
 }

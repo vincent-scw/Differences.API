@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using DataLoader;
 using Differences.Api.Model;
 using Differences.Api.Rules;
+using Differences.Common;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
 using GraphQL.Validation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 
 namespace Differences.Api
@@ -85,7 +87,10 @@ namespace Differences.Api
             var json = _writer.Write(result);
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.OK;
+            if (result.Errors.Any() && !result.Errors.All(x => x is DefinedException))
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            else
+                context.Response.StatusCode =  (int)HttpStatusCode.OK;
 
             await context.Response.WriteAsync(json);
         }

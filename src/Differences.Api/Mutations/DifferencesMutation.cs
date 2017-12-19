@@ -1,5 +1,6 @@
 ﻿using Differences.Api.Extensions;
 using Differences.Api.Model;
+using Differences.Common;
 using Differences.Domain.Questions;
 using Differences.Interaction.DataTransferModels;
 using GraphQL.Types;
@@ -21,11 +22,19 @@ namespace Differences.Api.Mutations
                 ),
                 resolve: context =>
                 {
-                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
-                    var question = context.GetArgument<SubjectModel>("question");
-                    return question.Id == 0
-                        ? questionService.AskQuestion(question, user.Id)
-                        : questionService.UpdateQuestion(question, user.Id);
+                    try
+                    {
+                        var user = ((GraphQLUserContext) context.UserContext).UserInfo;
+                        var question = context.GetArgument<SubjectModel>("question");
+                        return question.Id == 0
+                            ? questionService.AskQuestion(question, user.Id)
+                            : questionService.UpdateQuestion(question, user.Id);
+                    }
+                    catch (DefinedException ex)
+                    {
+                        context.Errors.Add(ex);
+                        return null;
+                    }
                 }
             );
 
@@ -36,11 +45,19 @@ namespace Differences.Api.Mutations
                 ),
                 resolve: context =>
                 {
-                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
-                    var answer = context.GetArgument<ReplyModel>("answer");
-                    return answer.Id == 0 
-                        ? questionService.AddAnswer(answer, user.Id)
-                        : questionService.UpdateAnswer(answer, user.Id);
+                    try
+                    {
+                        var user = ((GraphQLUserContext) context.UserContext).UserInfo;
+                        var answer = context.GetArgument<ReplyModel>("answer");
+                        return answer.Id == 0
+                            ? questionService.AddAnswer(answer, user.Id)
+                            : questionService.UpdateAnswer(answer, user.Id);
+                    }
+                    catch (DefinedException ex)
+                    {
+                        context.Errors.Add(ex);
+                        return null;
+                    }
                 }
             );
             #endregion

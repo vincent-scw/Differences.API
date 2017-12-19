@@ -4,22 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Differences.Common;
+using Differences.Common.Resources;
 using Differences.Domain.Users;
 using Differences.Domain.Validators;
 using Differences.Interaction.DataTransferModels;
 using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
+using Microsoft.Extensions.Localization;
 
 namespace Differences.Domain.Questions
 {
-    public class QuestionService : IQuestionService
+    public class QuestionService : ServiceBase, IQuestionService
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IUserRepository _userRepository;
 
         public QuestionService(
             IQuestionRepository questionRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IStringLocalizer<Errors> localizer)
+            : base(localizer)
         {
             _questionRepository = questionRepository;
             _userRepository = userRepository;
@@ -28,7 +32,7 @@ namespace Differences.Domain.Questions
         public Question AskQuestion(SubjectModel subject, Guid userGuid)
         {
             if (!_userRepository.Exists(userGuid))
-                throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
+                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
             var result = _questionRepository.Add(new Question(subject.Title, subject.Content, subject.CategoryId, userGuid));
             _questionRepository.SaveChanges();
@@ -40,17 +44,17 @@ namespace Differences.Domain.Questions
         public Question UpdateQuestion(SubjectModel subject, Guid userGuid)
         {
             if (!_userRepository.Exists(userGuid))
-                throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
+                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
             var question = _questionRepository.Get(subject.Id);
             if (question == null)
-                throw new DefinedException {ErrorCode = ErrorDefinitions.Question.QuestionNotExists};
+                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Question.QuestionNotExists));
 
             if (question.OwnerId != userGuid)
-                throw new DefinedException {ErrorCode = ErrorDefinitions.User.AccessDenied};
+                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.AccessDenied));
 
             if (!new SubjectValidator(subject).Validate(out string errorCode))
-                throw new DefinedException { ErrorCode = errorCode };
+                throw new DefinedException(GetLocalizedResource(errorCode));
 
             question.Update(subject.Title, subject.Content, subject.CategoryId);
             _questionRepository.SaveChanges();
@@ -94,10 +98,10 @@ namespace Differences.Domain.Questions
         {
             var question = _questionRepository.Get(reply.SubjectId);
             if (question == null)
-                throw new DefinedException {ErrorCode = ErrorDefinitions.Question.QuestionNotExists};
+                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Question.QuestionNotExists));
 
             if (!_userRepository.Exists(userGuid))
-                throw new DefinedException { ErrorCode = ErrorDefinitions.User.UserNotFound };
+                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
             var answer = new Answer(reply.SubjectId, reply.ParentId, reply.Content, userGuid);
             question.AddAnswer(answer);
@@ -111,10 +115,10 @@ namespace Differences.Domain.Questions
         {
             var answer = _questionRepository.GetAnswer(reply.Id);
             if (answer == null)
-                throw new DefinedException {ErrorCode = ErrorDefinitions.Question.AnswerNotExists};
+                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Question.AnswerNotExists));
 
             if (answer.OwnerId != userGuid)
-                throw new DefinedException {ErrorCode = ErrorDefinitions.User.AccessDenied};
+                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.AccessDenied));
 
             answer.Update(reply.Content);
             _questionRepository.SaveChanges();

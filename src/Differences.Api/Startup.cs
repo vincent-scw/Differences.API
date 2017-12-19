@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -73,15 +74,18 @@ namespace Differences.Api
             services.AddDbContext<DifferencesDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Differences")));
 
-            // Add framework services.
-            services.AddMvc().AddJsonOptions(options =>
-            {
-                // use standard name conversion of properties
-                options.SerializerSettings.ContractResolver =
-                    new CamelCasePropertyNamesContractResolver();
+            services.AddLocalization();
 
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
-            });
+            // Add framework services.
+            services.AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    // use standard name conversion of properties
+                    options.SerializerSettings.ContractResolver =
+                        new CamelCasePropertyNamesContractResolver();
+
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,6 +112,15 @@ namespace Differences.Api
                     context.Request.Path = "/index.html";
                     await next();
                 }
+            });
+
+            var supportedCultures = new[] {new CultureInfo("zh-CN")};
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture(new CultureInfo("zh-CN")),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
             });
 
             app.UseDefaultFiles();
