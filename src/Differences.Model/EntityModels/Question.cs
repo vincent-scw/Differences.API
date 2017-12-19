@@ -28,7 +28,7 @@ namespace Differences.Interaction.EntityModels
         [StringLength(100)]
         public string Title { get; private set; }
         [Required]
-        [StringLength(400)]
+        [MaxLength(400)]
         public string Content { get; private set; }
         [Required]
         public int CategoryId { get; private set; }

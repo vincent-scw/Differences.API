@@ -33,7 +33,7 @@ namespace Differences.Interaction.EntityModels
         public int QuestionId { get; private set; }
         public int? ParentReplyId { get; private set; }
         [Required]
-        [StringLength(400)]
+        [Column("Content", TypeName = "ntext")]
         public string Content { get; private set; }
         [Required]
         public Guid OwnerId { get; private set; }

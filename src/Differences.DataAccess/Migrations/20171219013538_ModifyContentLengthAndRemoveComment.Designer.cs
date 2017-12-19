@@ -11,9 +11,10 @@ using System;
 namespace Differences.DataAccess.Migrations
 {
     [DbContext(typeof(DifferencesDbContext))]
-    partial class DifferencesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171219013538_ModifyContentLengthAndRemoveComment")]
+    partial class ModifyContentLengthAndRemoveComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,8 +29,7 @@ namespace Differences.DataAccess.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnName("Content")
-                        .HasColumnType("ntext");
+                        .HasMaxLength(4000);
 
                     b.Property<DateTime>("CreateTime");
 
