@@ -21,7 +21,7 @@ namespace Differences.Domain.Validators
                 return false;
             }
 
-            if (_model.Content.Length > 2000)
+            if (_model.Content.Length > 4000)
             {
                 errorCode = ErrorDefinitions.Question.ContentLengthExceeding;
             }

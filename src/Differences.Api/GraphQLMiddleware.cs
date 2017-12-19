@@ -85,7 +85,7 @@ namespace Differences.Api
             var json = _writer.Write(result);
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = result.Errors?.Any() == true ? (int)HttpStatusCode.BadRequest : (int)HttpStatusCode.OK;
+            context.Response.StatusCode = (int)HttpStatusCode.OK;
 
             await context.Response.WriteAsync(json);
         }
