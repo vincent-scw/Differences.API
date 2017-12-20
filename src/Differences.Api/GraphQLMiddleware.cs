@@ -87,7 +87,7 @@ namespace Differences.Api
             var json = _writer.Write(result);
 
             context.Response.ContentType = "application/json";
-            if (result.Errors.Any() && !result.Errors.All(x => x is DefinedException))
+            if (result.Errors != null && result.Errors.Any() && !result.Errors.All(x => x is DefinedException))
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             else
                 context.Response.StatusCode =  (int)HttpStatusCode.OK;
