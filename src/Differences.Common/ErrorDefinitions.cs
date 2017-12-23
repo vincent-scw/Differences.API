@@ -17,10 +17,18 @@ namespace Differences.Common
         {
             public const string QuestionNotExists = "QuestionNotExists";
 
-            public const string AnswerNotExists = "QuestionAnswerNotExists";
-
+            public const string TitleLengthTooShort = "QuestionTitleLengthTooShort";
             public const string TitleLengthExceeding = "QuestionTitleLengthExceeding";
+            public const string ContentLengthTooShort = "QuestionContentLengthTooShort";
             public const string ContentLengthExceeding = "QuestionContentLengthExceeding";
+        }
+
+        public static class Answer
+        {
+            public const string AnswerNotExists = "AnswerNotExists";
+
+            public const string ContentLengthTooShort = "AnswerContentLengthTooShort";
+            public const string ContentLengthExceeding = "AnswerContentLengthExceeding";
         }
     }
 }

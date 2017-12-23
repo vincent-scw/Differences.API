@@ -61,20 +61,47 @@ namespace Differences.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 该回答不存在。.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        public static string QuestionAnswerNotExists {
+        public static string AnswerContentLengthExceeding {
             get {
-                return ResourceManager.GetString("QuestionAnswerNotExists", resourceCulture);
+                return ResourceManager.GetString("AnswerContentLengthExceeding", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 该问题的内容超过了最大长度：400。.
+        ///   Looks up a localized string similar to 该回复的内容太短了（应大于等于5个字）。.
+        /// </summary>
+        public static string AnswerContentLengthTooShort {
+            get {
+                return ResourceManager.GetString("AnswerContentLengthTooShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 该回答不存在。.
+        /// </summary>
+        public static string AnswerNotExists {
+            get {
+                return ResourceManager.GetString("AnswerNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 该问题的内容超过了最大长度：200。.
         /// </summary>
         public static string QuestionContentLengthExceeding {
             get {
                 return ResourceManager.GetString("QuestionContentLengthExceeding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 该问题的内容太短了（应大于等于5个字）。.
+        /// </summary>
+        public static string QuestionContentLengthTooShort {
+            get {
+                return ResourceManager.GetString("QuestionContentLengthTooShort", resourceCulture);
             }
         }
         
@@ -88,11 +115,20 @@ namespace Differences.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 该问题的标题超过了最大长度：100。.
+        ///   Looks up a localized string similar to 该问题的标题超过了最大长度：60。.
         /// </summary>
         public static string QuestionTitleLengthExceeding {
             get {
                 return ResourceManager.GetString("QuestionTitleLengthExceeding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 该问题的标题太短了（应大于等于5个字）。.
+        /// </summary>
+        public static string QuestionTitleLengthTooShort {
+            get {
+                return ResourceManager.GetString("QuestionTitleLengthTooShort", resourceCulture);
             }
         }
         

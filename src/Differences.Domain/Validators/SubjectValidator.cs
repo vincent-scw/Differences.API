@@ -15,13 +15,25 @@ namespace Differences.Domain.Validators
         public bool Validate(out string errorCode)
         {
             errorCode = string.Empty;
-            if (_model.Title.Length > 100)
+            if (_model.Title.Length < 5)
+            {
+                errorCode = ErrorDefinitions.Question.TitleLengthTooShort;
+                return false;
+            }
+
+            if (_model.Title.Length > 60)
             {
                 errorCode = ErrorDefinitions.Question.TitleLengthExceeding;
                 return false;
             }
 
-            if (_model.Content.Length > 4000)
+            if (_model.Content.Length < 5)
+            {
+                errorCode = ErrorDefinitions.Question.ContentLengthTooShort;
+                return false;
+            }
+
+            if (_model.Content.Length > 200)
             {
                 errorCode = ErrorDefinitions.Question.ContentLengthExceeding;
             }

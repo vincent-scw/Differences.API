@@ -117,17 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="QuestionAnswerNotExists" xml:space="preserve">
+  <data name="AnswerContentLengthExceeding" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AnswerContentLengthTooShort" xml:space="preserve">
+    <value>该回复的内容太短了（应大于等于5个字）。</value>
+  </data>
+  <data name="AnswerNotExists" xml:space="preserve">
     <value>该回答不存在。</value>
   </data>
   <data name="QuestionContentLengthExceeding" xml:space="preserve">
-    <value>该问题的内容超过了最大长度：400。</value>
+    <value>该问题的内容超过了最大长度：200。</value>
+  </data>
+  <data name="QuestionContentLengthTooShort" xml:space="preserve">
+    <value>该问题的内容太短了（应大于等于5个字）。</value>
   </data>
   <data name="QuestionNotExists" xml:space="preserve">
     <value>该问题不存在。</value>
   </data>
   <data name="QuestionTitleLengthExceeding" xml:space="preserve">
-    <value>该问题的标题超过了最大长度：100。</value>
+    <value>该问题的标题超过了最大长度：60。</value>
+  </data>
+  <data name="QuestionTitleLengthTooShort" xml:space="preserve">
+    <value>该问题的标题太短了（应大于等于5个字）。</value>
   </data>
   <data name="UserAccessDenied" xml:space="preserve">
     <value>用户没有权限。</value>
