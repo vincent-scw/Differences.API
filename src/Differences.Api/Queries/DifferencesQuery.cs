@@ -65,7 +65,7 @@ namespace Differences.Api.Queries
                 resolve: context =>
                 {
                     var questionId = context.GetArgument<int>("id");
-                    return questionRepository.Get(questionId);
+                    return questionService.GetQuestion(questionId);
                 });
 
             FieldAsync<ListGraphType<AnswerType>>(
@@ -82,10 +82,7 @@ namespace Differences.Api.Queries
 
             FieldAsync<ListGraphType<CategoryGroupType>>(
                 "category_definition",
-                resolve: context =>
-                {
-                    return CategoryDefinition.CategoryGroups;
-                });
+                resolve: context => CategoryDefinition.CategoryGroups);
         }
     }
 }

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Differences.Domain;
+using Differences.Domain.Models;
 using Differences.Interaction.EntityModels;
 using GraphQL.Types;
 
 namespace Differences.Api.Model
 {
-    public class QuestionType : ObjectGraphType<Question>
+    public class QuestionType : ObjectGraphType<QuestionModel>
     {
         public QuestionType()
         {
@@ -18,9 +19,9 @@ namespace Differences.Api.Model
             Field(x => x.CreateTime);
             Field(x => x.LastUpdateTime, nullable: true);
             Field(x => x.CategoryId);
-            Field<StringGraphType>("categoryName",
-                resolve: context => CategoryDefinition.GetCategoryString(context.Source.CategoryId));
-            Field<UserType>("user", resolve: context => context.Source.Owner);
+            Field(x => x.CategoryName);
+            Field(x => x.AnswerCount);
+            Field<UserType>("user", resolve: context => context.Source.User);
         }
     }
 }

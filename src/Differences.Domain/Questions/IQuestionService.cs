@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Differences.Domain.Models;
 using Differences.Interaction.DataTransferModels;
 using Differences.Interaction.EntityModels;
 
@@ -9,9 +10,10 @@ namespace Differences.Domain.Questions
 {
     public interface IQuestionService
     {
-        Question AskQuestion(SubjectModel subject, Guid userGuid);
-        Question UpdateQuestion(SubjectModel subject, Guid userGuid);
-        IReadOnlyList<Question> GetQuestionsByCriteria(CriteriaModel criteria);
+        QuestionModel GetQuestion(int questionId);
+        QuestionModel AskQuestion(SubjectModel subject, Guid userGuid);
+        QuestionModel UpdateQuestion(SubjectModel subject, Guid userGuid);
+        IReadOnlyList<QuestionModel> GetQuestionsByCriteria(CriteriaModel criteria);
         int GetQuestionCountByCriteria(CriteriaModel criteria);
         IReadOnlyList<Answer> GetAnswersByQuestionId(int questionId);
 

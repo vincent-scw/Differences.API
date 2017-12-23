@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Differences.Common;
 using Differences.Common.Resources;
+using Differences.Domain.Models;
 using Differences.Domain.Users;
 using Differences.Domain.Validators;
 using Differences.Interaction.DataTransferModels;
@@ -14,7 +15,7 @@ using Microsoft.Extensions.Localization;
 
 namespace Differences.Domain.Questions
 {
-    public class QuestionService : ServiceBase, IQuestionService
+    public partial class QuestionService : ServiceBase, IQuestionService
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IUserRepository _userRepository;
@@ -29,7 +30,20 @@ namespace Differences.Domain.Questions
             _userRepository = userRepository;
         }
 
-        public Question AskQuestion(SubjectModel subject, Guid userGuid)
+        public QuestionModel GetQuestion(int questionId)
+        {
+            var query = from q in _questionRepository.GetAll()
+                let o = q.Owner
+                let answerCount = q.Answers.Count
+                where q.Id == questionId
+                select new QuestionModel(q)
+                {
+                    AnswerCount = answerCount
+                };
+            return query.First();
+        }
+
+        public QuestionModel AskQuestion(SubjectModel subject, Guid userGuid)
         {
             if (!_userRepository.Exists(userGuid))
                 throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
@@ -41,10 +55,10 @@ namespace Differences.Domain.Questions
             _questionRepository.SaveChanges();
 
             _questionRepository.LoadReference(result, x => x.Owner);
-            return result;
+            return new QuestionModel(result);
         }
 
-        public Question UpdateQuestion(SubjectModel subject, Guid userGuid)
+        public QuestionModel UpdateQuestion(SubjectModel subject, Guid userGuid)
         {
             if (!_userRepository.Exists(userGuid))
                 throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
@@ -62,13 +76,27 @@ namespace Differences.Domain.Questions
             question.Update(subject.Title, subject.Content, subject.CategoryId);
             _questionRepository.SaveChanges();
 
-            _questionRepository.LoadReference(question, x => x.Owner);
-            return question;
+            var query = from q in _questionRepository.GetAll()
+                let o = q.Owner
+                let answerCount = q.Answers.Count
+                where q.Id == question.Id
+                select new QuestionModel(q)
+                {
+                    AnswerCount = answerCount
+                };
+            return query.First();
         }
 
-        public IReadOnlyList<Question> GetQuestionsByCriteria(CriteriaModel criteria)
+        public IReadOnlyList<QuestionModel> GetQuestionsByCriteria(CriteriaModel criteria)
         {
-            return GetSearchQuery(criteria.CategoryId).Skip(criteria.Offset ?? 0).Take(criteria.Limit ?? 0).ToList();
+            var query = from q in GetSearchQuery(criteria.CategoryId).Skip(criteria.Offset ?? 0).Take(criteria.Limit ?? 0)
+                        let o = q.Owner
+                        let answerCount = q.Answers.Count
+                        select new QuestionModel(q)
+                        {
+                            AnswerCount = answerCount
+                        };
+            return query.ToList();
         }
 
         public int GetQuestionCountByCriteria(CriteriaModel criteria)
@@ -88,51 +116,6 @@ namespace Differences.Domain.Questions
                 return _questionRepository.GetAll().Where(x => ids.Contains(x.CategoryId))
                                           .OrderByDescending(x => x.CreateTime);
             }
-        }
-
-        public IReadOnlyList<Answer> GetAnswersByQuestionId(int questionId)
-        {
-            var answers = _questionRepository.GetAnswers(questionId);
-
-            return answers.OrderByDescending(x => x.CreateTime).ToList();
-        }
-
-        public Answer AddAnswer(ReplyModel reply, Guid userGuid)
-        {
-            var question = _questionRepository.Get(reply.SubjectId);
-            if (question == null)
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Question.QuestionNotExists));
-
-            if (!_userRepository.Exists(userGuid))
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
-
-            if (!new ReplyValidator(reply).Validate(out string errorCode))
-                throw new DefinedException(GetLocalizedResource(errorCode));
-
-            var answer = new Answer(reply.SubjectId, reply.ParentId, reply.Content, userGuid);
-            question.AddAnswer(answer);
-
-            _questionRepository.SaveChanges();
-
-            return _questionRepository.GetAnswer(answer.Id);
-        }
-
-        public Answer UpdateAnswer(ReplyModel reply, Guid userGuid)
-        {
-            var answer = _questionRepository.GetAnswer(reply.Id);
-            if (answer == null)
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Answer.AnswerNotExists));
-
-            if (answer.OwnerId != userGuid)
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.AccessDenied));
-
-            if (!new ReplyValidator(reply).Validate(out string errorCode))
-                throw new DefinedException(GetLocalizedResource(errorCode));
-
-            answer.Update(reply.Content);
-            _questionRepository.SaveChanges();
-
-            return _questionRepository.GetAnswer(answer.Id);
         }
     }
 }
