@@ -26,14 +26,6 @@ namespace Differences.Api.Queries
             FieldAsync<ListGraphType<UserType>>(
                 "topUsers",
                 resolve: context => userService.GetTopReputationUsers(1));
-
-            FieldAsync<UserType>(
-                "checkUserInDb",
-                resolve: context =>
-                {
-                    var user = ((GraphQLUserContext) context.UserContext).UserInfo;
-                    return userService.FindOrCreate(user.Id, user.DisplayName, user.Email, user.AvatarUrl);
-                });
             #endregion
 
             #region Question

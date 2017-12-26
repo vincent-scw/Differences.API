@@ -20,7 +20,16 @@ namespace Differences.Domain.Users
         {
             var user = _userRepository.Get(globalId);
             if (user != null)
+            {
+                if (user.DisplayName != displayName
+                    || user.Email != email
+                    || user.AvatarUrl != avatarUrl)
+                {
+                    user.Update(displayName, email, avatarUrl);
+                    _userRepository.SaveChanges();
+                }
                 return user;
+            }
 
             user = new User(globalId, displayName, email, avatarUrl);
 

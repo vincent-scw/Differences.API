@@ -2,6 +2,7 @@
 using Differences.Api.Model;
 using Differences.Common;
 using Differences.Domain.Questions;
+using Differences.Domain.Users;
 using Differences.Interaction.DataTransferModels;
 using GraphQL.Types;
 
@@ -10,9 +11,18 @@ namespace Differences.Api.Mutations
     public class DifferencesMutation : ObjectGraphType<object>
     {
         public DifferencesMutation(
+            IUserService userService,
             IQuestionService questionService)
         {
             Name = "DifferencesMutation";
+
+            FieldAsync<UserType>(
+                "checkUserInDb",
+                resolve: context =>
+                {
+                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
+                    return userService.FindOrCreate(user.Id, user.DisplayName, user.Email, user.AvatarUrl);
+                });
 
             #region Question
             FieldAsync<QuestionType>(
