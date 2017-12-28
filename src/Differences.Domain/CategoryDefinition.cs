@@ -90,7 +90,7 @@ namespace Differences.Domain
 
             var groupId = id / 100;
             var group = categoryGroups.FirstOrDefault(x => x.Id == groupId);
-            return @group?.Categories.FirstOrDefault(x => x.Id == id)?.Name;
+            return @group != null ? $"{@group.Name} - {@group.Categories.FirstOrDefault(x => x.Id == id)?.Name}" : null;
         }
     }
 }
