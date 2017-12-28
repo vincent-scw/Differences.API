@@ -53,18 +53,19 @@ namespace Differences.Domain.Users
             {
                 user.Update(userModel.DisplayName);
                 _userRepository.SaveChanges();
+
+                var b2cUser = new UserTemplate { DisplayName = userModel.DisplayName };
+                var jsonStr = JsonConvert.SerializeObject(b2cUser,
+                    Formatting.None,
+                    new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    });
+
+                // Update in Azure AD B2C
+                _graphClient.UpdateUser(globalId.ToString(), jsonStr).Wait();
             }
 
-            var b2cUser = new UserTemplate {DisplayName = userModel.DisplayName};
-            var jsonStr = JsonConvert.SerializeObject(b2cUser,
-                Formatting.None,
-                new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                });
-
-            // Update in Azure AD B2C
-            _graphClient.UpdateUser(globalId.ToString(), jsonStr).Wait();
             return user;
         }
 
