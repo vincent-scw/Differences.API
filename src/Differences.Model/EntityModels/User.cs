@@ -32,11 +32,11 @@ namespace Differences.Interaction.EntityModels
         [StringLength(200)]
         public string AvatarUrl { get; private set; }
 
-        public void Update(string displayName, string email, string url)
+        public void Update(string displayName)
         {
             DisplayName = displayName;
-            Email = email;
-            AvatarUrl = url;
+            //Email = email;
+            //AvatarUrl = url;
             LastUpdateTime = DateTime.Now;
         }
     }

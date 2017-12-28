@@ -21,6 +21,7 @@ namespace Differences.Api
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
 
             services.AddTransient<UserType>();
+            services.AddTransient<UserInputType>();
             services.AddTransient<AnswerType>();
             services.AddTransient<QuestionType>();
             services.AddTransient<ReplyInputType>();

@@ -16,6 +16,7 @@ namespace Differences.Api.Mutations
         {
             Name = "DifferencesMutation";
 
+            #region User
             FieldAsync<UserType>(
                 "checkUserInDb",
                 resolve: context =>
@@ -23,6 +24,18 @@ namespace Differences.Api.Mutations
                     var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     return userService.FindOrCreate(user.Id, user.DisplayName, user.Email, user.AvatarUrl);
                 });
+
+            FieldAsync<UserType>(
+                "updateUserInfo",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<UserInputType>> {Name = "user"}),
+                resolve: context =>
+                {
+                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
+                    var newUser = context.GetArgument<UserModel>("user");
+                    return userService.UpdateUser(user.Id, newUser);
+                });
+            #endregion
 
             #region Question
             FieldAsync<QuestionType>(

@@ -18,6 +18,7 @@ using Differences.Domain.Questions;
 using Differences.Domain.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using Differences.Common.Configuration;
 using Differences.Domain;
 
 namespace Differences.Api
@@ -70,6 +71,8 @@ namespace Differences.Api
                     OnAuthenticationFailed = AuthenticationFailed
                 };
              });
+
+            services.Configure<B2CGraphQL>(Configuration.GetSection("Authentication:B2CGraphQL"));
 
             services.AddDbContext<DifferencesDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Differences")));
@@ -154,6 +157,7 @@ namespace Differences.Api
         private static void InjectOthers(IServiceCollection services)
         {
             services.AddScoped<DifferencesDbContext>();
+            services.AddSingleton<B2CGraphClient.GraphClient>();
         }
     }
 }

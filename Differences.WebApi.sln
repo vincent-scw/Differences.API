@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Differences.Common", "src\D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Differences.Domain.Test", "test\Differences.Domain.Test\Differences.Domain.Test.csproj", "{99D62A96-1DA4-4C02-92C3-3BE56C725FC2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Differences.B2CGraphClient", "Differences.B2CGraphClient\Differences.B2CGraphClient.csproj", "{2E29FA16-C965-4A31-A6CD-A500FDFA84D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{99D62A96-1DA4-4C02-92C3-3BE56C725FC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99D62A96-1DA4-4C02-92C3-3BE56C725FC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99D62A96-1DA4-4C02-92C3-3BE56C725FC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E29FA16-C965-4A31-A6CD-A500FDFA84D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E29FA16-C965-4A31-A6CD-A500FDFA84D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E29FA16-C965-4A31-A6CD-A500FDFA84D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E29FA16-C965-4A31-A6CD-A500FDFA84D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{9201118C-59DF-4EDF-9A00-3A165AB7133E} = {5D50935B-6CFD-4BED-9009-DBD53E72AC70}
 		{79DB1D22-8995-43EC-8932-9786093F73CE} = {5D50935B-6CFD-4BED-9009-DBD53E72AC70}
 		{99D62A96-1DA4-4C02-92C3-3BE56C725FC2} = {3F6461BF-7CE4-4957-861C-0AB2140D58AA}
+		{2E29FA16-C965-4A31-A6CD-A500FDFA84D3} = {5D50935B-6CFD-4BED-9009-DBD53E72AC70}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {920999F6-E830-43F0-9282-41F1EDA8D47E}
