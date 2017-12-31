@@ -33,7 +33,9 @@ namespace Differences.Domain
                 Categories = new List<Category>
                 {
                     new Category(301, "英语", ""),
-                    new Category(399, "其他", ""),
+                    new Category(302, "中文", ""),
+                    new Category(303, "日语", ""),
+                    new Category(399, "小语种", ""),
                 }
             },
             new CategoryGroup(4, "社科人文", "")
