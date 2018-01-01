@@ -20,39 +20,45 @@ namespace Differences.Domain.Questions
 
         public Answer AddAnswer(ReplyModel reply, Guid userGuid)
         {
-            var question = _questionRepository.Get(reply.SubjectId);
-            if (question == null)
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Question.QuestionNotExists));
-
-            if (!_userRepository.Exists(userGuid))
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
-
             if (!new ReplyValidator(reply).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
-            var answer = new Answer(reply.SubjectId, reply.ParentId, reply.Content, userGuid);
-            question.AddAnswer(answer);
+            Answer answer;
+            using (_questionRepository.DbContext.Database.BeginTransaction())
+            {
+                var question = _questionRepository.Get(reply.SubjectId);
+                if (question == null)
+                    throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Question.QuestionNotExists));
 
-            _questionRepository.SaveChanges();
+                if (!_userRepository.Exists(userGuid))
+                    throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
+                answer = new Answer(reply.SubjectId, reply.ParentId, reply.Content, userGuid);
+                question.AddAnswer(answer);
+
+                _questionRepository.SaveChanges();
+            }
             return _questionRepository.GetAnswer(answer.Id);
         }
 
         public Answer UpdateAnswer(ReplyModel reply, Guid userGuid)
         {
-            var answer = _questionRepository.GetAnswer(reply.Id);
-            if (answer == null)
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Answer.AnswerNotExists));
-
-            if (answer.OwnerId != userGuid)
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.AccessDenied));
-
             if (!new ReplyValidator(reply).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
-            answer.Update(reply.Content);
-            _questionRepository.SaveChanges();
+            Answer answer;
+            using (_questionRepository.DbContext.Database.BeginTransaction())
+            {
+                answer = _questionRepository.GetAnswer(reply.Id);
+                if (answer == null)
+                    throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Answer.AnswerNotExists));
 
+                if (answer.OwnerId != userGuid)
+                    throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.AccessDenied));
+                
+                answer.Update(reply.Content);
+                _questionRepository.SaveChanges();
+            }
             return _questionRepository.GetAnswer(answer.Id);
         }
     }

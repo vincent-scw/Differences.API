@@ -35,11 +35,13 @@ namespace Differences.Domain.Users
                 return user;
             }
 
-            user = new User(globalId, displayName, email, avatarUrl);
+            using (_userRepository.DbContext.Database.BeginTransaction())
+            {
+                user = new User(globalId, displayName, email, avatarUrl);
 
-            _userRepository.Add(user);
-
-            _userRepository.SaveChanges(); // TODO: should not do this here
+                _userRepository.Add(user);
+                _userRepository.SaveChanges(); // TODO: should not do this here
+            }
             return user;
         }
 

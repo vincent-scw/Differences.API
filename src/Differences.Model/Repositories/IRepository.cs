@@ -5,11 +5,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Differences.Interaction.Repositories
 {
     public interface IRepository<TEntity> where TEntity : AggregateRoot
     {
+        DbContext DbContext { get; }
+
         TEntity Get(int id);
         IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression);
         IQueryable<TEntity> Find(ISpecification<TEntity> spec);

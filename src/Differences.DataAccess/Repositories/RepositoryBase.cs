@@ -15,7 +15,7 @@ namespace Differences.DataAccess.Repositories
     {
         private readonly DifferencesDbContext _dbContext;
 
-        protected DifferencesDbContext DbContext => _dbContext;
+        public DbContext DbContext => _dbContext;
 
         protected RepositoryBase(DifferencesDbContext dbContext)
         {

@@ -2,6 +2,7 @@
 using Differences.Interaction.Repositories;
 using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Differences.DataAccess.Repositories
 {
@@ -13,6 +14,8 @@ namespace Differences.DataAccess.Repositories
         {
             _dbContext = dbContext;
         }
+
+        public DbContext DbContext => _dbContext;
 
         public bool Exists(Guid userId)
         {
@@ -29,6 +32,8 @@ namespace Differences.DataAccess.Repositories
             user.CreateTime = DateTime.Now;
             user.CreatedBy = user.Id;
             _dbContext.Users.Add(user);
+            // Init UserScore when new user added
+            _dbContext.UserScores.Add(new UserScore(user.Id));
             return user;
         }
 

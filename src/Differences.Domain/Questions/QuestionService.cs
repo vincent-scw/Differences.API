@@ -48,12 +48,18 @@ namespace Differences.Domain.Questions
             if (!new SubjectValidator(subject).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
-            if (!_userRepository.Exists(userGuid))
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
+            Question result;
+            using (_questionRepository.DbContext.Database.BeginTransaction())
+            {
+                if (!_userRepository.Exists(userGuid))
+                    throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
-            var result = _questionRepository.Add(new Question(subject.Title, subject.Content, subject.CategoryId, userGuid));
-            _questionRepository.SaveChanges();
+                result =
+                    _questionRepository.Add(new Question(subject.Title, subject.Content, subject.CategoryId, userGuid));
+                _questionRepository.SaveChanges();
 
+
+            }
             _questionRepository.LoadReference(result, x => x.Owner);
             return new QuestionModel(result);
         }
@@ -63,19 +69,22 @@ namespace Differences.Domain.Questions
             if (!new SubjectValidator(subject).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
-            if (!_userRepository.Exists(userGuid))
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
+            Question question;
+            using (_questionRepository.DbContext.Database.BeginTransaction())
+            {
+                if (!_userRepository.Exists(userGuid))
+                    throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
-            var question = _questionRepository.Get(subject.Id);
-            if (question == null)
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Question.QuestionNotExists));
+                question = _questionRepository.Get(subject.Id);
+                if (question == null)
+                    throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Question.QuestionNotExists));
 
-            if (question.OwnerId != userGuid)
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.AccessDenied));
+                if (question.OwnerId != userGuid)
+                    throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.AccessDenied));
 
-            question.Update(subject.Title, subject.Content, subject.CategoryId);
-            _questionRepository.SaveChanges();
-
+                question.Update(subject.Title, subject.Content, subject.CategoryId);
+                _questionRepository.SaveChanges();
+            }
             var query = from q in _questionRepository.GetAll()
                 let o = q.Owner
                 let answerCount = q.Answers.Count
