@@ -45,11 +45,11 @@ namespace Differences.Domain.Questions
 
         public QuestionModel AskQuestion(SubjectModel subject, Guid userGuid)
         {
-            if (!_userRepository.Exists(userGuid))
-                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
-
             if (!new SubjectValidator(subject).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
+
+            if (!_userRepository.Exists(userGuid))
+                throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
             var result = _questionRepository.Add(new Question(subject.Title, subject.Content, subject.CategoryId, userGuid));
             _questionRepository.SaveChanges();
@@ -60,6 +60,9 @@ namespace Differences.Domain.Questions
 
         public QuestionModel UpdateQuestion(SubjectModel subject, Guid userGuid)
         {
+            if (!new SubjectValidator(subject).Validate(out string errorCode))
+                throw new DefinedException(GetLocalizedResource(errorCode));
+
             if (!_userRepository.Exists(userGuid))
                 throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
@@ -69,9 +72,6 @@ namespace Differences.Domain.Questions
 
             if (question.OwnerId != userGuid)
                 throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.AccessDenied));
-
-            if (!new SubjectValidator(subject).Validate(out string errorCode))
-                throw new DefinedException(GetLocalizedResource(errorCode));
 
             question.Update(subject.Title, subject.Content, subject.CategoryId);
             _questionRepository.SaveChanges();
