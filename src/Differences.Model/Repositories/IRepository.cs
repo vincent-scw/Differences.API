@@ -6,13 +6,20 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Differences.Interaction.Repositories
 {
-    public interface IRepository<TEntity> where TEntity : AggregateRoot
+    public interface IRepository
     {
-        DbContext DbContext { get; }
+        IDbContextTransaction BeginTransaction();
+        void SaveChanges();
+        Task SaveChangesAsync();
+    }
 
+    public interface IRepository<TEntity> : IRepository
+        where TEntity : AggregateRoot
+    {
         TEntity Get(int id);
         IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression);
         IQueryable<TEntity> Find(ISpecification<TEntity> spec);
@@ -22,9 +29,6 @@ namespace Differences.Interaction.Repositories
         TEntity Add(TEntity entity);
         int Remove(int id);
         TEntity Update(int id, TEntity entity);
-
-        void SaveChanges();
-        Task SaveChangesAsync();
 
         void LoadReference<T, TProperty>(T entity, Expression<Func<T, TProperty>> expression)
             where T : class

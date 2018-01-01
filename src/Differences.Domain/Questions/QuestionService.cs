@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Differences.Common;
 using Differences.Common.Resources;
 using Differences.Domain.Models;
+using Differences.Domain.Policies;
 using Differences.Domain.Users;
 using Differences.Domain.Validators;
 using Differences.Interaction.DataTransferModels;
@@ -49,16 +50,21 @@ namespace Differences.Domain.Questions
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
             Question result;
-            using (_questionRepository.DbContext.Database.BeginTransaction())
+            using (var tran = _questionRepository.BeginTransaction())
             {
-                if (!_userRepository.Exists(userGuid))
+                var user = _userRepository.Get(userGuid);
+                if (user == null)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
                 result =
                     _questionRepository.Add(new Question(subject.Title, subject.Content, subject.CategoryId, userGuid));
                 _questionRepository.SaveChanges();
 
+                user.UserScores.IncreaseContribution((int)ContributeTypeDefinition.NewQuestionAdded,
+                    new NewQuestionContributionRule().IncreasingValue, result.Id);
+                _questionRepository.SaveChanges();
 
+                tran.Commit();
             }
             _questionRepository.LoadReference(result, x => x.Owner);
             return new QuestionModel(result);
@@ -70,7 +76,7 @@ namespace Differences.Domain.Questions
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
             Question question;
-            using (_questionRepository.DbContext.Database.BeginTransaction())
+            using (var tran = _questionRepository.BeginTransaction())
             {
                 if (!_userRepository.Exists(userGuid))
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));

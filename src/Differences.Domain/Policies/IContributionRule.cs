@@ -6,7 +6,11 @@ namespace Differences.Domain.Policies
 {
     public interface IContributionRule
     {
-        int Increase();
-        int Decrease();
+        int IncreasingValue { get; }
+    }
+
+    public interface IContributionRule<TModel> : IContributionRule
+    {
+        
     }
 }

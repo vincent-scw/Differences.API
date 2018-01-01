@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Differences.DataAccess.Repositories
 {
@@ -15,12 +16,12 @@ namespace Differences.DataAccess.Repositories
     {
         private readonly DifferencesDbContext _dbContext;
 
-        public DbContext DbContext => _dbContext;
-
         protected RepositoryBase(DifferencesDbContext dbContext)
         {
             _dbContext = dbContext;
         }
+
+        protected DifferencesDbContext DbContext => _dbContext;
 
         protected virtual Expression<Func<TEntity, object>>[] DefaultIncludes { get; }
 
@@ -94,6 +95,11 @@ namespace Differences.DataAccess.Repositories
             }
         }
         #endregion
+
+        public IDbContextTransaction BeginTransaction()
+        {
+            return _dbContext.Database.BeginTransaction();
+        }
 
         public virtual void SaveChanges()
         {

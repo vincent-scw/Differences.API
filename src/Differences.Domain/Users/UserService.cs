@@ -35,7 +35,7 @@ namespace Differences.Domain.Users
                 return user;
             }
 
-            using (_userRepository.DbContext.Database.BeginTransaction())
+            using (_userRepository.BeginTransaction())
             {
                 user = new User(globalId, displayName, email, avatarUrl);
 

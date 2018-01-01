@@ -7,9 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Differences.Interaction.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository
     {
-        DbContext DbContext { get; }
         bool Exists(Guid userId);
 
         User Get(Guid userId);
@@ -17,7 +16,5 @@ namespace Differences.Interaction.Repositories
         User Add(User user);
 
         IQueryable<User> GetAll();
-
-        void SaveChanges();
     }
 }

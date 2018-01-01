@@ -2,11 +2,13 @@
 using Differences.Interaction.Repositories;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Differences.DataAccess.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository, IRepository
     {
         private readonly DifferencesDbContext _dbContext;
 
@@ -15,8 +17,6 @@ namespace Differences.DataAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public DbContext DbContext => _dbContext;
-
         public bool Exists(Guid userId)
         {
             return _dbContext.Users.Any(x => x.Id == userId);
@@ -24,7 +24,7 @@ namespace Differences.DataAccess.Repositories
 
         public User Get(Guid userId)
         {
-            return _dbContext.Users.SingleOrDefault(x => x.Id == userId);
+            return _dbContext.Users.Include(x => x.UserScores).SingleOrDefault(x => x.Id == userId);
         }
 
         public User Add(User user)
@@ -42,9 +42,19 @@ namespace Differences.DataAccess.Repositories
             return _dbContext.Users;
         }
 
+        public IDbContextTransaction BeginTransaction()
+        {
+            return _dbContext.Database.BeginTransaction();
+        }
+
         public void SaveChanges()
         {
             _dbContext.SaveChanges();
+        }
+
+        public Task SaveChangesAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

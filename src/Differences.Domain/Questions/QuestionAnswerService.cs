@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Differences.Common;
+using Differences.Domain.Policies;
 using Differences.Domain.Validators;
 using Differences.Interaction.DataTransferModels;
 using Differences.Interaction.EntityModels;
@@ -24,19 +25,26 @@ namespace Differences.Domain.Questions
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
             Answer answer;
-            using (_questionRepository.DbContext.Database.BeginTransaction())
+            using (var tran = _questionRepository.BeginTransaction())
             {
+                var user = _userRepository.Get(userGuid);
+                if (user == null)
+                    throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
+
                 var question = _questionRepository.Get(reply.SubjectId);
                 if (question == null)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Question.QuestionNotExists));
-
-                if (!_userRepository.Exists(userGuid))
-                    throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
                 answer = new Answer(reply.SubjectId, reply.ParentId, reply.Content, userGuid);
                 question.AddAnswer(answer);
 
                 _questionRepository.SaveChanges();
+
+                user.UserScores.IncreaseContribution((int)ContributeTypeDefinition.NewAnswerAdded,
+                    new NewReplyContributionRule().IncreasingValue, answer.Id);
+                _questionRepository.SaveChanges();
+
+                tran.Commit();
             }
             return _questionRepository.GetAnswer(answer.Id);
         }
@@ -47,7 +55,7 @@ namespace Differences.Domain.Questions
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
             Answer answer;
-            using (_questionRepository.DbContext.Database.BeginTransaction())
+            using (_questionRepository.BeginTransaction())
             {
                 answer = _questionRepository.GetAnswer(reply.Id);
                 if (answer == null)

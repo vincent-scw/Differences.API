@@ -32,12 +32,16 @@ namespace Differences.Interaction.EntityModels
         public void IncreaseContribution(int type, int value, int? subjectiId)
         {
             ContributeValue += value;
+            LastUpdateTime = DateTime.Now;
+            LastUpdatedBy = Id;
             this.ContributionLog.Add(new UserContributionLog(Id, type, value, subjectiId));
         }
 
         public void DecreaseContribution(int type, int value, int? subjectId)
         {
             ContributeValue -= value;
+            LastUpdateTime = DateTime.Now;
+            LastUpdatedBy = Id;
             this.ContributionLog.Add(new UserContributionLog(Id, type, value, subjectId));
         }
     }
