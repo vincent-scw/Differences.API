@@ -26,6 +26,8 @@ namespace Differences.DataAccess.Repositories
 
         public User Add(User user)
         {
+            user.CreateTime = DateTime.Now;
+            user.CreatedBy = user.Id;
             _dbContext.Users.Add(user);
             return user;
         }
