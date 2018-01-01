@@ -32,7 +32,7 @@ namespace Differences.Interaction.EntityModels
         public string DisplayName { get; private set; }
         [StringLength(200)]
         public string AvatarUrl { get; private set; }
-
+        
         public virtual UserScore UserScores { get; private set; }
 
         public void Update(string displayName)

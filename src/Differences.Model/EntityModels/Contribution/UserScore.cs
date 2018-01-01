@@ -26,7 +26,7 @@ namespace Differences.Interaction.EntityModels
         public User User { get; private set; }
         [Required]
         public int ContributeValue { get; private set; }
-
+        [ForeignKey("UserId")]
         public virtual ICollection<UserContributionLog> ContributionLog { get; private set; }
 
         public void IncreaseContribution(int type, int value, int? subjectiId)
