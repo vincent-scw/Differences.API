@@ -16,17 +16,29 @@ namespace Differences.DataAccess.Repositories
         {
         }
 
-        protected override Expression<Func<Question, object>>[] DefaultIncludes => new Expression<Func<Question, object>>[]
+        public override Question Get(int id)
         {
-            (x => x.Owner)
-        };
+            return DbContext
+                .Set<Question>()
+                    .Include(x => x.Owner)
+                        .ThenInclude(x => x.UserScores).FirstOrDefault(x => x.Id == id);
+        }
+
+        public override IQueryable<Question> GetAll()
+        {
+            return DbContext.Set<Question>()
+                    .Include(x => x.Owner)
+                        .ThenInclude(x => x.UserScores);
+        }
 
         public IReadOnlyList<Answer> GetAnswers(int questionId)
         {
             return DbContext.Set<Answer>()
                             .Include(x => x.Owner)
+                                .ThenInclude(o => o.UserScores)
                             .Include(x => x.SubAnswers)
                                 .ThenInclude(answer => answer.Owner)
+                                    .ThenInclude(owner => owner.UserScores)
                             .Where(x => x.QuestionId == questionId && x.ParentReplyId == null).ToList();
         }
 
@@ -34,8 +46,10 @@ namespace Differences.DataAccess.Repositories
         {
             var retval = DbContext.Set<Answer>()
                             .Include(x => x.Owner)
+                                .ThenInclude(o => o.UserScores)
                             .Include(x => x.SubAnswers)
                                 .ThenInclude(answer => answer.Owner)
+                                    .ThenInclude(owner => owner.UserScores)
                             .FirstOrDefault(x => x.Id == answerId);
             return retval;
         }

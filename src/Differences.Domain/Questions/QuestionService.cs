@@ -66,8 +66,8 @@ namespace Differences.Domain.Questions
 
                 tran.Commit();
             }
-            _questionRepository.LoadReference(result, x => x.Owner);
-            return new QuestionModel(result);
+
+            return QuestionModel(result);
         }
 
         public QuestionModel UpdateQuestion(SubjectModel subject, Guid userGuid)
@@ -91,21 +91,23 @@ namespace Differences.Domain.Questions
                 question.Update(subject.Title, subject.Content, subject.CategoryId);
                 _questionRepository.SaveChanges();
             }
-            var query = from q in _questionRepository.GetAll()
-                let o = q.Owner
+
+            return QuestionModel(question);
+        }
+
+        private QuestionModel QuestionModel(Question question)
+        {
+            return (from q in _questionRepository.Find(x => x.Id == question.Id)
                 let answerCount = q.Answers.Count
-                where q.Id == question.Id
                 select new QuestionModel(q)
                 {
                     AnswerCount = answerCount
-                };
-            return query.First();
+                }).First();
         }
 
         public IReadOnlyList<QuestionModel> GetQuestionsByCriteria(CriteriaModel criteria)
         {
             var query = from q in GetSearchQuery(criteria.CategoryId).Skip(criteria.Offset ?? 0).Take(criteria.Limit ?? 0)
-                        let o = q.Owner
                         let answerCount = q.Answers.Count
                         select new QuestionModel(q)
                         {

@@ -23,11 +23,9 @@ namespace Differences.DataAccess.Repositories
 
         protected DifferencesDbContext DbContext => _dbContext;
 
-        protected virtual Expression<Func<TEntity, object>>[] DefaultIncludes { get; }
-
         public virtual TEntity Get(int id)
         {
-            return _dbContext.Set<TEntity>().IncludeEx(DefaultIncludes).FirstOrDefault(x => x.Id == id);
+            return _dbContext.Set<TEntity>().FirstOrDefault(x => x.Id == id);
         }
 
         public virtual IQueryable<TEntity> Find(ISpecification<TEntity> spec)
@@ -37,12 +35,12 @@ namespace Differences.DataAccess.Repositories
 
         public virtual IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression)
         {
-            return _dbContext.Set<TEntity>().IncludeEx(DefaultIncludes).Where(expression);
+            return GetAll().Where(expression);
         }
 
         public virtual IQueryable<TEntity> GetAll()
         {
-            return _dbContext.Set<TEntity>().IncludeEx(DefaultIncludes);
+            return _dbContext.Set<TEntity>();
         }
 
         public bool Exists(int id)
