@@ -46,6 +46,7 @@ namespace Differences.Interaction.EntityModels
         {
             Content = content;
             LastUpdateTime = DateTime.Now;
+            LastUpdatedBy = OwnerId;
         }
     }
 }

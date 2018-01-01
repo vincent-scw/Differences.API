@@ -41,6 +41,7 @@ namespace Differences.Interaction.EntityModels
             //Email = email;
             //AvatarUrl = url;
             LastUpdateTime = DateTime.Now;
+            LastUpdatedBy = Id;
         }
     }
 }

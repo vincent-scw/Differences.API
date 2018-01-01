@@ -45,6 +45,7 @@ namespace Differences.Interaction.EntityModels
             Content = content;
             this.CategoryId = categoryId;
             LastUpdateTime = DateTime.Now;
+            LastUpdatedBy = OwnerId;
         }
 
         public void AddAnswer(Answer reply)
