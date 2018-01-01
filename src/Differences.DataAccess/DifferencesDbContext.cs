@@ -14,5 +14,7 @@ namespace Differences.DataAccess
         public DbSet<User> Users { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<UserScore> UserScores { get; set; }
+        public DbSet<UserContributionLog> UserContributionLogs { get; set; }
     }
 }
