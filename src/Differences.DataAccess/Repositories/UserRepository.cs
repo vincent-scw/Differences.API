@@ -1,14 +1,13 @@
 ﻿using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Differences.DataAccess.Repositories
 {
-    public class UserRepository : IUserRepository, IRepository
+    public class UserRepository : IUserRepository
     {
         private readonly DifferencesDbContext _dbContext;
 
@@ -42,9 +41,21 @@ namespace Differences.DataAccess.Repositories
             return _dbContext.Users;
         }
 
-        public IDbContextTransaction BeginTransaction()
+        public void UseTransaction(Action action)
         {
-            return _dbContext.Database.BeginTransaction();
+            using (var tran = _dbContext.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
+            {
+                try
+                {
+                    action();
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+            }
         }
 
         public void SaveChanges()

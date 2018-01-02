@@ -1,13 +1,10 @@
 ﻿using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
-using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Differences.DataAccess.Repositories
 {
@@ -94,9 +91,21 @@ namespace Differences.DataAccess.Repositories
         }
         #endregion
 
-        public IDbContextTransaction BeginTransaction()
+        public void UseTransaction(Action action)
         {
-            return _dbContext.Database.BeginTransaction();
+            using (var tran = _dbContext.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
+            {
+                try
+                {
+                    action();
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+            }
         }
 
         public virtual void SaveChanges()

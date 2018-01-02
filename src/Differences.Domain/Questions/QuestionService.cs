@@ -49,8 +49,8 @@ namespace Differences.Domain.Questions
             if (!new SubjectValidator(subject).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
-            Question result;
-            using (var tran = _questionRepository.BeginTransaction())
+            Question result = null;
+            _questionRepository.UseTransaction(() =>
             {
                 var user = _userRepository.Get(userGuid);
                 if (user == null)
@@ -60,12 +60,11 @@ namespace Differences.Domain.Questions
                     _questionRepository.Add(new Question(subject.Title, subject.Content, subject.CategoryId, userGuid));
                 _questionRepository.SaveChanges();
 
-                user.UserScores.IncreaseContribution((int)ContributeTypeDefinition.NewQuestionAdded,
+                user.UserScores.IncreaseContribution((int) ContributeTypeDefinition.NewQuestionAdded,
                     new NewQuestionContributionRule().IncreasingValue, result.Id);
                 _questionRepository.SaveChanges();
 
-                tran.Commit();
-            }
+            });
 
             return QuestionModel(result);
         }
@@ -75,8 +74,8 @@ namespace Differences.Domain.Questions
             if (!new SubjectValidator(subject).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
-            Question question;
-            using (var tran = _questionRepository.BeginTransaction())
+            Question question = null;
+            _questionRepository.UseTransaction(() =>
             {
                 if (!_userRepository.Exists(userGuid))
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
@@ -90,7 +89,7 @@ namespace Differences.Domain.Questions
 
                 question.Update(subject.Title, subject.Content, subject.CategoryId);
                 _questionRepository.SaveChanges();
-            }
+            });
 
             return QuestionModel(question);
         }

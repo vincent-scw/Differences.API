@@ -12,7 +12,7 @@ namespace Differences.Interaction.Repositories
 {
     public interface IRepository
     {
-        IDbContextTransaction BeginTransaction();
+        void UseTransaction(Action action);
         void SaveChanges();
         Task SaveChangesAsync();
     }

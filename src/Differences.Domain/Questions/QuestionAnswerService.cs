@@ -24,8 +24,8 @@ namespace Differences.Domain.Questions
             if (!new ReplyValidator(reply).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
-            Answer answer;
-            using (var tran = _questionRepository.BeginTransaction())
+            Answer answer = null; ;
+            _questionRepository.UseTransaction(() =>
             {
                 var user = _userRepository.Get(userGuid);
                 if (user == null)
@@ -40,12 +40,10 @@ namespace Differences.Domain.Questions
 
                 _questionRepository.SaveChanges();
 
-                user.UserScores.IncreaseContribution((int)ContributeTypeDefinition.NewAnswerAdded,
+                user.UserScores.IncreaseContribution((int) ContributeTypeDefinition.NewAnswerAdded,
                     new NewReplyContributionRule().IncreasingValue, answer.Id);
                 _questionRepository.SaveChanges();
-
-                tran.Commit();
-            }
+            });
             return _questionRepository.GetAnswer(answer.Id);
         }
 
@@ -54,8 +52,8 @@ namespace Differences.Domain.Questions
             if (!new ReplyValidator(reply).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
-            Answer answer;
-            using (_questionRepository.BeginTransaction())
+            Answer answer = null;
+            _questionRepository.UseTransaction(() =>
             {
                 answer = _questionRepository.GetAnswer(reply.Id);
                 if (answer == null)
@@ -63,10 +61,11 @@ namespace Differences.Domain.Questions
 
                 if (answer.OwnerId != userGuid)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.AccessDenied));
-                
+
                 answer.Update(reply.Content);
                 _questionRepository.SaveChanges();
-            }
+            });
+                
             return _questionRepository.GetAnswer(answer.Id);
         }
     }
