@@ -34,7 +34,8 @@ namespace Differences.Interaction.EntityModels
             ContributeValue += value;
             LastUpdateTime = DateTime.Now;
             LastUpdatedBy = Id;
-            this.ContributionLog.Add(new UserContributionLog(Id, type, value, subjectiId));
+            this.ContributionLog.Add(
+                new UserContributionLog(Id, type, value, subjectiId) {CreateTime = DateTime.Now, CreatedBy = Id});
         }
 
         public void DecreaseContribution(int type, int value, int? subjectId)
@@ -42,7 +43,8 @@ namespace Differences.Interaction.EntityModels
             ContributeValue -= value;
             LastUpdateTime = DateTime.Now;
             LastUpdatedBy = Id;
-            this.ContributionLog.Add(new UserContributionLog(Id, type, value, subjectId));
+            this.ContributionLog.Add(
+                new UserContributionLog(Id, type, value, subjectId) {CreateTime = DateTime.Now, CreatedBy = Id});
         }
     }
 }
