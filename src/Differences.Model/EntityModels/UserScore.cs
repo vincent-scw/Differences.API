@@ -30,7 +30,7 @@ namespace Differences.Interaction.EntityModels
         [ForeignKey("UserId")]
         public virtual ICollection<UserContributionLog> ContributionLogs { get; private set; }
         [Required]
-        public int ReputationValue { get; private set; }
+        public double ReputationValue { get; private set; }
         [ForeignKey("UserId")]
         public virtual ICollection<UserReputationLog> ReputationLogs { get; private set; }
 
@@ -43,7 +43,7 @@ namespace Differences.Interaction.EntityModels
                 new UserContributionLog(Id, type, value, subjectiId) {CreateTime = DateTime.Now, CreatedBy = Id});
         }
 
-        public void IncreaseReputation(int type, int value, int? subjectId)
+        public void IncreaseReputation(int type, double value, int? subjectId)
         {
             ReputationValue += value;
             LastUpdateTime = DateTime.Now;

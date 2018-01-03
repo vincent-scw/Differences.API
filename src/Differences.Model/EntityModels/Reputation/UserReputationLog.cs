@@ -12,7 +12,7 @@ namespace Differences.Interaction.EntityModels
         [ExcludeFromCodeCoverage]
         public UserReputationLog() { }
 
-        public UserReputationLog(Guid userId, int reputationTypeId, int value, int? subjectId)
+        public UserReputationLog(Guid userId, int reputationTypeId, double value, int? subjectId)
             : this()
         {
             UserId = userId;
@@ -28,7 +28,7 @@ namespace Differences.Interaction.EntityModels
         [Required]
         public int ReputationTypeId { get; private set; }
         [Required]
-        public int Value { get; private set; }
+        public double Value { get; private set; }
         public int? SubjectId { get; private set; }
     }
 }
