@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Differences.Common.Configuration;
 using Differences.Domain;
+using Differences.Domain.LikeRecords;
 
 namespace Differences.Api
 {
@@ -146,12 +147,14 @@ namespace Differences.Api
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<ILikeRecordRepository, LikeRecordRepository>();
         }
 
         private static void InjectServices(IServiceCollection services)
         {
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ILikeRecordService, LikeRecordService>();
         }
 
         private static void InjectOthers(IServiceCollection services)
