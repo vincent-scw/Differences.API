@@ -19,11 +19,7 @@ namespace Differences.Api.Mutations
             #region User
             FieldAsync<UserType>(
                 "checkUserInDb",
-                resolve: context =>
-                {
-                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
-                    return userService.FindOrCreate(user.Id, user.DisplayName, user.Email, user.AvatarUrl);
-                });
+                resolve: context => userService.FindOrCreate());
 
             FieldAsync<UserType>(
                 "updateUserInfo",
@@ -31,9 +27,8 @@ namespace Differences.Api.Mutations
                     new QueryArgument<NonNullGraphType<UserInputType>> {Name = "user"}),
                 resolve: context =>
                 {
-                    var user = ((GraphQLUserContext)context.UserContext).UserInfo;
                     var newUser = context.GetArgument<UserModel>("user");
-                    return userService.UpdateUser(user.Id, newUser);
+                    return userService.UpdateUser(newUser);
                 });
             #endregion
 
@@ -47,11 +42,10 @@ namespace Differences.Api.Mutations
                 {
                     try
                     {
-                        var user = ((GraphQLUserContext) context.UserContext).UserInfo;
                         var question = context.GetArgument<SubjectModel>("question");
                         return question.Id == 0
-                            ? questionService.AskQuestion(question, user.Id)
-                            : questionService.UpdateQuestion(question, user.Id);
+                            ? questionService.AskQuestion(question)
+                            : questionService.UpdateQuestion(question);
                     }
                     catch (DefinedException ex)
                     {
@@ -70,11 +64,10 @@ namespace Differences.Api.Mutations
                 {
                     try
                     {
-                        var user = ((GraphQLUserContext) context.UserContext).UserInfo;
                         var answer = context.GetArgument<ReplyModel>("answer");
                         return answer.Id == 0
-                            ? questionService.AddAnswer(answer, user.Id)
-                            : questionService.UpdateAnswer(answer, user.Id);
+                            ? questionService.AddAnswer(answer)
+                            : questionService.UpdateAnswer(answer);
                     }
                     catch (DefinedException ex)
                     {

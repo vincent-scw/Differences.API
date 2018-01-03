@@ -152,6 +152,8 @@ namespace Differences.Api
 
         private static void InjectServices(IServiceCollection services)
         {
+            services.AddScoped<IUserContextService, HttpUserContextService>();
+
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ILikeRecordService, LikeRecordService>();

@@ -5,14 +5,13 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using DataLoader;
 using Differences.Api.Model;
+using Differences.Common;
 
 namespace Differences.Api
 {
     public class GraphQLUserContext
     {
         public DataLoaderContext LoadContext { get; }
-
-        public UserInfo UserInfo { get; }
 
         public bool IsAuthenticated { get; }
 
@@ -21,9 +20,6 @@ namespace Differences.Api
         {
             LoadContext = loadContext;
             IsAuthenticated = user.Identity.IsAuthenticated;
-
-            if (IsAuthenticated)
-                UserInfo = new UserInfo(user);
         }
     }
 }

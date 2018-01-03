@@ -11,13 +11,13 @@ namespace Differences.Domain.Questions
     public interface IQuestionService
     {
         QuestionModel GetQuestion(int questionId);
-        QuestionModel AskQuestion(SubjectModel subject, Guid userGuid);
-        QuestionModel UpdateQuestion(SubjectModel subject, Guid userGuid);
+        QuestionModel AskQuestion(SubjectModel subject);
+        QuestionModel UpdateQuestion(SubjectModel subject);
         IReadOnlyList<QuestionModel> GetQuestionsByCriteria(CriteriaModel criteria);
         int GetQuestionCountByCriteria(CriteriaModel criteria);
         IReadOnlyList<Answer> GetAnswersByQuestionId(int questionId);
 
-        Answer AddAnswer(ReplyModel reply, Guid userGuid);
-        Answer UpdateAnswer(ReplyModel reply, Guid userGuid);
+        Answer AddAnswer(ReplyModel reply);
+        Answer UpdateAnswer(ReplyModel reply);
     }
 }

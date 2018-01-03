@@ -20,15 +20,18 @@ namespace Differences.Domain.Questions
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IUserContextService _userContextService;
 
         public QuestionService(
             IQuestionRepository questionRepository,
             IUserRepository userRepository,
+            IUserContextService userContextService,
             IStringLocalizer<Errors> localizer)
             : base(localizer)
         {
             _questionRepository = questionRepository;
             _userRepository = userRepository;
+            _userContextService = userContextService;
         }
 
         public QuestionModel GetQuestion(int questionId)
@@ -44,20 +47,22 @@ namespace Differences.Domain.Questions
             return query.First();
         }
 
-        public QuestionModel AskQuestion(SubjectModel subject, Guid userGuid)
+        public QuestionModel AskQuestion(SubjectModel subject)
         {
             if (!new SubjectValidator(subject).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
+            var userInfo = _userContextService.GetUserInfo();
+
             Question result = null;
             _questionRepository.UseTransaction(() =>
             {
-                var user = _userRepository.Get(userGuid);
+                var user = _userRepository.Get(userInfo.Id);
                 if (user == null)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
                 result =
-                    _questionRepository.Add(new Question(subject.Title, subject.Content, subject.CategoryId, userGuid));
+                    _questionRepository.Add(new Question(subject.Title, subject.Content, subject.CategoryId, userInfo.Id));
                 _questionRepository.SaveChanges();
 
                 user.UserScores.IncreaseContribution((int) ContributeTypeDefinition.NewQuestionAdded,
@@ -69,22 +74,24 @@ namespace Differences.Domain.Questions
             return QuestionModel(result);
         }
 
-        public QuestionModel UpdateQuestion(SubjectModel subject, Guid userGuid)
+        public QuestionModel UpdateQuestion(SubjectModel subject)
         {
             if (!new SubjectValidator(subject).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
+            var userInfo = _userContextService.GetUserInfo();
+
             Question question = null;
             _questionRepository.UseTransaction(() =>
             {
-                if (!_userRepository.Exists(userGuid))
+                if (!_userRepository.Exists(userInfo.Id))
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
                 question = _questionRepository.Get(subject.Id);
                 if (question == null)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Question.QuestionNotExists));
 
-                if (question.OwnerId != userGuid)
+                if (question.OwnerId != userInfo.Id)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.AccessDenied));
 
                 question.Update(subject.Title, subject.Content, subject.CategoryId);
