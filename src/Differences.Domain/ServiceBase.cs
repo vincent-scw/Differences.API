@@ -10,9 +10,17 @@ namespace Differences.Domain
     {
         private readonly IStringLocalizer<Errors> _localizer;
 
-        public ServiceBase(IStringLocalizer<Errors> localizer)
+        protected IUserContextService UserContextService { get; private set; }
+        protected Guid UserId { get; private set; }
+
+        public ServiceBase(IUserContextService userContextService, 
+            IStringLocalizer<Errors> localizer)
         {
             _localizer = localizer;
+            UserContextService = userContextService;
+            var userInfo = UserContextService.GetUserInfo();
+            if (userInfo != null)
+                UserId = userInfo.Id;
         }
 
         protected string GetLocalizedResource(string name)

@@ -17,22 +17,20 @@ namespace Differences.Domain.Users
     {
         private readonly IUserRepository _userRepository;
         private readonly GraphClient _graphClient;
-        private readonly IUserContextService _userContextService;
 
         public UserService(IUserRepository userRepository,
             IUserContextService userContextService,
             GraphClient graphClient,
             IStringLocalizer<Errors> localizer)
-            : base(localizer)
+            : base(userContextService, localizer)
         {
             _userRepository = userRepository;
-            _userContextService = userContextService;
             _graphClient = graphClient;
         }
 
         public User FindOrCreate()
         {
-            var userInfo = _userContextService.GetUserInfo();
+            var userInfo = UserContextService.GetUserInfo();
             var user = _userRepository.Get(userInfo.Id);
             if (user != null)
             {
@@ -51,8 +49,7 @@ namespace Differences.Domain.Users
 
         public User UpdateUser(UserModel userModel)
         {
-            var userInfo = _userContextService.GetUserInfo();
-            var user = _userRepository.Get(userInfo.Id);
+            var user = _userRepository.Get(UserId);
             if (user == null)
                 throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
@@ -70,7 +67,7 @@ namespace Differences.Domain.Users
                     });
 
                 // Update in Azure AD B2C
-                _graphClient.UpdateUser(userInfo.Id.ToString(), jsonStr).Wait();
+                _graphClient.UpdateUser(UserId.ToString(), jsonStr).Wait();
             }
 
             return user;

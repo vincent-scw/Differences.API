@@ -20,18 +20,16 @@ namespace Differences.Domain.Questions
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IUserContextService _userContextService;
 
         public QuestionService(
             IQuestionRepository questionRepository,
             IUserRepository userRepository,
             IUserContextService userContextService,
             IStringLocalizer<Errors> localizer)
-            : base(localizer)
+            : base(userContextService, localizer)
         {
             _questionRepository = questionRepository;
             _userRepository = userRepository;
-            _userContextService = userContextService;
         }
 
         public QuestionModel GetQuestion(int questionId)
@@ -52,17 +50,15 @@ namespace Differences.Domain.Questions
             if (!new SubjectValidator(subject).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
-            var userInfo = _userContextService.GetUserInfo();
-
             Question result = null;
             _questionRepository.UseTransaction(() =>
             {
-                var user = _userRepository.Get(userInfo.Id);
+                var user = _userRepository.Get(UserId);
                 if (user == null)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
                 result =
-                    _questionRepository.Add(new Question(subject.Title, subject.Content, subject.CategoryId, userInfo.Id));
+                    _questionRepository.Add(new Question(subject.Title, subject.Content, subject.CategoryId, UserId));
                 _questionRepository.SaveChanges();
 
                 user.UserScores.IncreaseContribution((int) ContributeTypeDefinition.NewQuestionAdded,
@@ -79,19 +75,17 @@ namespace Differences.Domain.Questions
             if (!new SubjectValidator(subject).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
-            var userInfo = _userContextService.GetUserInfo();
-
             Question question = null;
             _questionRepository.UseTransaction(() =>
             {
-                if (!_userRepository.Exists(userInfo.Id))
+                if (!_userRepository.Exists(UserId))
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
                 question = _questionRepository.Get(subject.Id);
                 if (question == null)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Question.QuestionNotExists));
 
-                if (question.OwnerId != userInfo.Id)
+                if (question.OwnerId != UserId)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.AccessDenied));
 
                 question.Update(subject.Title, subject.Content, subject.CategoryId);

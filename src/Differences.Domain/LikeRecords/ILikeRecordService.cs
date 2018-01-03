@@ -6,7 +6,7 @@ namespace Differences.Domain.LikeRecords
 {
     public interface ILikeRecordService
     {
-        List<int> GetRecordsByQuestion(Guid userId, int questionId);
-        bool AddRecord(Guid userId, int questionId, int answerId);
+        IReadOnlyList<int> GetRecordsByQuestion(int questionId);
+        void AddRecord(int questionId, int answerId);
     }
 }

@@ -24,12 +24,10 @@ namespace Differences.Domain.Questions
             if (!new ReplyValidator(reply).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
-            var userInfo = _userContextService.GetUserInfo();
-
             Answer answer = null; ;
             _questionRepository.UseTransaction(() =>
             {
-                var user = _userRepository.Get(userInfo.Id);
+                var user = _userRepository.Get(UserId);
                 if (user == null)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
@@ -37,7 +35,7 @@ namespace Differences.Domain.Questions
                 if (question == null)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Question.QuestionNotExists));
 
-                answer = new Answer(reply.SubjectId, reply.ParentId, reply.Content, userInfo.Id);
+                answer = new Answer(reply.SubjectId, reply.ParentId, reply.Content, UserId);
                 question.AddAnswer(answer);
 
                 _questionRepository.SaveChanges();
@@ -54,8 +52,6 @@ namespace Differences.Domain.Questions
             if (!new ReplyValidator(reply).Validate(out string errorCode))
                 throw new DefinedException(GetLocalizedResource(errorCode));
 
-            var userInfo = _userContextService.GetUserInfo();
-
             Answer answer = null;
             _questionRepository.UseTransaction(() =>
             {
@@ -63,7 +59,7 @@ namespace Differences.Domain.Questions
                 if (answer == null)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.Answer.AnswerNotExists));
 
-                if (answer.OwnerId != userInfo.Id)
+                if (answer.OwnerId != UserId)
                     throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.AccessDenied));
 
                 answer.Update(reply.Content);

@@ -20,8 +20,8 @@ namespace Differences.Common.Extensions
         /// <returns>The id for the transaction user.</returns>
         public static UserInfo GetUserInfo(this ClaimsPrincipal user)
         {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
+            if (user == null || !user.Identity.IsAuthenticated)
+                return null;
 
             return new UserInfo(user);
         }
