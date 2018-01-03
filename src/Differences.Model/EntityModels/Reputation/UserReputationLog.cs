@@ -7,16 +7,16 @@ using System.Text;
 
 namespace Differences.Interaction.EntityModels
 {
-    public class UserContributionLog : Entity
+    public class UserReputationLog : Entity
     {
         [ExcludeFromCodeCoverage]
-        public UserContributionLog() { }
+        public UserReputationLog() { }
 
-        public UserContributionLog(Guid userId, int contributeTypeId, int value, int? subjectId)
+        public UserReputationLog(Guid userId, int reputationTypeId, int value, int? subjectId)
             : this()
         {
             UserId = userId;
-            ContributeTypeId = contributeTypeId;
+            ReputationTypeId = reputationTypeId;
             Value = value;
             SubjectId = subjectId;
         }
@@ -26,7 +26,7 @@ namespace Differences.Interaction.EntityModels
         [ForeignKey("UserId")]
         public User User { get; private set; }
         [Required]
-        public int ContributeTypeId { get; private set; }
+        public int ReputationTypeId { get; private set; }
         [Required]
         public int Value { get; private set; }
         public int? SubjectId { get; private set; }
