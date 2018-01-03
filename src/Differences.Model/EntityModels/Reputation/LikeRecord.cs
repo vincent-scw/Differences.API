@@ -14,10 +14,11 @@ namespace Differences.Interaction.EntityModels
         {
         }
 
-        public LikeRecord(Guid userId, int subjectId)
+        public LikeRecord(Guid userId, int questionId, int answerId)
         {
             UserId = userId;
-            SubjectId = subjectId;
+            QuestionId = questionId;
+            AnswerId = answerId;
         }
 
         [Required]
@@ -25,6 +26,8 @@ namespace Differences.Interaction.EntityModels
         [ForeignKey("UserId")]
         public User User { get; private set; }
         [Required]
-        public int SubjectId { get; private set; }
+        public int QuestionId { get; private set; }
+        [Required]
+        public int AnswerId { get; private set; }
     }
 }
