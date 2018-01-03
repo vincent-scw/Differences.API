@@ -10,6 +10,7 @@ using Differences.Interaction.Repositories;
 using Differences.Domain.Questions;
 using Differences.Interaction.DataTransferModels;
 using Differences.Domain;
+using Differences.Domain.LikeRecords;
 
 namespace Differences.Api.Queries
 {
@@ -18,7 +19,7 @@ namespace Differences.Api.Queries
         public DifferencesQuery(
             IUserService userService,
             IQuestionService questionService,
-            IQuestionRepository questionRepository)
+            ILikeRecordService likeRecordService)
         {
             Name = "DifferencesQuery";
 
@@ -69,6 +70,17 @@ namespace Differences.Api.Queries
                 {
                     var questionId = context.GetArgument<int>("questionId");
                     return questionService.GetAnswersByQuestionId(questionId);
+                });
+
+            FieldAsync<ListGraphType<AnswerLikeType>>(
+                "answer_liked",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "questionId" }
+                ),
+                resolve: context =>
+                {
+                    var questionId = context.GetArgument<int>("questionId");
+                    return likeRecordService.GetRecordsByQuestion(questionId);
                 });
             #endregion
 

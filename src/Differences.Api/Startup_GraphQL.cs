@@ -23,7 +23,9 @@ namespace Differences.Api
             services.AddTransient<UserType>();
             services.AddTransient<UserInputType>();
             services.AddTransient<AnswerType>();
+            services.AddTransient<AnswerLikeType>();
             services.AddTransient<QuestionType>();
+            services.AddTransient<LikeInputType>();
             services.AddTransient<ReplyInputType>();
             services.AddTransient<SubjectInputType>();
             services.AddTransient<CriteriaInputType>();

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Differences.Common;
 using Differences.Common.Resources;
+using Differences.Domain.LikeRecords;
 using Differences.Domain.Models;
 using Differences.Domain.Policies;
 using Differences.Domain.Users;

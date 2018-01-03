@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Differences.Domain.Models;
 using Differences.Interaction.EntityModels;
 using GraphQL.Types;
 

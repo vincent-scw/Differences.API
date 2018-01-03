@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using Differences.Common;
 using Differences.Common.Resources;
+using Differences.Domain.Models;
 using Differences.Domain.Policies;
+using Differences.Interaction.DataTransferModels;
 using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
 using Microsoft.Extensions.Localization;
@@ -14,48 +16,68 @@ namespace Differences.Domain.LikeRecords
     public class LikeRecordService : ServiceBase, ILikeRecordService
     {
         private readonly ILikeRecordRepository _likeRecordRepository;
+        private readonly IQuestionRepository _questionRepository;
         private readonly IUserRepository _userRepository;
 
         public LikeRecordService(
             ILikeRecordRepository likeRecordRepository,
+            IQuestionRepository questionRepository,
             IUserRepository userRepository,
             IUserContextService userContextService, 
             IStringLocalizer<Errors> localizer)
             : base(userContextService, localizer)
         {
             _likeRecordRepository = likeRecordRepository;
+            _questionRepository = questionRepository;
             _userRepository = userRepository;
         }
 
-        public IReadOnlyList<int> GetRecordsByQuestion(int questionId)
+        public IReadOnlyList<AnswerLikeModel> GetRecordsByQuestion(int questionId)
         {
-            if (UserId == Guid.Empty)
-                return new List<int>();
-
             var query = from record in _likeRecordRepository.GetAll()
-                where record.QuestionId == questionId
-                where record.UserId == UserId
-                select record.AnswerId;
+                group record by new {record.QuestionId, record.AnswerId}
+                into g
+                where g.Key.QuestionId == questionId
+                select new AnswerLikeModel
+                {
+                    AnswerId = g.Key.AnswerId,
+                    LikeCount = g.Count(),
+                    Liked = g.Any(x => x.UserId == UserId)
+                };
 
             return query.ToList();
         }
 
-        public void AddRecord(int questionId, int answerId)
+        public User AddRecord(LikeRecordModel model)
         {
+            User owner = null;
             _likeRecordRepository.UseTransaction(() =>
             {
-                var user = _userRepository.Get(UserId);
-                if (user == null)
-                    throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
-
-                var record = new LikeRecord(UserId, questionId, answerId);
+                var record = new LikeRecord(UserId, model.QuestionId, model.AnswerId);
                 _likeRecordRepository.Add(record);
                 _likeRecordRepository.SaveChanges();
 
-                user.UserScores.IncreaseReputation((int) ReputationTypeDefinition.Liked,
-                    new LikedReputationRule().IncreasingValue, questionId);  // use questionId here to add log, then the log will be '您关于XX问题的回答获得了好评'
+                // Add reputation value to answer owner
+                owner = _questionRepository.GetAnswerOwner(model.AnswerId);
+                if (owner == null)
+                    throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
+
+                owner.UserScores.IncreaseReputation((int) ReputationTypeDefinition.Liked,
+                    new LikedReputationRule().IncreasingValue, model.QuestionId);  // use questionId here to add log, then the log will be '您关于XX问题的回答获得了好评'
                 _userRepository.SaveChanges();
             });
+
+            return owner;
+        }
+
+        public bool LikedBy(Guid userId, int answerId)
+        {
+            var query = from record in _likeRecordRepository.GetAll()
+                where record.AnswerId == answerId
+                where record.UserId == UserId
+                select record.Id;
+
+            return query.Any();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Differences.Api.Extensions;
 using Differences.Api.Model;
 using Differences.Common;
+using Differences.Domain.LikeRecords;
 using Differences.Domain.Questions;
 using Differences.Domain.Users;
 using Differences.Interaction.DataTransferModels;
@@ -12,7 +13,8 @@ namespace Differences.Api.Mutations
     {
         public DifferencesMutation(
             IUserService userService,
-            IQuestionService questionService)
+            IQuestionService questionService,
+            ILikeRecordService likeRecordService)
         {
             Name = "DifferencesMutation";
 
@@ -76,6 +78,27 @@ namespace Differences.Api.Mutations
                     }
                 }
             );
+
+            FieldAsync<UserType>(
+                "likeAnswer",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<LikeInputType>> {Name = "likeRecord"}
+                ),
+                resolve:
+                context =>
+                {
+                    try
+                    {
+                        var likeRecord = context.GetArgument<LikeRecordModel>("likeRecord");
+                        return likeRecordService.AddRecord(likeRecord);
+                    }
+                    catch (DefinedException ex)
+                    {
+                        context.Errors.Add(ex);
+                        return null;
+                    }
+                });
+
             #endregion
         }
     }

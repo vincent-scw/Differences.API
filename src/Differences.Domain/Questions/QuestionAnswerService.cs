@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Differences.Common;
+using Differences.Domain.Models;
 using Differences.Domain.Policies;
 using Differences.Domain.Validators;
 using Differences.Interaction.DataTransferModels;
@@ -15,7 +16,6 @@ namespace Differences.Domain.Questions
         public IReadOnlyList<Answer> GetAnswersByQuestionId(int questionId)
         {
             var answers = _questionRepository.GetAnswers(questionId);
-
             return answers.OrderByDescending(x => x.CreateTime).ToList();
         }
 
@@ -44,6 +44,7 @@ namespace Differences.Domain.Questions
                     new NewReplyContributionRule().IncreasingValue, answer.Id);
                 _questionRepository.SaveChanges();
             });
+
             return _questionRepository.GetAnswer(answer.Id);
         }
 
@@ -65,7 +66,8 @@ namespace Differences.Domain.Questions
                 answer.Update(reply.Content);
                 _questionRepository.SaveChanges();
             });
-                
+
+            // Cannot like the answer provided by myself
             return _questionRepository.GetAnswer(answer.Id);
         }
     }

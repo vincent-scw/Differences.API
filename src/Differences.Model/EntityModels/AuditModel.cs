@@ -7,6 +7,11 @@ namespace Differences.Interaction.EntityModels
 {
     public abstract class AuditModel
     {
+        public AuditModel()
+        {
+            CreateTime = DateTime.Now;
+        }
+
         [Required]
         public DateTime CreateTime { get; set; }
 

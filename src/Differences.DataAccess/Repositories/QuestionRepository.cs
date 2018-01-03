@@ -19,21 +19,21 @@ namespace Differences.DataAccess.Repositories
         public override Question Get(int id)
         {
             return DbContext
-                .Set<Question>()
+                .Questions
                     .Include(x => x.Owner)
-                        .ThenInclude(x => x.UserScores).FirstOrDefault(x => x.Id == id);
+                        .ThenInclude(x => x.UserScores).SingleOrDefault(x => x.Id == id);
         }
 
         public override IQueryable<Question> GetAll()
         {
-            return DbContext.Set<Question>()
+            return DbContext.Questions
                     .Include(x => x.Owner)
                         .ThenInclude(x => x.UserScores);
         }
 
         public IReadOnlyList<Answer> GetAnswers(int questionId)
         {
-            return DbContext.Set<Answer>()
+            return DbContext.Answers
                             .Include(x => x.Owner)
                                 .ThenInclude(o => o.UserScores)
                             .Include(x => x.SubAnswers)
@@ -44,14 +44,25 @@ namespace Differences.DataAccess.Repositories
 
         public Answer GetAnswer(int answerId)
         {
-            var retval = DbContext.Set<Answer>()
+            var retval = DbContext.Answers
                             .Include(x => x.Owner)
                                 .ThenInclude(o => o.UserScores)
                             .Include(x => x.SubAnswers)
                                 .ThenInclude(answer => answer.Owner)
                                     .ThenInclude(owner => owner.UserScores)
-                            .FirstOrDefault(x => x.Id == answerId);
+                            .SingleOrDefault(x => x.Id == answerId);
             return retval;
+        }
+
+        public User GetAnswerOwner(int answerId)
+        {
+            var user = DbContext.Answers
+                .Include(x => x.Owner)
+                .Where(x => x.Id == answerId)
+                .Select(x => x.Owner)
+                .SingleOrDefault();
+            LoadReference(user, x => x.UserScores);
+            return user;
         }
     }
 }
