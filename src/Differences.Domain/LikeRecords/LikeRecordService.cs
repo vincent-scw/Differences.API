@@ -34,18 +34,36 @@ namespace Differences.Domain.LikeRecords
 
         public IReadOnlyList<AnswerLikeModel> GetRecordsByQuestion(int questionId)
         {
-            var query = from record in _likeRecordRepository.GetAll()
-                group record by new {record.QuestionId, record.AnswerId}
+            var query = from answer in _questionRepository.GetAnswersQuery(questionId)
+                join record in _likeRecordRepository.GetAll()
+                on answer.Id equals record.AnswerId into temp
+                from tt in temp.DefaultIfEmpty()
+                group new {answer, tt} by answer.Id
                 into g
-                where g.Key.QuestionId == questionId
                 select new AnswerLikeModel
                 {
-                    AnswerId = g.Key.AnswerId,
+                    AnswerId = g.Key,
+                    LikeCount = g.Count(x => x.tt != null),
+                    Liked = g.Any(x => x.tt != null && x.tt.UserId == UserId)
+                };
+
+            return query.ToList();
+        }
+
+        public AnswerLikeModel GetRecordByAnswer(int answerId)
+        {
+            var query = from record in _likeRecordRepository.GetAll()
+                group record by record.AnswerId
+                into g
+                where g.Key == answerId
+                select new AnswerLikeModel
+                {
+                    AnswerId = g.Key,
                     LikeCount = g.Count(),
                     Liked = g.Any(x => x.UserId == UserId)
                 };
 
-            return query.ToList();
+            return query.SingleOrDefault();
         }
 
         public User AddRecord(LikeRecordModel model)

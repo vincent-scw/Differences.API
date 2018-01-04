@@ -9,6 +9,7 @@ namespace Differences.Interaction.Repositories
     public interface IQuestionRepository : IRepository<Question>
     {
         IReadOnlyList<Answer> GetAnswers(int questionId);
+        IQueryable<Answer> GetAnswersQuery(int questionId);
         Answer GetAnswer(int answerId);
         User GetAnswerOwner(int answerId);
     }

@@ -42,6 +42,12 @@ namespace Differences.DataAccess.Repositories
                             .Where(x => x.QuestionId == questionId && x.ParentReplyId == null).ToList();
         }
 
+        public IQueryable<Answer> GetAnswersQuery(int questionId)
+        {
+            return DbContext.Answers
+                .Where(x => x.QuestionId == questionId && x.ParentReplyId == null);
+        }
+
         public Answer GetAnswer(int answerId)
         {
             var retval = DbContext.Answers

@@ -73,7 +73,7 @@ namespace Differences.Api.Queries
                 });
 
             FieldAsync<ListGraphType<AnswerLikeType>>(
-                "answer_liked",
+                "answer_liked_byquestion",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "questionId" }
                 ),
@@ -81,6 +81,17 @@ namespace Differences.Api.Queries
                 {
                     var questionId = context.GetArgument<int>("questionId");
                     return likeRecordService.GetRecordsByQuestion(questionId);
+                });
+
+            FieldAsync<AnswerLikeType>(
+                "answer_liked_byanswer",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "answerId" }
+                ),
+                resolve: context =>
+                {
+                    var answerId = context.GetArgument<int>("answerId");
+                    return likeRecordService.GetRecordByAnswer(answerId);
                 });
             #endregion
 

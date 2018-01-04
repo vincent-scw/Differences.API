@@ -10,6 +10,7 @@ namespace Differences.Domain.LikeRecords
     public interface ILikeRecordService
     {
         IReadOnlyList<AnswerLikeModel> GetRecordsByQuestion(int questionId);
+        AnswerLikeModel GetRecordByAnswer(int answerId);
         /// <summary>
         /// 
         /// </summary>
