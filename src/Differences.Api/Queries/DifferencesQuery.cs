@@ -42,7 +42,7 @@ namespace Differences.Api.Queries
                 });
 
             FieldAsync<IntGraphType>(
-                "question_count",
+                "questionCount",
                 arguments: new QueryArguments(new QueryArgument<NonNullGraphType<CriteriaInputType>> { Name = "criteria" }),
                 resolve: context =>
                 {
@@ -62,7 +62,7 @@ namespace Differences.Api.Queries
                 });
 
             FieldAsync<ListGraphType<AnswerType>>(
-                "question_answers",
+                "questionAnswers",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "questionId" }
                 ),
@@ -73,7 +73,7 @@ namespace Differences.Api.Queries
                 });
 
             FieldAsync<ListGraphType<AnswerLikeType>>(
-                "answer_liked_byquestion",
+                "answerLikedByQuestion",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "questionId" }
                 ),
@@ -84,7 +84,7 @@ namespace Differences.Api.Queries
                 });
 
             FieldAsync<AnswerLikeType>(
-                "answer_liked_byanswer",
+                "answerLikedByAnswer",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "answerId" }
                 ),
@@ -96,7 +96,7 @@ namespace Differences.Api.Queries
             #endregion
 
             FieldAsync<ListGraphType<CategoryGroupType>>(
-                "category_definition",
+                "categoryDefinition",
                 resolve: context => CategoryDefinition.CategoryGroups);
         }
     }
