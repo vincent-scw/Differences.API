@@ -38,7 +38,7 @@ namespace Differences.DataAccess.Repositories
 
         public IQueryable<User> GetAll()
         {
-            return _dbContext.Users;
+            return _dbContext.Users.Include(x => x.UserScores);
         }
 
         public void UseTransaction(Action action)

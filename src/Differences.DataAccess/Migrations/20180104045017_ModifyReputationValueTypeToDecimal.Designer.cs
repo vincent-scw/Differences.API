@@ -11,9 +11,10 @@ using System;
 namespace Differences.DataAccess.Migrations
 {
     [DbContext(typeof(DifferencesDbContext))]
-    partial class DifferencesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180104045017_ModifyReputationValueTypeToDecimal")]
+    partial class ModifyReputationValueTypeToDecimal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

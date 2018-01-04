@@ -6,7 +6,7 @@ namespace Differences.Domain.Policies
 {
     public interface IReputationRule
     {
-        double IncreasingValue { get; }
+        decimal IncreasingValue { get; }
     }
 
     public interface IReputationRule<TModel> : IReputationRule

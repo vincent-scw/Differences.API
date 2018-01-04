@@ -6,6 +6,6 @@ namespace Differences.Domain.Policies
 {
     public class LikedReputationRule : IReputationRule
     {
-        public double IncreasingValue => 0.1;
+        public decimal IncreasingValue => 0.1M;
     }
 }
