@@ -31,6 +31,7 @@ namespace Differences.Api
             services.AddTransient<CriteriaInputType>();
             services.AddTransient<CategoryType>();
             services.AddTransient<CategoryGroupType>();
+            services.AddTransient<AuthResponseType>();
 
             services.AddScoped<DifferencesQuery>();
             services.AddScoped<DifferencesMutation>();

@@ -144,6 +144,9 @@
   <data name="UserAccessDenied" xml:space="preserve">
     <value>用户没有权限。</value>
   </data>
+  <data name="UserAuthCodeInvalid" xml:space="preserve">
+    <value>无效的授权，未能成功登陆。</value>
+  </data>
   <data name="UserNotFound" xml:space="preserve">
     <value>找不到用户。</value>
   </data>

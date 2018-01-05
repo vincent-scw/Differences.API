@@ -21,6 +21,8 @@ using System.Text;
 using Differences.Common.Configuration;
 using Differences.Domain;
 using Differences.Domain.LikeRecords;
+using Differences.OAuth2Provider;
+using Differences.OAuth2Provider.Configuration;
 
 namespace Differences.Api
 {
@@ -74,6 +76,7 @@ namespace Differences.Api
              });
 
             services.Configure<B2CGraphQL>(Configuration.GetSection("Authentication:B2CGraphQL"));
+            services.Configure<OpenIdAuthorization>(Configuration.GetSection("OpenIdAuthorization"));
 
             services.AddDbContext<DifferencesDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Differences")));
@@ -157,12 +160,14 @@ namespace Differences.Api
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ILikeRecordService, LikeRecordService>();
+            services.AddScoped<IAccountService, AccountService>();
         }
 
         private static void InjectOthers(IServiceCollection services)
         {
             services.AddScoped<DifferencesDbContext>();
             services.AddSingleton<B2CGraphClient.GraphClient>();
+            services.AddSingleton<OAuth2ProviderFactory>();
         }
     }
 }

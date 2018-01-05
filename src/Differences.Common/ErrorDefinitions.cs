@@ -11,6 +11,7 @@ namespace Differences.Common
             public const string UserNotFound = "UserNotFound";
 
             public const string AccessDenied = "UserAccessDenied";
+            public const string AuthCodeInvalid = "UserAuthCodeInvalid";
         }
 
         public static class Question

@@ -24,7 +24,6 @@ namespace Differences.Interaction.EntityModels
         [Key]
         [ConcurrencyCheck]
         public Guid Id { get; protected set; }
-        [Required]
         [StringLength(100)]
         public string Email { get; private set; }
         [Required]
@@ -32,7 +31,7 @@ namespace Differences.Interaction.EntityModels
         public string DisplayName { get; private set; }
         [StringLength(200)]
         public string AvatarUrl { get; private set; }
-        
+        public string LinkedInId { get; set; }
         public virtual UserScore UserScores { get; private set; }
 
         public void Update(string displayName)

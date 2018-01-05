@@ -142,6 +142,15 @@ namespace Differences.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 无效的授权，未能成功登陆。.
+        /// </summary>
+        public static string UserAuthCodeInvalid {
+            get {
+                return ResourceManager.GetString("UserAuthCodeInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 找不到用户。.
         /// </summary>
         public static string UserNotFound {

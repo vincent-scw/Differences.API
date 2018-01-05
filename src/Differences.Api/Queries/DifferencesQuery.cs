@@ -19,7 +19,8 @@ namespace Differences.Api.Queries
         public DifferencesQuery(
             IUserService userService,
             IQuestionService questionService,
-            ILikeRecordService likeRecordService)
+            ILikeRecordService likeRecordService,
+            IAccountService accountService)
         {
             Name = "DifferencesQuery";
 
@@ -27,6 +28,18 @@ namespace Differences.Api.Queries
             FieldAsync<ListGraphType<UserType>>(
                 "topUsers",
                 resolve: context => userService.GetTopReputationUsers(1));
+
+            FieldAsync<AuthResponseType>(
+                "auth",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<StringGraphType>> {Name = "type"},
+                    new QueryArgument<NonNullGraphType<StringGraphType>> {Name = "code"}),
+                resolve: context =>
+                {
+                    var type = context.GetArgument<string>("type");
+                    var code = context.GetArgument<string>("code");
+                    return accountService.GetAuthResponse(type, code);
+                });
             #endregion
 
             #region Question
