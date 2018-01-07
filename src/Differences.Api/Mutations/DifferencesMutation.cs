@@ -20,10 +20,6 @@ namespace Differences.Api.Mutations
 
             #region User
             FieldAsync<UserType>(
-                "checkUserInDb",
-                resolve: context => userService.FindOrCreate());
-
-            FieldAsync<UserType>(
                 "updateUserInfo",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<UserInputType>> {Name = "user"}),

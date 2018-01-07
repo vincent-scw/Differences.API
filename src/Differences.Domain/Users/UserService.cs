@@ -99,7 +99,7 @@ namespace Differences.Domain.Users
 
             if (user.DisplayName != userModel.DisplayName)
             {
-                user.Update(userModel.DisplayName);
+                user.Update(userModel.DisplayName, userModel.Email);
                 _userRepository.SaveChanges();
             }
 

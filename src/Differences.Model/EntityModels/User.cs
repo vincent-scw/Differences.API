@@ -33,10 +33,10 @@ namespace Differences.Interaction.EntityModels
         public string LinkedInId { get; set; }
         public virtual UserScore UserScores { get; private set; }
 
-        public void Update(string displayName)
+        public void Update(string displayName, string email)
         {
             DisplayName = displayName;
-            //Email = email;
+            Email = email;
             //AvatarUrl = url;
             LastUpdateTime = DateTime.Now;
             LastUpdatedBy = Id;
