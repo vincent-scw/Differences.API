@@ -26,6 +26,11 @@ namespace Differences.DataAccess.Repositories
             return _dbContext.Users.Include(x => x.UserScores).SingleOrDefault(x => x.Id == userId);
         }
 
+        public User GetUserByLinkedInId(string id)
+        {
+            return _dbContext.Users.Include(x => x.UserScores).SingleOrDefault(x => x.LinkedInId == id);
+        }
+
         public User Add(User user)
         {
             user.CreateTime = DateTime.Now;

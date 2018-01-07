@@ -7,6 +7,6 @@ namespace Differences.OAuth2Provider
 {
     public interface IAuthProvider
     {
-        Task<AuthResponse> GetAuthResponseAsync(string code);
+        AuthResponse GetAuthResponse(string code);
     }
 }

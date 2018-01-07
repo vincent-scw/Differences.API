@@ -2,30 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Differences.B2CGraphClient;
 using Differences.Common;
 using Differences.Common.Resources;
 using Differences.Interaction.DataTransferModels;
 using Differences.Interaction.EntityModels;
 using Differences.Interaction.Repositories;
+using Differences.OAuth2Provider;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
+using UserInfo = Differences.OAuth2Provider.UserInfo;
 
 namespace Differences.Domain.Users
 {
     public class UserService : ServiceBase, IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly GraphClient _graphClient;
+        private readonly OAuth2ProviderFactory _providerFactory;
 
         public UserService(IUserRepository userRepository,
+            OAuth2ProviderFactory providerFactory,
             IUserContextService userContextService,
-            GraphClient graphClient,
             IStringLocalizer<Errors> localizer)
             : base(userContextService, localizer)
         {
             _userRepository = userRepository;
-            _graphClient = graphClient;
+            _providerFactory = providerFactory;
         }
 
         public User FindOrCreate()
@@ -39,12 +40,55 @@ namespace Differences.Domain.Users
 
             _userRepository.UseTransaction(() =>
             {
-                user = new User(userInfo.Id, userInfo.DisplayName, userInfo.Email, userInfo.AvatarUrl);
+                user = new User(userInfo.Id, userInfo.DisplayName);
 
                 _userRepository.Add(user);
                 _userRepository.SaveChanges(); // TODO: should not do this here
             });
             return user;
+        }
+
+        private User FindOrCreateByLinkedInId(UserInfo userInfo)
+        {
+            var user = _userRepository.GetUserByLinkedInId(userInfo.Id);
+            if (user != null)
+                return user;
+
+            _userRepository.UseTransaction(() =>
+            {
+                user = new User(Guid.NewGuid(), userInfo.DisplayName)
+                {
+                    AvatarUrl = userInfo.AvatarUrl,
+                    LinkedInId = userInfo.Id
+                };
+
+                _userRepository.Add(user);
+                _userRepository.SaveChanges();
+            });
+
+            return user;
+        }
+
+        public User GetUser(string accountType, string code)
+        {
+            var type = Enum.Parse<AccountType>(accountType, true);
+            var provider = _providerFactory.GetProvider(type);
+
+            try
+            {
+                var response = provider.GetAuthResponse(code);
+                switch (type)
+                {
+                    case AccountType.LinkedIn:
+                        return FindOrCreateByLinkedInId(response.UserInfo);
+                }
+            }
+            catch (InvalidOperationException ioe)
+            {
+                throw new DefinedException(GetLocalizedResource(ioe.Message));
+            }
+
+            return null;
         }
 
         public User UpdateUser(UserModel userModel)
@@ -57,17 +101,6 @@ namespace Differences.Domain.Users
             {
                 user.Update(userModel.DisplayName);
                 _userRepository.SaveChanges();
-
-                var b2cUser = new UserTemplate { DisplayName = userModel.DisplayName };
-                var jsonStr = JsonConvert.SerializeObject(b2cUser,
-                    Formatting.None,
-                    new JsonSerializerSettings
-                    {
-                        NullValueHandling = NullValueHandling.Ignore
-                    });
-
-                // Update in Azure AD B2C
-                _graphClient.UpdateUser(UserId.ToString(), jsonStr).Wait();
             }
 
             return user;

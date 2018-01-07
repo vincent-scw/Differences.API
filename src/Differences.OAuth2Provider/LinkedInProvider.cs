@@ -18,17 +18,17 @@ namespace Differences.OAuth2Provider
             _config = config;
         }
 
-        public async Task<AuthResponse> GetAuthResponseAsync(string code)
+        public AuthResponse GetAuthResponse(string code)
         {
-            var accessToken = await GetAccessToken(code);
+            var accessToken = GetAccessToken(code);
             if (string.IsNullOrEmpty(accessToken))
                 throw new InvalidOperationException(ErrorDefinitions.User.AuthCodeInvalid);
 
-            var userInfo = await GetUserInfo(accessToken);
+            var userInfo = GetUserInfo(accessToken);
             return new AuthResponse {AccessToken = accessToken, UserInfo = userInfo};
         }
 
-        private async Task<string> GetAccessToken(string code)
+        private string GetAccessToken(string code)
         {
             var tokenUrl = "https://www.linkedin.com/uas/oauth2/accessToken";
             var client = new HttpClient();
@@ -42,12 +42,12 @@ namespace Differences.OAuth2Provider
                     {"redirect_uri", _config.RedirectUrl}
                 });
 
-            var response = await client.PostAsync(tokenUrl, formContent);
-            var contentStr = await response.Content.ReadAsStringAsync();
+            var response = client.PostAsync(tokenUrl, formContent).Result;
+            var contentStr = response.Content.ReadAsStringAsync().Result;
             return (string)(JObject.Parse(contentStr)["access_token"]);
         }
 
-        private async Task<UserInfo> GetUserInfo(string accessToken)
+        private UserInfo GetUserInfo(string accessToken)
         {
             var userInfoUrl =
                 "https://api.linkedin.com/v1/people/~:(id,formatted-name,picture-url)?format=json";
@@ -56,8 +56,8 @@ namespace Differences.OAuth2Provider
             message.Headers.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
 
-            var response = await client.SendAsync(message);
-            var contentStr = await response.Content.ReadAsStringAsync();
+            var response = client.SendAsync(message).Result;
+            var contentStr = response.Content.ReadAsStringAsync().Result;
             var jObject = JObject.Parse(contentStr);
             return new UserInfo
             {

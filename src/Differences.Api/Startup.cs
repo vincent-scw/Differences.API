@@ -23,6 +23,8 @@ using Differences.Domain;
 using Differences.Domain.LikeRecords;
 using Differences.OAuth2Provider;
 using Differences.OAuth2Provider.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Differences.Api.Authentication;
 
 namespace Differences.Api
 {
@@ -58,25 +60,10 @@ namespace Differences.Api
                         .AllowCredentials());
             });
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(o =>
-            {
-                o.Authority = string.Format("https://login.microsoftonline.com/tfp/{0}/{1}/v2.0/",
-                    Configuration["Authentication:AzureAdB2C:Tenant"], Configuration["Authentication:AzureAdB2C:Policy"]);
-                o.Audience = Configuration["Authentication:AzureAdB2C:ClientId"];
+            AddAuthentication(services);
 
-                o.Events = new JwtBearerEvents
-                {
-                    OnAuthenticationFailed = AuthenticationFailed
-                };
-             });
-
-            services.Configure<B2CGraphQL>(Configuration.GetSection("Authentication:B2CGraphQL"));
             services.Configure<OpenIdAuthorization>(Configuration.GetSection("OpenIdAuthorization"));
+            services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
 
             services.AddDbContext<DifferencesDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Differences")));
@@ -106,7 +93,9 @@ namespace Differences.Api
 
             // global policy, if assigned here (it could be defined indvidually for each controller) 
             app.UseCors("CorsPolicy");
+
             app.UseAuthentication();
+
             app.UseMiddleware<GraphQLMiddleware>(new GraphQLSettings());
 
             app.Use(async (context, next) =>
@@ -135,6 +124,47 @@ namespace Differences.Api
             app.UseMvcWithDefaultRoute();
         }
 
+        private void AddAuthentication(IServiceCollection services)
+        {
+            var audienceConfig = Configuration.GetSection("JwtConfig");
+            var symmetricKeyAsBase64 = audienceConfig["Secret"];
+            var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
+            var signingKey = new SymmetricSecurityKey(keyByteArray);
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                // The signing key must match!
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+
+                // Validate the JWT Issuer (iss) claim
+                ValidateIssuer = true,
+                ValidIssuer = audienceConfig["Issuer"],
+
+                // Validate the JWT Audience (aud) claim
+                ValidateAudience = true,
+                ValidAudience = audienceConfig["Audience"],
+
+                // Validate the token expiry
+                ValidateLifetime = true,
+
+                ClockSkew = TimeSpan.Zero
+            };
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(o =>
+                {
+#if DEBUG
+                    // don't use https for debug
+                    o.RequireHttpsMetadata = false;
+#endif
+                    o.TokenValidationParameters = tokenValidationParameters;
+                });
+        }
+
         private Task AuthenticationFailed(AuthenticationFailedContext arg)
         {
 #if DEBUG
@@ -160,13 +190,11 @@ namespace Differences.Api
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ILikeRecordService, LikeRecordService>();
-            services.AddScoped<IAccountService, AccountService>();
         }
 
         private static void InjectOthers(IServiceCollection services)
         {
             services.AddScoped<DifferencesDbContext>();
-            services.AddSingleton<B2CGraphClient.GraphClient>();
             services.AddSingleton<OAuth2ProviderFactory>();
         }
     }

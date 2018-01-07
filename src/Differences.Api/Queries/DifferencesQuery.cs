@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Differences.Api.Authentication;
 using Differences.Api.Model;
+using Differences.Common;
+using Differences.Common.Configuration;
 using Differences.Domain.Users;
 using Differences.Interaction.EntityModels;
 using GraphQL.Types;
@@ -11,6 +14,8 @@ using Differences.Domain.Questions;
 using Differences.Interaction.DataTransferModels;
 using Differences.Domain;
 using Differences.Domain.LikeRecords;
+using Differences.Domain.Models;
+using Microsoft.Extensions.Options;
 
 namespace Differences.Api.Queries
 {
@@ -20,7 +25,7 @@ namespace Differences.Api.Queries
             IUserService userService,
             IQuestionService questionService,
             ILikeRecordService likeRecordService,
-            IAccountService accountService)
+            IOptions<JwtConfig> options)
         {
             Name = "DifferencesQuery";
 
@@ -36,9 +41,22 @@ namespace Differences.Api.Queries
                     new QueryArgument<NonNullGraphType<StringGraphType>> {Name = "code"}),
                 resolve: context =>
                 {
-                    var type = context.GetArgument<string>("type");
-                    var code = context.GetArgument<string>("code");
-                    return accountService.GetAuthResponse(type, code);
+                    try
+                    {
+                        var type = context.GetArgument<string>("type");
+                        var code = context.GetArgument<string>("code");
+                        var user = userService.GetUser(type, code);
+                        return new UserWithTokenModel
+                        {
+                            User = user,
+                            AccessToken = JwtGenerator.Generate(options.Value, user)
+                        };
+                    }
+                    catch (DefinedException ex)
+                    {
+                        context.Errors.Add(ex);
+                        return null;
+                    }
                 });
             #endregion
 

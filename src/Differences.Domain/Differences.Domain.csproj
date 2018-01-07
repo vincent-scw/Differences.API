@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Differences.B2CGraphClient\Differences.B2CGraphClient.csproj" />
     <ProjectReference Include="..\Differences.Common\Differences.Common.csproj" />
     <ProjectReference Include="..\Differences.Model\Differences.Interaction.csproj" />
     <ProjectReference Include="..\Differences.OAuth2Provider\Differences.OAuth2Provider.csproj" />

@@ -12,25 +12,24 @@ namespace Differences.Interaction.EntityModels
         [ExcludeFromCodeCoverage]
         public User() { }
 
-        public User(Guid globalId, string displayName, string email, string avatarUrl)
+        public User(Guid globalId, string displayName)
             : this()
         {
             Id = globalId;
             DisplayName = displayName;
-            Email = email;
-            AvatarUrl = avatarUrl;
         }
 
         [Key]
         [ConcurrencyCheck]
         public Guid Id { get; protected set; }
         [StringLength(100)]
-        public string Email { get; private set; }
+        public string Email { get; set; }
         [Required]
         [StringLength(100)]
         public string DisplayName { get; private set; }
         [StringLength(200)]
-        public string AvatarUrl { get; private set; }
+        public string AvatarUrl { get; set; }
+        [StringLength(100)]
         public string LinkedInId { get; set; }
         public virtual UserScore UserScores { get; private set; }
 

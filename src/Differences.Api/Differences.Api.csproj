@@ -25,7 +25,6 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Differences.B2CGraphClient\Differences.B2CGraphClient.csproj" />
     <ProjectReference Include="..\Differences.Common\Differences.Common.csproj" />
     <ProjectReference Include="..\Differences.DataAccess\Differences.DataAccess.csproj" />
     <ProjectReference Include="..\Differences.Domain\Differences.Domain.csproj" />

@@ -12,7 +12,7 @@ namespace Differences.Api.Model
         public UserType()
         {
             Field("id", x => x.Id.ToString());
-            Field(x => x.Email);
+            Field(x => x.Email, nullable: true);
             Field(x => x.DisplayName);
             Field(x => x.AvatarUrl, nullable: true);
             Field(x => x.UserScores.ContributeValue);

@@ -13,6 +13,8 @@ namespace Differences.Interaction.Repositories
 
         User Get(Guid userId);
 
+        User GetUserByLinkedInId(string id);
+
         User Add(User user);
 
         IQueryable<User> GetAll();
