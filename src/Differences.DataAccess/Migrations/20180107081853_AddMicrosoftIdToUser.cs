@@ -8,14 +8,6 @@ namespace Differences.DataAccess.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "LinkedInId",
-                table: "Users",
-                maxLength: 50,
-                nullable: true,
-                oldClrType: typeof(string),
-                oldNullable: true);
-
             migrationBuilder.AddColumn<string>(
                 name: "MicrosoftId",
                 table: "Users",
@@ -32,14 +24,6 @@ namespace Differences.DataAccess.Migrations
             migrationBuilder.DropColumn(
                 name: "MicrosoftId",
                 table: "Users");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "LinkedInId",
-                table: "Users",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldMaxLength: 50,
-                oldNullable: true);
         }
     }
 }

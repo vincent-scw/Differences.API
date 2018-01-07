@@ -19,7 +19,7 @@ namespace Differences.DataAccess.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "LinkedInId",
                 table: "Users",
-                maxLength: 100,
+                maxLength: 50,
                 nullable: true);
 
             migrationBuilder.CreateIndex("IX_USERS_LinkedInId", "Users", "LinkedInId");
