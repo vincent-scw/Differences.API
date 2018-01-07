@@ -6,6 +6,7 @@ namespace Differences.OAuth2Provider.Configuration
 {
     public class OpenIdAuthorization
     {
-        public LinkedInConfig LinkedInConfig { get; set; }
+        public OAuth2Config LinkedInConfig { get; set; }
+        public OAuth2Config MicrosoftConfig { get; set; }
     }
 }

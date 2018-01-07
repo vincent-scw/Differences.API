@@ -6,6 +6,7 @@ namespace Differences.OAuth2Provider
 {
     public enum AccountType
     {
-        LinkedIn
+        LinkedIn,
+        Microsoft
     }
 }

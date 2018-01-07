@@ -29,8 +29,10 @@ namespace Differences.Interaction.EntityModels
         public string DisplayName { get; private set; }
         [StringLength(200)]
         public string AvatarUrl { get; set; }
-        [StringLength(100)]
+        [StringLength(50)]
         public string LinkedInId { get; set; }
+        [StringLength(50)]
+        public string MicrosoftId { get; set; }
         public virtual UserScore UserScores { get; private set; }
 
         public void Update(string displayName, string email)

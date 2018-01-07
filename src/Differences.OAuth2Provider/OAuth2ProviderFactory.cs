@@ -21,6 +21,8 @@ namespace Differences.OAuth2Provider
             {
                 case AccountType.LinkedIn:
                     return new LinkedInProvider(_openIdAuthorization.LinkedInConfig);
+                case AccountType.Microsoft:
+                    return new MicrosoftProvider(_openIdAuthorization.MicrosoftConfig);
                 default:
                     throw new NotImplementedException();
             }

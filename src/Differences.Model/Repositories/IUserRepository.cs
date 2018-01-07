@@ -14,6 +14,7 @@ namespace Differences.Interaction.Repositories
         User Get(Guid userId);
 
         User GetUserByLinkedInId(string id);
+        User GetUserByMicrosoftId(string id);
 
         User Add(User user);
 

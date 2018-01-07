@@ -69,6 +69,27 @@ namespace Differences.Domain.Users
             return user;
         }
 
+        private User FindOrCreateByMicrosoftId(UserInfo userInfo)
+        {
+            var user = _userRepository.GetUserByMicrosoftId(userInfo.Id);
+            if (user != null)
+                return user;
+
+            _userRepository.UseTransaction(() =>
+            {
+                user = new User(Guid.NewGuid(), userInfo.DisplayName)
+                {
+                    AvatarUrl = userInfo.AvatarUrl,
+                    MicrosoftId = userInfo.Id
+                };
+
+                _userRepository.Add(user);
+                _userRepository.SaveChanges();
+            });
+
+            return user;
+        }
+
         public User GetUser(string accountType, string code)
         {
             var type = Enum.Parse<AccountType>(accountType, true);
@@ -81,6 +102,8 @@ namespace Differences.Domain.Users
                 {
                     case AccountType.LinkedIn:
                         return FindOrCreateByLinkedInId(response.UserInfo);
+                    case AccountType.Microsoft:
+                        return FindOrCreateByMicrosoftId(response.UserInfo);
                 }
             }
             catch (InvalidOperationException ioe)
