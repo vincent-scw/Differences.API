@@ -4,4 +4,5 @@ This project is the backend side of [有什么不同](https://www.ysmbt.cn). The
 ## Major tech usage
 ### GraphQL for .Net
 ### Entity Framework Core with SQL Server
-### Azure AD B2C 
+### OpenId
+Use OpenId only at this stage, no local accounts, since it is convinent. Give up with Azure AD B2C, it is too slow to visit in China.
