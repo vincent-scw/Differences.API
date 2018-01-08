@@ -17,11 +17,14 @@ namespace Differences.OAuth2Provider
         protected override int GetUserInfoMethod => 1;
         protected override UserInfo GetUserInfo(JObject obj)
         {
-            return new UserInfo
+            var userInfo = new UserInfo
             {
                 Id = (string)obj["id"],
-                DisplayName = (string)obj["name"]
+                DisplayName = (string)obj["name"],
             };
+            userInfo.AvatarUrl = $"https://apis.live.net/v5.0/{userInfo.Id}/picture";
+
+            return userInfo;
         }
     }
 }
