@@ -120,9 +120,11 @@ namespace Differences.Domain.Users
             if (user == null)
                 throw new DefinedException(GetLocalizedResource(ErrorDefinitions.User.UserNotFound));
 
-            if (user.DisplayName != userModel.DisplayName)
+            if (user.DisplayName != userModel.DisplayName 
+                || user.Email != userModel.Email
+                || user.HideAvatar != userModel.HideAvatar)
             {
-                user.Update(userModel.DisplayName, userModel.Email);
+                user.Update(userModel.DisplayName, userModel.Email, userModel.HideAvatar);
                 _userRepository.SaveChanges();
             }
 

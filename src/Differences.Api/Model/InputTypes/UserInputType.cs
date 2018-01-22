@@ -13,6 +13,7 @@ namespace Differences.Api.Model
             Name = "UserInput";
             Field<NonNullGraphType<StringGraphType>>("displayName");
             Field<StringGraphType>("email");
+            Field<NonNullGraphType<BooleanGraphType>>("hideAvatar");
         }
     }
 }

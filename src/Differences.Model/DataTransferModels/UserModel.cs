@@ -9,5 +9,6 @@ namespace Differences.Interaction.DataTransferModels
         public string DisplayName { get; set; }
         public string Email { get; set; }
         public string AvatarUrl { get; set; }
+        public bool HideAvatar { get; set; }
     }
 }

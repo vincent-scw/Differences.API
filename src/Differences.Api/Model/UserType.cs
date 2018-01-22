@@ -15,6 +15,7 @@ namespace Differences.Api.Model
             Field(x => x.Email, nullable: true);
             Field(x => x.DisplayName);
             Field(x => x.AvatarUrl, nullable: true);
+            Field(x => x.HideAvatar);
             Field(x => x.UserScores.ContributeValue);
             Field(x => x.UserScores.ReputationValue);
         }
